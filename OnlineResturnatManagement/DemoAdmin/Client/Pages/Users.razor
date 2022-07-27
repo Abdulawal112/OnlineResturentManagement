@@ -1,0 +1,47 @@
+﻿@page "/users"
+
+@attribute [Authorize]
+
+<h3>SetData</h3>
+@if (UserDtos == null || UserDtos.Count == 0)
+{
+    <span>Loading Employees...</span>
+}
+else
+{
+    <table class="table">
+	<thead>
+		<tr>
+			<th>
+				UserName
+			</th>
+			<th>
+				Email
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in UserDtos)
+		{
+			<tr>
+				<td>
+					@item.UserName
+				</td>
+				<td>
+					@item.Email
+				</td>
+				<td>
+					<button class="btn btn-primary" @onclick="(() => EditUser(item.Id))">
+						<i class="oi oi-pencil"></i>
+					</button>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+}
+
+
