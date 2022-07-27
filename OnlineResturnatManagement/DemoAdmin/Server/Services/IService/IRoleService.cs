@@ -9,7 +9,5 @@ namespace OnlineResturnatManagement.Server.Services.IService
         public Task<bool> CreateRole(Role role);
         public Task<bool> UpdateRole(Role role);
         public Task<bool> IsExistRole(Role role);
-
-
     }
 }
