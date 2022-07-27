@@ -1,4 +1,5 @@
-﻿using OnlineResturnatManagement.Server.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Shared.DTO;
 
 namespace OnlineResturnatManagement.Server.Services.IService
@@ -12,5 +13,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<User> FindByNameAsync(string userName);
         Task<bool> CheckPasswordAsync(User user, string password);
         Task<List<Role>> GetRolesAsync(User user);
+
+        Task<UserDto> GetUser(int userId);
     }
 }

@@ -138,5 +138,15 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpGet("user")]
+        public async Task<ActionResult<UserDto>> GetUser(int userId)
+        {
+            var response = await _userService.GetUser(userId);
+            if (response == null)
+            {
+                return StatusCode(400);
+            }
+                return Ok(response);
+        }
     }
 }
