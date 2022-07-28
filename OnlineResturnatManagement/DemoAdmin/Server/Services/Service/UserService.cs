@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
-using OnlineResturnatManagement.Shared.DTO.RoleViewModel;
-using System.Linq;
 
 namespace OnlineResturnatManagement.Server.Services.Service
 {
@@ -35,8 +34,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
             {
                 roleId = result.Id;
             }
-           
-            
+
+
             var userRole = new UserRole
             {
                 RoleId = roleId,
@@ -44,7 +43,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             };
             await _context.UserRoles.AddAsync(userRole);
             return await _context.SaveChangesAsync() > 0;
-            
+
         }
 
         public async Task<bool> CheckPasswordAsync(User user, string password)
@@ -57,7 +56,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             user.PasswordHash = password;
             user.EmailConfirmed = false;
             user.RefreshTokenExpiryTime = new DateTime();
-           var userData= await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
             if (userData == null)
             {
                 await _context.Users.AddAsync(user);
@@ -65,42 +64,55 @@ namespace OnlineResturnatManagement.Server.Services.Service
             }
             else
                 return false;
-            
+
         }
 
         public async Task<User> FindByNameAsync(string userName)
         {
            var data= await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+
             return data;
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUserAsync()
         {
             return await (from m in _context.Users
-                                select new UserDto()
-                                {
-                                    Id = m.Id,
-                                    UserName = m.UserName,
-                                    Email = m.Email
-                                })
+                          select new UserDto()
+                          {
+                              Id = m.Id,
+                              UserName = m.UserName,
+                              Email = m.Email
+                          })
                                .ToListAsync();
         }
 
         public async Task<List<Role>> GetRolesAsync(User user)
         {
-            var data = await(from roles in _context.Roles
-                             join rp in _context.UserRoles on roles.Id equals rp.RoleId
-                             join u in _context.Users on rp.UserId equals u.Id
-                             where u.UserName == user.UserName && u.Id == user.Id
-                             select roles)
+            var data = await (from roles in _context.Roles
+                              join rp in _context.UserRoles on roles.Id equals rp.RoleId
+                              join u in _context.Users on rp.UserId equals u.Id
+                              where u.UserName == user.UserName && u.Id == user.Id
+                              select roles)
                                .ToListAsync();
             return data;
         }
 
+        public async Task<UserDto> GetUser(int userId)
+        {
+            var result = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+            return new UserDto
+            {
+                Id = result.Id,
+                UserName = result.UserName,
+                Email = result.Email
+            };
+
+        }
+
         public async Task<bool> UpdateAsync(User user)
         {
-           _context.Users.Update(user);
-           return await _context.SaveChangesAsync()>0;
+            _context.Users.Update(user);
+            return await _context.SaveChangesAsync() > 0;
         }
 
         //Task<IEnumerable<UserDto>> IUserService.GetAllUserAsync()

@@ -498,15 +498,14 @@
         </article>
     </main>
 </div>*@
+
 @code{
     [Inject]
     public IJSRuntime JSRuntime { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        
         await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/custom.js");
         await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/assets/plugins/styleswitcher/jQuery.style.switcher.js");
-
     }
-    
+
 }
