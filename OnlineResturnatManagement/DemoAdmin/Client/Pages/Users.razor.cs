@@ -20,6 +20,7 @@ namespace OnlineResturnatManagement.Client.Pages
         public IUserHttpService UserService { get; set; }
 
         public List<UserDto> UserDtos = new List<UserDto>();
+        public UserDto userDto = new UserDto();
         protected override async Task OnInitializedAsync()
         {
             Interceptor.RegisterEvent();
@@ -30,9 +31,11 @@ namespace OnlineResturnatManagement.Client.Pages
             }
             UserDtos = result.Data;
         }
-        void EditUser(int userId)
+        async void EditUser(int userId)
         {
-            NavigationManager.NavigateTo($"user/{userId}");
+            //var result =  await UserService.GetUserById(userId);
+            //userDto = result.Data;
+            //NavigationManager.NavigateTo($"user/{userId}");
         }
 
 
