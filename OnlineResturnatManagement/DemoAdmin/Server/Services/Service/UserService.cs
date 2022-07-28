@@ -70,7 +70,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<User> FindByNameAsync(string userName)
         {
-           var data= await _context.Users.Where(x => x.UserName == "test").FirstOrDefaultAsync();
+           var data= await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
             return data;
         }
 
