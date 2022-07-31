@@ -52,34 +52,34 @@ namespace OnlineResturnatManagement.Client.Services.Service
             }
            
         }
-        public async Task<ServiceResponse<bool>> CreateRole(RoleDto roleDto)
+        public async Task<ServiceResponse<RoleDto>> CreateRole(RoleDto roleDto)
         {
             var response = await _http.PostAsJsonAsync("/api/users/CreateRole",roleDto);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                return new ServiceResponse<bool> { Data = false, statusCode = ((int)response.StatusCode), status = false };
+                return new ServiceResponse<RoleDto> { Data = new RoleDto(), statusCode = ((int)response.StatusCode), status = false };
 
             }
             else
             {
-               
-                return new ServiceResponse<bool> { Data = true, message = "success", statusCode = ((int)response.StatusCode), status = true };
+                var roleDtos = JsonSerializer.Deserialize<RoleDto>(content, _options);
+                return new ServiceResponse<RoleDto> { Data = roleDtos, message = "success", statusCode = ((int)response.StatusCode), status = true };
             }
         }
-        public async Task<ServiceResponse<bool>> UpdateRole(RoleDto roleDto)
+        public async Task<ServiceResponse<RoleDto>> UpdateRole(RoleDto roleDto)
         {
             var response = await _http.PutAsJsonAsync("/api/users/UpdateRole", roleDto);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                return new ServiceResponse<bool> { Data = false, statusCode = ((int)response.StatusCode), status = false };
+                return new ServiceResponse<RoleDto> { Data = new RoleDto(), statusCode = ((int)response.StatusCode), status = false };
 
             }
             else
             {
-
-                return new ServiceResponse<bool> { Data = true, message = "success", statusCode = ((int)response.StatusCode), status = true };
+                var roleDtos = JsonSerializer.Deserialize<RoleDto>(content, _options);
+                return new ServiceResponse<RoleDto> { Data = roleDtos, message = "success", statusCode = ((int)response.StatusCode), status = true };
             }
         }
 

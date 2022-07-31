@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineResturnatManagement.Server.Data;
+using OnlineResturnatManagement.Server.Helper;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
@@ -46,14 +47,24 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         }
 
-        public async Task<bool> CheckPasswordAsync(User user, string password)
+        public bool CheckPasswordAsync(User user, string password)
         {
-            return await _context.Users.Where(x => x.PasswordHash == password).AnyAsync();
+            
+           var encryptPassword = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
+            return  user.PasswordHash == encryptPassword; /*_context.Users.Where(x => x.PasswordHash == encryptPassword).AnyAsync()*/;
         }
 
         public async Task<bool> CreateAsync(User user, string password)
         {
-            user.PasswordHash = password;
+            Guid guid = Guid.NewGuid();
+            byte[] bytes = guid.ToByteArray();
+            string encoded = Convert.ToBase64String(bytes);
+
+            user.HashKey = encoded;
+
+
+            //user.HashPassword = AESEncrytDecry.EncryptStringToBytes(user.Password, user.HashKey);
+            user.PasswordHash = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
             user.EmailConfirmed = false;
             user.RoleId = 1;
             user.RefreshTokenExpiryTime = new DateTime();
@@ -66,6 +77,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             else
                 return false;
         }
+
 
         public async Task<User> FindByNameAsync(string userName)
         {
