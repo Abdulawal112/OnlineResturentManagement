@@ -69,33 +69,34 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<IEnumerable<NavigationMenuDto>> GetNavigationManus(int roleId)
         {
-            var ListOfNavMenu = await _context.NavigationMenu.Where(x => x.RoleId == roleId).ToListAsync();
-            var result = from menus in ListOfNavMenu
-                          select new NavigationMenuDto()
-                         {
-                             Id = menus.Id,
-                             Name = menus.Name,
-                             Permitted = menus.Permitted,
-                             Visited = menus.Visible,
+            //var ListOfNavMenu = await _context.NavigationMenu.Where(x => x.RoleId == roleId).ToListAsync();
+            //var result = from menus in ListOfNavMenu
+            //              select new NavigationMenuDto()
+            //             {
+            //                 Id = menus.Id,
+            //                 Name = menus.Name,
+            //                 Permitted = menus.Permitted,
+            //                 Visited = menus.Visible,
 
-                         };
-            return result;
+            //             };
+            return null;
         }
 
         public async Task<NavigationMenuDto> UpdateNavigationMenu(int menuId , int roleId)
         {
-            var GetMenu = await _context.NavigationMenu.Where(x => x.Id == menuId).FirstOrDefaultAsync();
-            GetMenu.RoleId = roleId;
-            _context.NavigationMenu.Update(GetMenu);
-            await _context.SaveChangesAsync();
-            return new NavigationMenuDto
-            {
-                Id = GetMenu.Id,
-                Name = GetMenu.Name,
-                DisplayOrder = GetMenu.DisplayOrder,
-                Permitted = GetMenu.Permitted,
-                Visited = GetMenu.Visible
-            };
+            //var GetMenu = await _context.NavigationMenu.Where(x => x.Id == menuId).FirstOrDefaultAsync();
+            //GetMenu.RoleId = roleId;
+            //_context.NavigationMenu.Update(GetMenu);
+            //await _context.SaveChangesAsync();
+            //return new NavigationMenuDto
+            //{
+            //    Id = GetMenu.Id,
+            //    Name = GetMenu.Name,
+            //    DisplayOrder = GetMenu.DisplayOrder,
+            //    Permitted = GetMenu.Permitted,
+            //    Visited = GetMenu.Visible
+            //};
+            return null;
         }
     }
 }
