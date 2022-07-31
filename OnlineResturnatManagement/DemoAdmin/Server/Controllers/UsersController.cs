@@ -178,10 +178,10 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
-        [HttpPut("UpdateMenuByRole")]
-        public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(int menuId, int roleId)
+        [HttpPost("UpdateMenuByRole")]
+        public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(List<NavigationMenuDto>menus, int roleId)
         {
-            var response = await _roleService.UpdateNavigationMenu(menuId, roleId);
+            var response = await _roleService.UpdateNavigationMenu(menus, roleId);
             if(response != null)
             {
                 return Ok(response);

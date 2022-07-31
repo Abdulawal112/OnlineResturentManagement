@@ -125,8 +125,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
                               })
                              .FirstOrDefaultAsync();
             return data;
-            
-
         }
 
         public async Task<bool> UpdateAsync(User user)

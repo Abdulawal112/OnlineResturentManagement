@@ -10,7 +10,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
         public Task<Role> CreateRole(Role role);
         public Task<Role> UpdateRole(Role role);
         public Task<bool> IsExistRole(Role role);
-        Task<IEnumerable<NavigationMenuDto>> GetNavigationManus(int roleId);
-        Task<NavigationMenuDto> UpdateNavigationMenu(int menuId, int roleId);
+        public Task<IEnumerable<NavigationMenuDto>> GetNavigationManus(int roleId);
+        public Task<IEnumerable<NavigationMenuDto>> UpdateNavigationMenu(List<NavigationMenuDto>menus ,int roleId);
     }
 }
