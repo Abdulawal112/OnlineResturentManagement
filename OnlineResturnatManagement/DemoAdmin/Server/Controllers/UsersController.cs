@@ -10,6 +10,7 @@ using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
 using static OnlineResturnatManagement.Server.Helper.Permissions;
+using User = OnlineResturnatManagement.Server.Models.User;
 
 namespace OnlineResturnatManagement.Server.Controllers
 {
@@ -153,11 +154,12 @@ namespace OnlineResturnatManagement.Server.Controllers
         }
 
         [HttpPut("UpdateUser")]
-        public async Task<ActionResult<UserDto>>UpdateUser(UserDto user)
+        public async Task<ActionResult<UserDto>>UpdateUser(UserDto userDto)
         {
-            if (user == null)
+            if (userDto == null)
                 return BadRequest();
-            var response = await _userService.UpdateUserWithRole(user);
+            
+            var response = await _userService.UpdateUserWithRole(userDto);
             if(response != null)
             {
                 return Ok(response);
