@@ -66,6 +66,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             //user.HashPassword = AESEncrytDecry.EncryptStringToBytes(user.Password, user.HashKey);
             user.PasswordHash = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
             user.EmailConfirmed = false;
+            user.RoleId = 1;
             user.RefreshTokenExpiryTime = new DateTime();
             var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
             if (userData == null)
@@ -75,7 +76,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
             }
             else
                 return false;
-
         }
 
 
@@ -116,7 +116,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
             {
                 Id = result.Id,
                 UserName = result.UserName,
-                Email = result.Email
+                Email = result.Email,
+                RoleId = result.RoleId,
             };
 
         }
@@ -125,6 +126,26 @@ namespace OnlineResturnatManagement.Server.Services.Service
         {
             _context.Users.Update(user);
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<UserDto> UpdateUser(UserDto user)
+        {
+            var FindUser = _context.Users.FirstOrDefault(x => x.Id == user.Id);
+            if (FindUser!=null)
+            {
+                FindUser.UserName = user.UserName;
+                FindUser.Email = user.Email;
+                FindUser.RoleId = (int)user.RoleId;
+            }
+            var result =_context.Users.Update(FindUser);
+            await _context.SaveChangesAsync();
+
+            return new UserDto
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                RoleId = user.RoleId,
+            };
         }
 
         //Task<IEnumerable<UserDto>> IUserService.GetAllUserAsync()

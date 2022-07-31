@@ -15,5 +15,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<List<Role>> GetRolesAsync(User user);
 
         Task<UserDto> GetUser(int userId);
+        Task<UserDto> UpdateUser(UserDto user);
+        
     }
 }

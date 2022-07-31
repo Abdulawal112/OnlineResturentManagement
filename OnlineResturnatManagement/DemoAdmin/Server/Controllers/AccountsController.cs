@@ -42,17 +42,15 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
-
             var user = new User { UserName = userForRegistration.UserName, Email = userForRegistration.UserName,RefreshToken="" };
+            await _userService.AddToRoleAsync(user, "Viewer");
 
             var result = await _userService.CreateAsync(user, userForRegistration.Password); 
             if (!result) //if (!result.Succeeded) 
             {
                 var errors ="Name Already Exist";//result.Errors.Select(e => e.Description);
-
                 return BadRequest(errors); //new RegistrationResponseDto { Errors = errors }
             }
-            await _userService.AddToRoleAsync(user, "Viewer");
             return StatusCode(201); 
         }
 

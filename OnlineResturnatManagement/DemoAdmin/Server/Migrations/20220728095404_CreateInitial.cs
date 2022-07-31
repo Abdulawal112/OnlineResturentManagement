@@ -5,34 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineResturnatManagement.Server.Migrations
 {
-    public partial class CreateInitialDB : Migration
+    public partial class CreateInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AspNetNavigationMenu",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentMenuId = table.Column<int>(type: "int", nullable: true),
-                    ControllerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
-                    Visible = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetNavigationMenu", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetNavigationMenu_AspNetNavigationMenu_ParentMenuId",
-                        column: x => x.ParentMenuId,
-                        principalTable: "AspNetNavigationMenu",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -78,6 +54,37 @@ namespace OnlineResturnatManagement.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetNavigationMenu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentMenuId = table.Column<int>(type: "int", nullable: true),
+                    ControllerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    Visible = table.Column<bool>(type: "bit", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetNavigationMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetNavigationMenu_AspNetNavigationMenu_ParentMenuId",
+                        column: x => x.ParentMenuId,
+                        principalTable: "AspNetNavigationMenu",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AspNetNavigationMenu_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -91,11 +98,18 @@ namespace OnlineResturnatManagement.Server.Migrations
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,9 +138,19 @@ namespace OnlineResturnatManagement.Server.Migrations
                 column: "ParentMenuId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetNavigationMenu_RoleId",
+                table: "AspNetNavigationMenu",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleMenuPermission_NavigationMenuId",
                 table: "AspNetRoleMenuPermission",
                 column: "NavigationMenuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -138,9 +162,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
@@ -148,6 +169,9 @@ namespace OnlineResturnatManagement.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetNavigationMenu");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }
