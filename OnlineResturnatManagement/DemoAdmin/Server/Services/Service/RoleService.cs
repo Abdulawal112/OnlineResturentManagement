@@ -72,13 +72,14 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return await (from roles in _context.Roles
                                 join rm in _context.RoleMenuPermission on roles.Id equals rm.RoleId
                                 join menu in _context.NavigationMenu on rm.NavigationMenuId equals menu.Id
-                                where roles.Id == roleId
+                                where roles.Id == roleId && menu.Url !=""
                                 select new NavigationMenuDto                    
                                 {
                                     Id = menu.Id,
                                     Name = menu.Name,
                                     Permitted = menu.Permitted,
                                     Visited = menu.Visible,
+                                    RoleName = roles.Name,
                                 })
                                 .ToListAsync();
         }
@@ -98,5 +99,9 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return menus;
         }
 
+        public async Task<List<NavigationMenu>> GetMenus()
+        {
+            return await _context.NavigationMenu.Where(x=>x.Url !="").ToListAsync();
+        }
     }
 }

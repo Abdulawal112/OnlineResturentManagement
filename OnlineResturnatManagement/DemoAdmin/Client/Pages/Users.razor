@@ -58,9 +58,13 @@ else
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @if (statusResult.Message != null || statusResult.Message != "")
+                @if (string.IsNullOrEmpty(statusResult.Message))
                 {
-                    if (statusResult.StatusCode == 200)
+                    <div></div>
+                }
+                else
+                {
+                    if (statusResult.Message != "" && statusResult.StatusCode == 200)
                     {
                         <div class="alert alert-success">@statusResult.Message</div>
                     }
@@ -68,6 +72,7 @@ else
                     {
                         <div class="alert alert-danger">@statusResult.Message</div>
                     }
+
                 }
                 
                 <EditForm Model="userDto" OnSubmit="UpdateUser">
