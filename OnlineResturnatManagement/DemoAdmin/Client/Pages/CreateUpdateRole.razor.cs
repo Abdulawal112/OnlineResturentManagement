@@ -70,8 +70,9 @@ namespace OnlineResturnatManagement.Client.Pages
             if (editingRole.IsNew)
             {
                 var response = await UserHttpService.CreateRole(editingRole);
-                message = ResponseErrorMessage.GetErrorMessage(response.statusCode);
-                if (message == "")
+                var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                message = result.Message;
+                if (result.Message == "" && result.StatusCode ==201)
                 {
                     await GetAllRole();
                     editingRole = new RoleDto();
@@ -81,8 +82,8 @@ namespace OnlineResturnatManagement.Client.Pages
             else
             {
                 var response=await UserHttpService.UpdateRole(editingRole);
-                message = ResponseErrorMessage.GetErrorMessage(response.statusCode);
-                if (message == "")
+                var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                if (result.Message == "" && result.StatusCode == 200)
                 {
                     await GetAllRole();
                     editingRole = new RoleDto();

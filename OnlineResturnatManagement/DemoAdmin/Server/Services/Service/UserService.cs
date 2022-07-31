@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Helper;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
+using static OnlineResturnatManagement.Server.Helper.Permissions;
 
 namespace OnlineResturnatManagement.Server.Services.Service
 {
@@ -112,14 +114,14 @@ namespace OnlineResturnatManagement.Server.Services.Service
         {
             var data = await (from u in _context.Users
                               join rp in _context.UserRoles on u.Id equals rp.UserId
-                              join r in _context.Roles on rp.RoleId equals r.Id
+                              //join r in _context.Roles on rp.RoleId equals r.Id
                               where u.Id == userId
                               select new UserDto
                               {
                                   Id = u.Id,
                                   UserName=u.UserName,
                                   Email=u.Email,
-                                  //RoleId = r.Id
+                                  RoleId = rp.RoleId
                               })
                              .FirstOrDefaultAsync();
             return data;
@@ -133,27 +135,45 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<UserDto> UpdateUserWithRole(UserDto user)
         {
-            //var FindUser = _context.Users.FirstOrDefault(x => x.Id == user.Id);
-            //if (FindUser!=null)
-            //{
-            //    FindUser.UserName = user.UserName;
-            //    FindUser.Email = user.Email;
-            //    FindUser.RoleId = (int)user.RoleId;
-            //}
-            //var result =_context.Users.Update(FindUser);
-            //await _context.SaveChangesAsync();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var FindUser = _context.Users.FirstOrDefault(x => x.Id == user.Id);
+                if (FindUser == null)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                   
 
-            //return new UserDto
-            //{
-            //    Email = user.Email,
-            //    UserName = user.UserName,
-            //    RoleId = user.RoleId,
-            //};
+                FindUser.UserName = user.UserName;
+                FindUser.Email = user.Email;
+                _context.Users.Update(FindUser);
+                var result = await _context.SaveChangesAsync() > 0;
 
+                var commandText = "delete from UserRoles where UserId =" + user.Id + "";
+                //var name = new SqlParameter("@CategoryName", "Test");
+                _context.Database.ExecuteSqlRaw(commandText);
+                var result2 = await _context.SaveChangesAsync() > 0;
+                var userRole = new UserRole
+                {
+                    RoleId = (int)user.RoleId,
+                    UserId = user.Id,
+                };
+                await _context.UserRoles.AddAsync(userRole);
+                await _context.SaveChangesAsync();
 
+                
 
+                transaction.Commit();
+                return user;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return null;
+            }
 
-            return null;
         }
 
         //Task<IEnumerable<UserDto>> IUserService.GetAllUserAsync()
