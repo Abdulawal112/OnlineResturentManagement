@@ -51,31 +51,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        [HttpGet("GetUserMenus")]
-        public async Task<IActionResult> GetUserMenus(string id)
-        {
-            try
-            {
-                var result = "";
 
-                return Ok(result);
-                 //employeeList = _cashHelper.GetDataAsync(cacheKey).Result;
-
-                 //if (employeeList.Count <= 0)
-                 //{
-                 //    employeeList = (List<Employee>)await _employeeService.GetAllEmployeeAsync();
-
-                 //    _cashHelper.SetDataAsync(cacheKey, employeeList);
-
-                 //}
-                
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetAllEmployee action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
         [HttpGet("GetRoles")]
         public async Task<IActionResult> GetAllRoles()
         {
@@ -166,7 +142,16 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
-
+        [HttpGet("GetAllMenu")]
+        public async Task<ActionResult> GetAllMenu()
+        {
+            var response = await _roleService.GetMenus();
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return StatusCode(400);
+        }
         [HttpGet("RoleWiseMenus")]
         public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetNavigationMenus(int roleId)
         {
@@ -178,8 +163,8 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
-        [HttpPost("UpdateMenuByRole")]
-        public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(List<NavigationMenuDto>menus, int roleId)
+        [HttpPut("UpdateRoleMenu")]
+        public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(int roleId,List<NavigationMenuDto>menus)
         {
             var response = await _roleService.UpdateNavigationMenu(menus, roleId);
             if(response != null)
@@ -188,6 +173,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
         [HttpGet("GetMenusByUser")]
         public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetMenusByUser(string userName)
         {
@@ -198,5 +184,6 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
     }
 }
