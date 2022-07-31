@@ -1,16 +1,18 @@
-﻿namespace OnlineResturnatManagement.Client.Helper
+﻿using OnlineResturnatManagement.Shared.DTO;
+
+namespace OnlineResturnatManagement.Client.Helper
 {
     public static class ResponseErrorMessage
     {
-        public static string GetErrorMessage(int statusCode)
+        public static StatusResult GetErrorMessage(int statusCode)
         {
             if (statusCode == 409)
-                return "Already Exist";
+                return new StatusResult { StatusCode = statusCode, Message = "Already Exist" };
             if(statusCode == 400)
-                return "Not Valid";
+                return new StatusResult { StatusCode = statusCode, Message = "Not Valid" };
             if (statusCode == 500)
-                return "Enternal Server Error";
-            return "";
+                return new StatusResult { StatusCode = statusCode, Message = "Enternal Server Error" };
+            return new StatusResult { StatusCode = statusCode, Message = "" }; ;
         }
     }
 }
