@@ -125,8 +125,6 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NavigationMenuId");
-
                     b.ToTable("RoleMenuPermission");
                 });
 
@@ -177,6 +175,25 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.UserMenuPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserMenuPermissions");
+                });
+
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -203,17 +220,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .HasForeignKey("ParentMenuId");
 
                     b.Navigation("ParentNavigationMenu");
-                });
-
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.RoleMenuPermission", b =>
-                {
-                    b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "NavigationMenu")
-                        .WithMany()
-                        .HasForeignKey("NavigationMenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NavigationMenu");
                 });
 #pragma warning restore 612, 618
         }
