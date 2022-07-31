@@ -104,8 +104,9 @@ namespace OnlineResturnatManagement.Server.Controllers
                 var role =_mapper.Map<Role>(roleDto);
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
-                if (await _roleService.CreateRole(role))
-                    return Created("Created", role);
+                var newRole = await _roleService.UpdateRole(role);
+                if (newRole.Id !=0)
+                    return Created("created",_mapper.Map<RoleDto>(newRole));
                 else
                     return BadRequest();
 
@@ -125,8 +126,9 @@ namespace OnlineResturnatManagement.Server.Controllers
                 var role = _mapper.Map<Role>(roleDto);
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
-                if (await _roleService.UpdateRole(role))
-                    return Ok();
+                var updatedRole = await _roleService.UpdateRole(role);
+                if (updatedRole.Id != 0)
+                    return Ok(_mapper.Map<RoleDto>(updatedRole));
                 else
                     return BadRequest();
 

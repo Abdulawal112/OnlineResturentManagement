@@ -7,6 +7,8 @@ using System.Net.NetworkInformation;
 
 using OnlineResturnatManagement.Client.HttpRepository;
 using OnlineResturnatManagement.Shared.DTO;
+using System.Data;
+using OnlineResturnatManagement.Client.Helper;
 
 namespace OnlineResturnatManagement.Client.Pages
 {
@@ -22,12 +24,14 @@ namespace OnlineResturnatManagement.Client.Pages
         public List<RoleDto> Roles = new List<RoleDto>();
         public List<RoleDto> MainRoles = new List<RoleDto>();
         RoleDto editingRole = null;
+        string message = "";
         protected override async Task OnInitializedAsync()
         {
             
             Interceptor.RegisterEvent();
             await GetAllRole();
-            
+            StateHasChanged();
+
         }
 
         private async Task  GetAllRole()
@@ -45,27 +49,50 @@ namespace OnlineResturnatManagement.Client.Pages
 
         private void CreateNewRole()
         {
-           
+            message = "";
             editingRole = new RoleDto { IsNew = true, Editing = true };
             MainRoles.Add(editingRole);
             StateHasChanged();
+            
             //editingRole = UserHttpService.CreateRole(editingRole);
         }
 
         private void EditRole(RoleDto roleDto)
         {
+            message = "";
             roleDto.Editing = true;
             editingRole = roleDto;
         }
 
         private async Task UpdateRole()
         {
+
             if (editingRole.IsNew)
-                await UserHttpService.CreateRole(editingRole);
+            {
+                var response = await UserHttpService.CreateRole(editingRole);
+                message = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                if (message == "")
+                {
+                    await GetAllRole();
+                    editingRole = new RoleDto();
+                }
+
+            }
             else
-                await UserHttpService.UpdateRole(editingRole);
-            await GetAllRole();
-            editingRole = new RoleDto();
+            {
+                var response=await UserHttpService.UpdateRole(editingRole);
+                message = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                if (message == "")
+                {
+                    await GetAllRole();
+                    editingRole = new RoleDto();
+                }
+                    
+            }
+            
+            
+           
+            
         }
 
         private async Task CancelEditing()

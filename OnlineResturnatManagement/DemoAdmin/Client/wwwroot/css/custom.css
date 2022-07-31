@@ -1,0 +1,8 @@
+﻿
+/*Developer Custom Css
+
+*/
+
+hr:not([size]) {
+    height: 0 !important;
+}

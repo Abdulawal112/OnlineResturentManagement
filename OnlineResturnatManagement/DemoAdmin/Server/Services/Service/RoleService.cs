@@ -14,11 +14,15 @@ namespace OnlineResturnatManagement.Server.Services.Service
             _context = context;
         }
 
-        public async Task<bool> CreateRole(Role role)
+        public async Task<Role> CreateRole(Role role)
         {
            role.NormalizedName=role.Name.ToUpper();
             await _context.Roles.AddAsync(role);
-            return  await _context.SaveChangesAsync()>0;
+            var result =await _context.SaveChangesAsync()>0;
+            if(result)
+                return role;
+            else
+                return new Role();
             
             
         }
@@ -49,12 +53,17 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return await _context.Roles.ToListAsync();
         }
 
-        public async Task<bool> UpdateRole(Role role)
+        public async Task<Role> UpdateRole(Role role)
         {
             role.NormalizedName = role.Name.ToUpper();
             _context.Roles.Update(role);
-            return await _context.SaveChangesAsync() > 0;
-            
+           var result = await _context.SaveChangesAsync() > 0;
+
+            if (result)
+                return role;
+            else
+                return new Role();
+
         }
 
         

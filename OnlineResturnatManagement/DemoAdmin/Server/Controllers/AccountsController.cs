@@ -61,7 +61,7 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             var user = await _userService.FindByNameAsync(userForAuthentication.UserName);
 
-            if (user == null || !await _userService.CheckPasswordAsync(user, userForAuthentication.Password))
+            if (user == null || !_userService.CheckPasswordAsync(user, userForAuthentication.Password))
                     return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
 
             

@@ -19,7 +19,7 @@ else
                 </div>
                 
             </div>
-
+            <hr class="m-0 p-0" />
             @foreach (var role in Roles)
             {
                 @if (role.Editing)
@@ -28,6 +28,12 @@ else
                         <div class="row p-2">
                             <div class="col">
                                 <InputText @bind-Value="role.Name" class="form-control"></InputText>
+                                @if (!String.IsNullOrEmpty(message))
+                                {
+                                    <span>@message</span>
+                                }
+                                
+                               
                             </div>
                             <div class="col">
                                 <button type="submit" class="btn btn-primary">
@@ -36,9 +42,7 @@ else
                                 <button class="btn btn-primary" @onclick="CancelEditing">
                                     <i class="oi oi-circle-x"></i>
                                 </button>
-                                <a class="btn btn-info" href="/user/role/permission">
-                                    Edit Role Permission
-                                </a>
+                                
                             </div>
                         </div>
                     </EditForm>
@@ -54,16 +58,20 @@ else
                             <button class="btn btn-primary" @onclick="(() => EditRole(role))">
                                 <i class="oi oi-pencil"></i>
                             </button>
+                            <a class="btn btn-info" href="/user/role/permission">
+                                    Edit Role Permission
+                                </a>
 
                         </div>
                     </div>
                 }
+                <hr class="m-0 p-0" />
             }
         </div>
     </div>
 
     <button class="btn btn-primary" @onclick="CreateNewRole">
-        <i class="oi oi-plus"></i> Add new category
+        <i class="oi oi-plus"></i> Add new Role
     </button>
 }
 

@@ -11,7 +11,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<bool> AddToRoleAsync(User user,string role);
         Task<bool> UpdateAsync(User user);
         Task<User> FindByNameAsync(string userName);
-        Task<bool> CheckPasswordAsync(User user, string password);
+        bool CheckPasswordAsync(User user, string password);
         Task<List<Role>> GetRolesAsync(User user);
 
         Task<UserDto> GetUser(int userId);
