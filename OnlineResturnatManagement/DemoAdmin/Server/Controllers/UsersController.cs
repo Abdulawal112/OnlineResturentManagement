@@ -148,5 +148,38 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
                 return Ok(response);
         }
+
+        [HttpPut("UpdateUser")]
+        public async Task<ActionResult<UserDto>>UpdateUser(UserDto user)
+        {
+            var response = await _userService.UpdateUser(user);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return StatusCode(400);
+        }
+
+        [HttpGet("RoleWiseMenus")]
+        public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetNavigationMenus(int roleId)
+        {
+            var response = await _roleService.GetNavigationManus(roleId);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return StatusCode(400);
+        }
+
+        [HttpPut("UpdateMenuByRole")]
+        public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(int menuId, int roleId)
+        {
+            var response = await _roleService.UpdateNavigationMenu(menuId, roleId);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return StatusCode(400);
+        }
     }
 }

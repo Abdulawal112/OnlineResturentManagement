@@ -30,5 +30,8 @@ namespace OnlineResturnatManagement.Server.Models
 		public bool Permitted { get; set; }
 
 		public bool Visible { get; set; }
+
+		public Role Role { get; set; }
+		public int RoleId { get; set; }
 	}
 }
