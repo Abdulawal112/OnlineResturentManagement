@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineResturnatManagement.Server.Models
 {
-	[Table(name: "AspNetNavigationMenu")]
+	[Table(name: "NavigationMenu")]
 	public class NavigationMenu
 	{
 		[Key]

@@ -140,6 +140,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        
         [HttpGet("user")]
         public async Task<ActionResult<UserDto>> GetUser(int userId)
         {
@@ -154,7 +155,9 @@ namespace OnlineResturnatManagement.Server.Controllers
         [HttpPut("UpdateUser")]
         public async Task<ActionResult<UserDto>>UpdateUser(UserDto user)
         {
-            var response = await _userService.UpdateUser(user);
+            if (user == null)
+                return BadRequest();
+            var response = await _userService.UpdateUserWithRole(user);
             if(response != null)
             {
                 return Ok(response);

@@ -74,7 +74,7 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<int?>("ParentMenuId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -90,7 +90,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetNavigationMenu");
+                    b.ToTable("NavigationMenu");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Role", b =>
@@ -132,7 +132,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.HasIndex("NavigationMenuId");
 
-                    b.ToTable("AspNetRoleMenuPermission");
+                    b.ToTable("RoleMenuPermission");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.User", b =>
@@ -170,7 +170,7 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<DateTime>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -212,15 +212,11 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .WithMany()
                         .HasForeignKey("ParentMenuId");
 
-                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", "Role")
+                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", null)
                         .WithMany("NavMenus")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("ParentNavigationMenu");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.RoleMenuPermission", b =>
@@ -236,13 +232,9 @@ namespace OnlineResturnatManagement.Server.Migrations
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.User", b =>
                 {
-                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", "Role")
+                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", null)
                         .WithMany("User")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Role", b =>

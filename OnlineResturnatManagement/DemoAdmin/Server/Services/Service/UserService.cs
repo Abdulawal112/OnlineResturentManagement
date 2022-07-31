@@ -49,9 +49,9 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public bool CheckPasswordAsync(User user, string password)
         {
-            
-           var encryptPassword = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
-            return  user.PasswordHash == encryptPassword; /*_context.Users.Where(x => x.PasswordHash == encryptPassword).AnyAsync()*/;
+
+            var encryptPassword = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
+            return user.PasswordHash == encryptPassword; /*_context.Users.Where(x => x.PasswordHash == encryptPassword).AnyAsync()*/;
         }
 
         public async Task<bool> CreateAsync(User user, string password)
@@ -80,7 +80,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<User> FindByNameAsync(string userName)
         {
-           var data= await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+            var data = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
 
             return data;
         }
@@ -110,15 +110,20 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<UserDto> GetUser(int userId)
         {
-            //var result = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
-            //return new UserDto
-            //{
-            //    Id = result.Id,
-            //    UserName = result.UserName,
-            //    Email = result.Email,
-            //    RoleId = result.RoleId,
-            //};
-            return null;
+            var data = await (from u in _context.Users
+                              join rp in _context.UserRoles on u.Id equals rp.UserId
+                              join r in _context.Roles on rp.RoleId equals r.Id
+                              where u.Id == userId
+                              select new UserDto
+                              {
+                                  Id = u.Id,
+                                  UserName=u.UserName,
+                                  Email=u.Email,
+                                  //RoleId = r.Id
+                              })
+                             .FirstOrDefaultAsync();
+            return data;
+            
 
         }
 
@@ -128,7 +133,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<UserDto> UpdateUser(UserDto user)
+        public async Task<UserDto> UpdateUserWithRole(UserDto user)
         {
             //var FindUser = _context.Users.FirstOrDefault(x => x.Id == user.Id);
             //if (FindUser!=null)
@@ -146,6 +151,10 @@ namespace OnlineResturnatManagement.Server.Services.Service
             //    UserName = user.UserName,
             //    RoleId = user.RoleId,
             //};
+
+
+
+
             return null;
         }
 
