@@ -39,7 +39,7 @@ namespace MOnlineResturnatManagement.Server.Services.RoleService
 				async x => await (from menu in _context.NavigationMenu select menu).ToListAsync());
 
 			var rolePermissions = await _cache.GetOrCreateAsync("RolePermissions",
-				async x => await (from menu in _context.RoleMenuPermission select menu).Include(x => x.NavigationMenu).ToListAsync());
+				async x => await (from menu in _context.RoleMenuPermission select menu).Include(x => x.NavigationMenuId).ToListAsync());
 
 			//var data = (from menu in rolePermissions
 			//			join p in permissions on menu.NavigationMenuId equals p.Id
