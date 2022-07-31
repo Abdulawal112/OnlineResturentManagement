@@ -127,6 +127,23 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return data;
         }
 
+        public async Task<IEnumerable<NavigationMenuDto>> GetUsersNavMenus(string userName)
+        {
+            return await (from uRoles in _context.UserRoles
+                          join rm in _context.RoleMenuPermission on uRoles.RoleId equals rm.RoleId
+                          join menu in _context.NavigationMenu on rm.NavigationMenuId equals menu.Id
+                          join user in _context.Users on uRoles.UserId equals user.Id
+                          where user.UserName.ToLower() == userName.ToLower()
+                          select new NavigationMenuDto
+                          {
+                              Name = menu.Name,
+                              DisplayOrder = menu.DisplayOrder,
+                              Permitted = menu.Permitted,
+                              Visited = menu.Visible,
+                              ParentMenuId = menu.Id,
+                          }).ToListAsync();
+        }
+
         public async Task<bool> UpdateAsync(User user)
         {
             _context.Users.Update(user);

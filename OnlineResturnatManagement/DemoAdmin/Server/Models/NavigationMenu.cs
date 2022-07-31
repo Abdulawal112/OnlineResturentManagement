@@ -31,6 +31,5 @@ namespace OnlineResturnatManagement.Server.Models
 
 		public bool Visible { get; set; }
 
-		
 	}
 }

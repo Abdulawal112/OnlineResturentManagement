@@ -84,6 +84,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
                                 .ToListAsync();
         }
 
+
         public async Task<IEnumerable<NavigationMenuDto>> UpdateNavigationMenu(List<NavigationMenuDto> menus, int roleId)
         {
             var GetMenusByRole = await _context.RoleMenuPermission.Where(role => role.RoleId == roleId).ToListAsync();
@@ -96,7 +97,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 NavigationMenuId = n.Id,
             }));
             await _context.SaveChangesAsync();
-            return menus;
+            var response = await GetNavigationManus(roleId);
+            return response.ToList();
         }
 
         public async Task<List<NavigationMenu>> GetMenus()

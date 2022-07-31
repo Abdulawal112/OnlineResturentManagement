@@ -174,5 +174,16 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
+        [HttpGet("GetMenusByUser")]
+        public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetMenusByUser(string userName)
+        {
+            var response = await _userService.GetUsersNavMenus(userName);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return StatusCode(400);
+        }
+
     }
 }
