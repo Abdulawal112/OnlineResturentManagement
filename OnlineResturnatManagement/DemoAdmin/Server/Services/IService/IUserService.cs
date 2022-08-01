@@ -6,7 +6,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDto>> GetAllUserAsync();
+        Task<IEnumerable<UserDto>> GetAllUserAsync(string search);
         Task<bool> CreateAsync(User user,string password);
         Task<bool> AddToRoleAsync(User user,string role);
         Task<bool> UpdateAsync(User user);
@@ -15,6 +15,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<List<Role>> GetRolesAsync(User user);
 
         Task<UserDto> GetUser(int userId);
+        Task<User> GetUserByName(string name);
         Task<UserDto> UpdateUserWithRole(UserDto user);
         Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName);
     }

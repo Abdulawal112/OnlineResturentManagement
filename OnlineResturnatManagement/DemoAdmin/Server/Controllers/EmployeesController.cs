@@ -31,7 +31,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             {
                 var cacheKey = "customerList";
                 var employeeList = new List<Employee>();
-                _cashHelper.RemoveDataAsync(cacheKey);
+                //_cashHelper.RemoveDataAsync(cacheKey);
                employeeList = _cashHelper.GetDataAsync(cacheKey).Result;
                 
                 if (employeeList.Count<=0)

@@ -28,7 +28,7 @@ namespace OnlineResturnatManagement.Client.Pages
             }
             else
             {
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
         }
     }

@@ -2,16 +2,81 @@
 
 @attribute [Authorize]
 
-<h3>SetData</h3>
 @if (UserDtos == null || UserDtos.Count == 0)
 {
     <span>Loading Users...</span>
 }
 else
 {
-    <div class="card">
+    <div class="row" id="foot">
+        <div class="col-12">
+            <div class="card">
+                <!-- .left-right-aside-column-->
+                <div class="contact-page-aside p-3">
+                    <div class="">
+                        <div class="page-header">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <h4 class="card-title m-t-10">User List </h4>
+                                </div>
+                                <div class="ml-auto">
+                                    @*<InputText @bind-Value="Search" class="form-control"></InputText>*@
+                                    <input type="text" name="@Search" value="@Search" id="demo-input-search2" placeholder="search contacts"
+                                       class="form-control" @onchange="(() => SearchUser(Search))">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="demo-foo-addrow"
+                               class="table table-bordered m-t-30 no-wrap table-hover contact-list"
+                               data-paging="true" data-paging-size="7">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var i=1;
+                                    }
+                                    @foreach (var item in UserDtos)
+                                    {
+                                        <tr>
+
+                                            <td>@i</td>
+                                            <td>@item.UserName</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.PhoneNumber</td>
+                                            <td><span class="label label-success">@item.RoleName</span> </td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
+                                                    <i class=" oi oi-pencil"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        i++;
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- .left-aside-column-->
+                    </div>
+                    <!-- /.left-right-aside-column-->
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="card">
         <div class="card-body">
-            <h4 class="card-title">Roles</h4>
+            <h4 class="card-title">User List</h4>
             <h6 class="card-subtitle"></h6>
             <table class="table">
                 <thead>
@@ -41,18 +106,16 @@ else
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
                                     <i class=" oi oi-pencil"></i>
                                 </button>
-                                @*<button class="btn btn-primary" @onclick="(() => EditUser(item.Id))">
-                        <i class="oi oi-pencil"></i>
-                        </button>*@
+                               
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-    </div>
-   
+    </div>*@
 
+    
 
 
     <!-- Modal -->
@@ -81,7 +144,7 @@ else
                     }
 
                 }
-                
+
                 <EditForm Model="userDto" OnSubmit="UpdateUser">
                     <div class="modal-body">
 
@@ -94,8 +157,16 @@ else
                                 <label>Email</label>
                                 <InputText @bind-Value="userDto.Email" class="form-control"></InputText>
                             </div>
+                            <div class="col-6">
+                                <label>Phone Number</label>
+                                <InputText @bind-Value="userDto.PhoneNumber" class="form-control"></InputText>
+                            </div>
+                            <div class="col-6">
+                                <label>Password</label>
+                                <InputText @bind-Value="userDto.Password" type="password" id="password" class="form-control" placeholder="Password"></InputText>
+                            </div>
                             <div class="col">
-                                <label>Email</label>
+                                <label>Role</label>
                                 <InputSelect @bind-Value="userDto.RoleId" class="form-control">
                                     @foreach (var roleDto in RoleDtos)
                                     {
@@ -107,7 +178,7 @@ else
                                     }
                                 </InputSelect>
                             </div>
-                            
+
                         </div>
 
                     </div>

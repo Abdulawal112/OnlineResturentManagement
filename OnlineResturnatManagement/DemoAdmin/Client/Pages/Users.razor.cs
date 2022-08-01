@@ -26,6 +26,8 @@ namespace OnlineResturnatManagement.Client.Pages
         public UserDto userDto = new UserDto();
         StatusResult statusResult = new StatusResult();
         string resultMessage = "";
+        string Search = "";
+
         protected override async Task OnInitializedAsync()
         {
             Interceptor.RegisterEvent();
@@ -47,6 +49,7 @@ namespace OnlineResturnatManagement.Client.Pages
 
         async void EditUser(int userId)
         {
+            userDto = new UserDto();
             statusResult = new StatusResult();
             var result = await UserService.GetUserById(userId);
             //var result =  await UserService.GetUserById(userId);
@@ -62,12 +65,21 @@ namespace OnlineResturnatManagement.Client.Pages
             {
                 statusResult.Message = "Save Successfully.";
                 await GetIntialData();
-                userDto = new UserDto();
+                userDto = response.Data;
             }
             
             StateHasChanged();
         }
+        async void SearchUser(string search)
+        {
+            //var timer = new Timer(new TimerCallback(_ =>
+            //{
 
+            //}), null, 2000, 2000);
+            var result = await UserService.GetSearchUser(Search);
+            UserDtos = result.Data;
+
+        }
         public void Dispose() => Interceptor.DisposeEvent();
     }
 }
