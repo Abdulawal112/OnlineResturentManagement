@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using MOnlineResturnatManagement.Server.Services.RoleService;
 using OnlineResturnatManagement.Server.Helper;
@@ -24,14 +25,16 @@ namespace OnlineResturnatManagement.Server.Controllers
         private IDataAccessService _dataAccessService;
         private IRoleService _roleService;
         private IMapper _mapper;
+        private IMemoryCache _memoryCache;
         //private ICashHelper<Employee> _cashHelper;
-        public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper)
+        public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper,IMemoryCache memoryCache)
         {
             _userService = userService;
             _logger = logger;
             _dataAccessService = dataAccessService;
             _roleService = roleService;
             _mapper = mapper;
+            _memoryCache = memoryCache;
             //_cashHelper = cashHelper;
         }
         [Authorize(Roles = "Administrator")]
@@ -40,10 +43,18 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-                
-                var userDtos = new List<UserDto>();
-
-                userDtos = (List<UserDto>)await _userService.GetAllUserAsync();
+                bool isExist = _memoryCache.TryGetValue("users", out IEnumerable<UserDto>userDtos);
+                if (!isExist)
+                {
+                    userDtos =await _userService.GetAllUserAsync();
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                        .SetPriority(CacheItemPriority.Normal)
+                        .SetSize(1024);
+                    _memoryCache.Set("users", userDtos, cacheEntryOptions);
+                }
+               /* userDtos = (List<UserDto>)await _userService.GetAllUserAsync();*/
                 return Ok(userDtos);
             }
             catch (Exception ex)
@@ -58,15 +69,24 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-               var roles=await _roleService.GetRoles();
+                bool isExist = _memoryCache.TryGetValue("roles", out var roles);
+                if (!isExist)
+                {
+                    roles = await _roleService.GetRoles();
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                        .SetPriority(CacheItemPriority.Normal)
+                        .SetSize(1024);
+
+                    _memoryCache.Set("roles", roles, cacheEntryOptions);
+                }
+               /* var roles=await _roleService.GetRoles();*/
                 if(roles != null)
                 {
                     return Ok(roles);
                 }
-
                 return NoContent();
-               
-
             }
             catch (Exception ex)
             {
@@ -106,12 +126,15 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return Conflict();
                 var updatedRole = await _roleService.UpdateRole(role);
                 if (updatedRole.Id != 0)
+                {
+                    _memoryCache.Remove("roles");
                     return Ok(_mapper.Map<RoleDto>(updatedRole));
+                }
+                   
                 else
                     return BadRequest();
-
-
             }
+
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside EditRole action: {ex.Message}");
@@ -133,12 +156,14 @@ namespace OnlineResturnatManagement.Server.Controllers
         [HttpPut("UpdateUser")]
         public async Task<ActionResult<UserDto>>UpdateUser(UserDto userDto)
         {
+
             if (userDto == null)
                 return BadRequest();
             
             var response = await _userService.UpdateUserWithRole(userDto);
             if(response != null)
             {
+                _memoryCache.Remove("users");
                 return Ok(response);
             }
             return StatusCode(400);
