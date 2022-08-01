@@ -16,6 +16,6 @@ namespace OnlineResturnatManagement.Server.Services.IService
 
         Task<UserDto> GetUser(int userId);
         Task<UserDto> UpdateUserWithRole(UserDto user);
-        Task<IEnumerable<NavigationMenuDto>> GetUsersNavMenus(string userName);
+        Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName);
     }
 }

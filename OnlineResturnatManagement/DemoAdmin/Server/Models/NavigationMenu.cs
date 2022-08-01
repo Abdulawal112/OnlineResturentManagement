@@ -16,7 +16,7 @@ namespace OnlineResturnatManagement.Server.Models
 		[ForeignKey("ParentNavigationMenu")]
 		public int? ParentMenuId { get; set; }
 
-		public virtual NavigationMenu ParentNavigationMenu { get; set; }
+		//public virtual NavigationMenu ParentNavigationMenu { get; set; }
 
 		public string? ControllerName { get; set; }
 

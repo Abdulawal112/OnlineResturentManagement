@@ -12,6 +12,9 @@ namespace OnlineResturnatManagement.Server.Helper
             CreateMap<RoleDto, Role>();
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<NavigationMenu, NavigationMenuDto>();
+            CreateMap<NavigationMenuDto, NavigationMenu>();
+
         }
     }
 }

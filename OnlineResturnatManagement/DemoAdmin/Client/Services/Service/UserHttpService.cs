@@ -162,7 +162,7 @@ namespace OnlineResturnatManagement.Client.Services.Service
         }
         public async Task<ServiceResponse<List<NavigationMenuDto>>> GetUserMenu(string name)
         {
-            var response = await _http.GetAsync("/api/Users/GetUserMenu?name="+name);
+            var response = await _http.GetAsync("/api/Users/GetMenusByUser?name=" + name);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

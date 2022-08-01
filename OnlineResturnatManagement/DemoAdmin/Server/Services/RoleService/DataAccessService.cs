@@ -65,22 +65,7 @@ namespace MOnlineResturnatManagement.Server.Services.RoleService
 		public async Task<bool> GetMenuItemsAsync(ClaimsPrincipal ctx, string userName,string Roles,string path)
 		{
 			var result = false;
-			//var roleIds = await GetUserRoleIds(ctx);
-			//var data = await (from menu in _context.RoleMenuPermission
-			//				  where roleIds.Contains(menu.RoleId)
-			//				  select menu)
-			//				  .Select(m => m.NavigationMenu)
-			//				  .Distinct()
-			//				  .ToListAsync();
-
-			//foreach (var item in data)
-			//{
-			//	result = (item.ControllerName == ctrl && item.ActionName == act);
-			//	if (result)
-			//	{
-			//		break;
-			//	}
-			//}
+			
 			var RolesData = Roles;
 
             //var user = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
@@ -90,9 +75,9 @@ namespace MOnlineResturnatManagement.Server.Services.RoleService
 							  join rp in _context.UserRoles on roles.Id equals rp.RoleId
 							  join u in _context.Users on rp.UserId equals u.Id
                               join rmp in _context.RoleMenuPermission on roles.Id equals rmp.RoleId
-                              join um in _context.NavigationMenu on rmp.NavigationMenuId equals um.Id
-                              where u.UserName == uName && roles.Name == RolesData && roles.Name == RolesData
-							select rp)
+                              join nm in _context.NavigationMenu on rmp.NavigationMenuId equals nm.Id
+                              where u.UserName == uName && roles.Name == RolesData &&  nm.Url == path
+							select nm)
 							.FirstOrDefaultAsync();
 
             
@@ -100,7 +85,11 @@ namespace MOnlineResturnatManagement.Server.Services.RoleService
 
             if (data != null)
 			{
-				result = true;
+                if (data != null)
+                {
+                    result = true;
+                }
+               
 			}			 
             //foreach (var item in userRoles)
             //{
