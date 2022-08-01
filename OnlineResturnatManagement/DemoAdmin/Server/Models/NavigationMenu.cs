@@ -20,7 +20,7 @@ namespace OnlineResturnatManagement.Server.Models
 
 		public string? ControllerName { get; set; }
 
-		public string? ActionName { get; set; }
+		public string? ActionUrl { get; set; }
 
 		public string Url { get; set; }
 
@@ -30,6 +30,8 @@ namespace OnlineResturnatManagement.Server.Models
 		public bool Permitted { get; set; }
 
 		public bool Visible { get; set; }
+        public int? ModuleId { get; set; }
 
-	}
+
+    }
 }

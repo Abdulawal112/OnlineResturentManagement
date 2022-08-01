@@ -5,10 +5,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineResturnatManagement.Server.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class CreateNewDBWithTableActiveModule : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ActiveModules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Payment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActiveModules", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -23,6 +40,31 @@ namespace OnlineResturnatManagement.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NavigationMenu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentMenuId = table.Column<int>(type: "int", nullable: true),
+                    ControllerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActionUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    Visible = table.Column<bool>(type: "bit", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NavigationMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NavigationMenu_NavigationMenu_ParentMenuId",
+                        column: x => x.ParentMenuId,
+                        principalTable: "NavigationMenu",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -54,36 +96,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NavigationMenu",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentMenuId = table.Column<int>(type: "int", nullable: true),
-                    ControllerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
-                    Visible = table.Column<bool>(type: "bit", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NavigationMenu", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NavigationMenu_NavigationMenu_ParentMenuId",
-                        column: x => x.ParentMenuId,
-                        principalTable: "NavigationMenu",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_NavigationMenu_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -98,17 +110,11 @@ namespace OnlineResturnatManagement.Server.Migrations
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: true)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -137,28 +143,24 @@ namespace OnlineResturnatManagement.Server.Migrations
                 column: "ParentMenuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NavigationMenu_RoleId",
-                table: "NavigationMenu",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RoleMenuPermission_NavigationMenuId",
                 table: "RoleMenuPermission",
                 column: "NavigationMenuId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActiveModules");
+
+            migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "RoleMenuPermission");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
@@ -168,9 +170,6 @@ namespace OnlineResturnatManagement.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "NavigationMenu");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }

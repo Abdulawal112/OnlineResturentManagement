@@ -13,8 +13,10 @@ namespace OnlineResturnatManagement.Shared.DTO
         public string Name { get; set; }
         public int DisplayOrder { get; set; }
         public bool Permitted { get; set; } = false;
-        public bool Visited { get; set; } = false;
+        public bool Visible { get; set; } = false;
         public string RoleName { get; set; } = "";
         public int? ParentMenuId { get; set; }
+        public string? ActionUrl { get; set; }
+
     }
 }
