@@ -78,7 +78,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
                                     Id = menu.Id,
                                     Name = menu.Name,
                                     Permitted = menu.Permitted,
-                                    Visited = menu.Visible,
+                                    Visible = menu.Visible,
                                     RoleName = roles.Name,
                                 })
                                 .ToListAsync();

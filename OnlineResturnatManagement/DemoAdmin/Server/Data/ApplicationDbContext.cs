@@ -25,6 +25,7 @@ namespace OnlineResturnatManagement.Server.Data
         public DbSet<Employee> Employees { get; set; } 
         public DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }
         public DbSet<NavigationMenu> NavigationMenu { get; set; }
+        public DbSet<ActiveModule> ActiveModules { get; set; }
 
     }
 }

@@ -139,7 +139,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
                               Name = menu.Name,
                               DisplayOrder = menu.DisplayOrder,
                               Permitted = menu.Permitted,
-                              Visited = menu.Visible,
+                              Visible = menu.Visible,
                               ParentMenuId = menu.Id,
                           }).ToListAsync();
         }
