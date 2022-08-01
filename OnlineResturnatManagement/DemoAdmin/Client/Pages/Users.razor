@@ -9,42 +9,49 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    UserName
-                </th>
-                <th>
-                    Email
-                </th>
-                <th>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Roles</h4>
+            <h6 class="card-subtitle"></h6>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            UserName
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
 
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in UserDtos)
-            {
-                <tr>
-                    <td>
-                        @item.UserName
-                    </td>
-                    <td>
-                        @item.Email
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
-                            <i class=" oi oi-pencil"></i>
-                        </button>
-                        @*<button class="btn btn-primary" @onclick="(() => EditUser(item.Id))">
-                <i class="oi oi-pencil"></i>
-                </button>*@
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in UserDtos)
+                    {
+                        <tr>
+                            <td>
+                                @item.UserName
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
+                                    <i class=" oi oi-pencil"></i>
+                                </button>
+                                @*<button class="btn btn-primary" @onclick="(() => EditUser(item.Id))">
+                        <i class="oi oi-pencil"></i>
+                        </button>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+   
 
 
 

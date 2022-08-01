@@ -5,6 +5,7 @@ using OnlineResturnatManagement.Client.HttpRepository;
 using OnlineResturnatManagement.Client.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
 using System;
+using System.Net.NetworkInformation;
 
 namespace OnlineResturnatManagement.Client.Shared
 {
@@ -23,25 +24,32 @@ namespace OnlineResturnatManagement.Client.Shared
         public List<NavigationMenuDto> NavigationMenus { get; set; }
 
         StatusResult statusResult = new StatusResult();
+        
         protected override async Task OnInitializedAsync()
         {
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/custom.js");
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/assets/plugins/styleswitcher/jQuery.style.switcher.js");
+           
+           
             Interceptor.RegisterEvent();
 
-            //var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-            //var user = authstate.User;
-            //var name = user.Identity.Name;
 
-            //await GetNavigationMenu(name);
-           
+            var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+            var user = authstate.User;
+            var name = user.Identity.Name;
+
+            await GetNavigationMenu(name);
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/custom.js");
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/assets/plugins/styleswitcher/jQuery.style.switcher.js");
+            StateHasChanged();
+            //
+
 
         }
-
+        
         private async Task GetNavigationMenu(string name)
         {
             var response = await UserService.GetUserMenu(name);
             NavigationMenus = response.Data;
+            StateHasChanged();
         }
 
         public void Dispose() => Interceptor.DisposeEvent();

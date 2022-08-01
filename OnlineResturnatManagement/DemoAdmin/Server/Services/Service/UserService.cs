@@ -113,35 +113,45 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<UserDto> GetUser(int userId)
         {
             var data = await (from u in _context.Users
-                              join rp in _context.UserRoles on u.Id equals rp.UserId
-                              //join r in _context.Roles on rp.RoleId equals r.Id
+                              join rp in _context.UserRoles on u.Id equals rp.UserId into gj
+                              from x in gj.DefaultIfEmpty()
+                                  //join r in _context.Roles on rp.RoleId equals r.Id
                               where u.Id == userId
                               select new UserDto
                               {
                                   Id = u.Id,
                                   UserName=u.UserName,
                                   Email=u.Email,
-                                  RoleId = rp.RoleId
+                                  RoleId = (x == null ? 0 : x.RoleId)
                               })
                              .FirstOrDefaultAsync();
             return data;
         }
 
-        public async Task<IEnumerable<NavigationMenuDto>> GetUsersNavMenus(string userName)
+        public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
-            return await (from uRoles in _context.UserRoles
-                          join rm in _context.RoleMenuPermission on uRoles.RoleId equals rm.RoleId
-                          join menu in _context.NavigationMenu on rm.NavigationMenuId equals menu.Id
-                          join user in _context.Users on uRoles.UserId equals user.Id
-                          where user.UserName.ToLower() == userName.ToLower()
-                          select new NavigationMenuDto
-                          {
-                              Name = menu.Name,
-                              DisplayOrder = menu.DisplayOrder,
-                              Permitted = menu.Permitted,
-                              Visible = menu.Visible,
-                              ParentMenuId = menu.Id,
-                          }).ToListAsync();
+            //return await (from uRoles in _context.UserRoles
+            //              join rm in _context.RoleMenuPermission on uRoles.RoleId equals rm.RoleId
+            //              join menu in _context.NavigationMenu on //rm.NavigationMenuId equals menu.Id || (menu.ActionUrl==null)
+            //              join user in _context.Users on uRoles.UserId equals user.Id
+            //              where user.UserName.ToLower() == userName.ToLower()
+            //              select new NavigationMenuDto
+            //              {
+            //                  Name = menu.Name,
+            //                  DisplayOrder = menu.DisplayOrder,
+            //                  Permitted = menu.Permitted,
+            //                  Visible = menu.Visible,
+            //                  ParentMenuId = menu.Id,
+            //                  ActionUrl = menu.ActionUrl,
+
+            //              }).ToListAsync();
+            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,nm.ModuleId
+                                                              FROM [DemoAdminDB].[dbo].[UserRoles] ur
+                                                              inner join RoleMenuPermission rm on rm.RoleId = ur.RoleId
+                                                              inner join NavigationMenu nm on nm.Id = rm.NavigationMenuId or (nm.ActionUrl is null)
+                                                              inner join Users u on u.Id = ur.UserId
+                                                              where LOWER(u.UserName) = '" + userName.ToLower()+"'").ToListAsync();
+            return result;
         }
 
         public async Task<bool> UpdateAsync(User user)

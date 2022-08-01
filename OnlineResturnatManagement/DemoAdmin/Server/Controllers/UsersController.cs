@@ -34,6 +34,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             _mapper = mapper;
             //_cashHelper = cashHelper;
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -175,12 +176,12 @@ namespace OnlineResturnatManagement.Server.Controllers
         }
 
         [HttpGet("GetMenusByUser")]
-        public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetMenusByUser(string userName)
+        public async Task<ActionResult>GetMenusByUser(string name)
         {
-            var response = await _userService.GetUsersNavMenus(userName);
+            var response = await _userService.GetUsersNavMenus(name);
             if(response != null)
             {
-                return Ok(response);
+                return Ok(_mapper.Map<List<NavigationMenuDto>>(response));
             }
             return StatusCode(400);
         }
