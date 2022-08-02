@@ -1,15 +1,20 @@
 ﻿using OnlineResturnatManagement.Server.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
+using OnlineResturnatManagement.Shared.DTO;
 
 namespace OnlineResturnatManagement.Server.Helper
 {
     public class CashHelper<T> : ICashHelper<T> where T : class
     {
         private IDistributedCache _distributedCache;
-        public CashHelper(IDistributedCache distributedCache)
+        private readonly IMemoryCache _memoryCache;
+
+        public CashHelper(IDistributedCache distributedCache, IMemoryCache memoryCache)
         {
             _distributedCache = distributedCache;
+            _memoryCache = memoryCache;
         }
         public async Task<List<T>> GetDataAsync(string cacheKey)
         {
@@ -62,5 +67,15 @@ namespace OnlineResturnatManagement.Server.Helper
                 await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(value), options);
             }
         }
+
+        /*public void SetInMemoryCache(string cacheKey, IEnumerable<T> values)
+        {
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                        .SetPriority(CacheItemPriority.Normal)
+                        .SetSize(1024);
+            _memoryCache.Set(cacheKey, values, cacheEntryOptions);
+        }*/
     }
 }

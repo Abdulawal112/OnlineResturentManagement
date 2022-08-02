@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using MOnlineResturnatManagement.Server.Services.RoleService;
 using OnlineResturnatManagement.Server.Handlers;
+using Blazored.Toast;
 //using ITokenService = OnlineResturnatManagement.Server.Helper.ITokenService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +60,8 @@ builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IDataAccessService, DataAccessService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddMemoryCache();
+builder.Services.AddBlazoredToast();
 
 
 builder.Services.AddTransient(typeof(ICashHelper<>), typeof(CashHelper<>));
