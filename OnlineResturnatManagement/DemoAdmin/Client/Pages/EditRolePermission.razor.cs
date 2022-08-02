@@ -24,6 +24,7 @@ namespace OnlineResturnatManagement.Client.Pages
         public IUserHttpService UserService { get; set; }
         StatusResult statusResult = new StatusResult();
         protected List<string> SelectedIds = new List<string>();
+
         public List<NavigationMenuDto> NavigationMenuDtos = new List<NavigationMenuDto>();
         public List<NavigationMenuDto> RoleNavigationMenuDtos = new List<NavigationMenuDto>();
         public string RoleName { get; set; }
@@ -84,6 +85,24 @@ namespace OnlineResturnatManagement.Client.Pages
 
                // StateHasChanged();
             }
+        }
+        public void CheckboxClicked(string aSelectedId, object aChecked)
+        {
+            if ((bool)aChecked)
+            {
+                if (!SelectedIds.Contains(aSelectedId))
+                {
+                    SelectedIds.Add(aSelectedId);
+                }
+            }
+            else
+            {
+                if (SelectedIds.Contains(aSelectedId))
+                {
+                    SelectedIds.Remove(aSelectedId);
+                }
+            }
+            StateHasChanged();
         }
         public void Dispose() => Interceptor.DisposeEvent();
     }

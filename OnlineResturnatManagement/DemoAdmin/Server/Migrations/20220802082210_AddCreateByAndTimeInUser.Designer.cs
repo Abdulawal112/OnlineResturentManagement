@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineResturnatManagement.Server.Data;
 
@@ -11,9 +12,10 @@ using OnlineResturnatManagement.Server.Data;
 namespace OnlineResturnatManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220802082210_AddCreateByAndTimeInUser")]
+    partial class AddCreateByAndTimeInUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,12 +129,6 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -140,12 +136,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdateBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -185,6 +175,7 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
@@ -218,6 +209,7 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateDate")

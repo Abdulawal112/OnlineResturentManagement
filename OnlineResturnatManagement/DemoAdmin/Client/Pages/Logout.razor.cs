@@ -15,7 +15,7 @@ namespace OnlineResturnatManagement.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             await AuthenticationService.Logout();
-            NavigationManager.NavigateTo("/",true);
+            NavigationManager.NavigateTo("/");
         }
     }
 }

@@ -69,6 +69,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
             user.PasswordHash = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
             user.EmailConfirmed = false;
             user.RefreshTokenExpiryTime = new DateTime();
+            user.CreateBy = "";
+            user.CreateDate = DateTime.Now;
             var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
             if (userData == null)
             {
@@ -143,21 +145,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
         }
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
-            //return await (from uRoles in _context.UserRoles
-            //              join rm in _context.RoleMenuPermission on uRoles.RoleId equals rm.RoleId
-            //              join menu in _context.NavigationMenu on //rm.NavigationMenuId equals menu.Id || (menu.ActionUrl==null)
-            //              join user in _context.Users on uRoles.UserId equals user.Id
-            //              where user.UserName.ToLower() == userName.ToLower()
-            //              select new NavigationMenuDto
-            //              {
-            //                  Name = menu.Name,
-            //                  DisplayOrder = menu.DisplayOrder,
-            //                  Permitted = menu.Permitted,
-            //                  Visible = menu.Visible,
-            //                  ParentMenuId = menu.Id,
-            //                  ActionUrl = menu.ActionUrl,
-
-            //              }).ToListAsync();
+            
             var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,nm.ModuleId
                                                               FROM [DemoAdminDB].[dbo].[UserRoles] ur
                                                               inner join RoleMenuPermission rm on rm.RoleId = ur.RoleId
@@ -169,6 +157,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<bool> UpdateAsync(User user)
         {
+            
             _context.Users.Update(user);
             return await _context.SaveChangesAsync() > 0;
         }
@@ -189,6 +178,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 FindUser.UserName = user.UserName;
                 FindUser.Email = user.Email;
                 FindUser.PhoneNumber = user.PhoneNumber == "" ? FindUser.PhoneNumber : user.PhoneNumber;
+                FindUser.UpdateBy = user.UpdateBy;
+                FindUser.UpdateDate = user.UpdateDate;
                 if(user.Password != "")
                 {
                     Guid guid = Guid.NewGuid();

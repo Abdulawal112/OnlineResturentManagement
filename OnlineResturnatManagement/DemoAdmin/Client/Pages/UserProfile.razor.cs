@@ -9,6 +9,7 @@ using OnlineResturnatManagement.Client.HttpRepository;
 using Microsoft.AspNetCore.Components.Authorization;
 using OnlineResturnatManagement.Shared.DTO;
 using OnlineResturnatManagement.Client.Helper;
+using System.Xml.Linq;
 
 namespace OnlineResturnatManagement.Client.Pages
 {
@@ -28,17 +29,24 @@ namespace OnlineResturnatManagement.Client.Pages
         public UserDto userDto = new UserDto();
         protected override async Task OnInitializedAsync()
         {
-            Interceptor.RegisterEvent();
-            var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-            var user = authstate.User;
-            var name = user.Identity.Name;
+           
+            var name =  await GetCurrentUserNameAsync();
             var response= await UserService.GetUserByName(name);
             userDto = response.Data;
 
 
         }
-        async void UpdateUser()
+        private async Task<string> GetCurrentUserNameAsync()
         {
+            var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+            var user = authstate.User;
+            var name = user.Identity.Name;
+            return name;
+        }
+        async void UpdateUser()
+{
+            userDto.UpdateBy = await GetCurrentUserNameAsync();
+            userDto.UpdateDate = DateTime.Now;
             var response = await UserService.UpdateUserWithRole(userDto);
             statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
             if (statusResult.Message == "" && statusResult.StatusCode == 200)
