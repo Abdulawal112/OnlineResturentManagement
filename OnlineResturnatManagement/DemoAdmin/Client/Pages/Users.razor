@@ -1,4 +1,5 @@
 ﻿@page "/users"
+@inject IToastService toastService
 
 @attribute [Authorize]
 
@@ -124,7 +125,7 @@ else
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="closeModal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -136,7 +137,8 @@ else
                 {
                     if (statusResult.Message != "" && statusResult.StatusCode == 200)
                     {
-                        <div class="alert alert-success">@statusResult.Message</div>
+                        @*<div class="alert alert-success">@statusResult.Message</div>*@
+                        toastService.ShowSuccess(@statusResult.Message);
                     }
                     else
                     {
