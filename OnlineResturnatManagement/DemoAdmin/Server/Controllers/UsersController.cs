@@ -18,6 +18,7 @@ namespace OnlineResturnatManagement.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
        
@@ -124,7 +125,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return BadRequest();
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
-                var newRole = await _roleService.UpdateRole(role);
+                var newRole = await _roleService.CreateRole(role);
                 if (newRole.Id != 0)
                 {
                     _cacheService.RemoveData(CacheName.CacheRoles);
@@ -233,7 +234,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
-
+        [AllowAnonymous]
         [HttpGet("GetMenusByUser")]
         public async Task<ActionResult>GetMenusByUser(string name)
         {

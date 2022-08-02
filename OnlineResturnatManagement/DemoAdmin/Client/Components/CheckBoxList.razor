@@ -7,6 +7,8 @@
             var Text = TextField?.Invoke(item);
             var Value = ValueField?.Invoke(item).ToString();
             bool Checked = false;
+            //var children = Data.Where(x => x.ParentMenuId == item.Id && x.Visible).OrderBy(x => x.DisplayOrder).ToList();
+
             if (SelectedValues.Contains(Value))
             {
                 Checked = true;

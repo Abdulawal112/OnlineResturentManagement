@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineResturnatManagement.Shared.DTO
 {
-    public class UserDto
+    public class UserDto: CreateUpdateDto
     {
         public int Id { get; set; }
         public string UserName { get; set; }

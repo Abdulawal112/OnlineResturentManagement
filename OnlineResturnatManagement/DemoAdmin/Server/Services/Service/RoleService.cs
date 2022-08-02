@@ -103,7 +103,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<List<NavigationMenu>> GetMenus()
         {
-            return await _context.NavigationMenu.Where(x=>x.Url !="").ToListAsync();
+            //return await _context.NavigationMenu.Where(x=>x.Url !="").ToListAsync();
+            return await _context.NavigationMenu.ToListAsync();
         }
     }
 }

@@ -29,11 +29,53 @@ else
             <label class="col-2 font-weight-bold">Menu List :</label>
         
         
-        <CheckBoxList Data="@NavigationMenuDtos"
+        @*<CheckBoxList Data="@NavigationMenuDtos"
                       TextField="@((item)=>item.Name)"  
                           ValueField="@((item)=>item.Id)"  
-                          SelectedValues="@SelectedIds" />  
-        </div>  
+                          SelectedValues="@SelectedIds" />  *@
+        <div >
+            @if (NavigationMenuDtos != null)
+            {
+                foreach (var item in NavigationMenuDtos)
+                {
+                    
+                    var children = NavigationMenuDtos.Where(x => x.ParentMenuId == item.Id).OrderBy(x => x.DisplayOrder).ToList();
+                    @if (children.Count > 0 && !string.IsNullOrWhiteSpace(item.Name))
+                    {
+                        <p>@item.Name</p>
+                       
+
+                    }
+                    @if (children != null)
+                    {
+                        
+                            @foreach (var itm in children)
+                            {
+                            var Text = itm.Name;
+                            var Value = itm.Id.ToString();
+                            bool Checked = false;
+                            if (SelectedIds.Contains(Value))
+                            {
+                                Checked = true;
+                            }
+                            
+                            <div class="ml-4">
+                                <input type="checkbox" checked=@Checked
+                                    @onchange="eventArgs => { CheckboxClicked(Value, eventArgs.Value); }" />
+                                @Text <br />
+                            </div>
+                                @*<li>
+                                    <a href="@itm.ActionUrl">@itm.Name</a>
+                                </li>*@
+
+                            }
+                    }
+                    
+                }
+            }
+            
+        </div>
+    </div>  
          
         <br />  
         <div class="col-12 row">  

@@ -2,7 +2,7 @@
 
 namespace OnlineResturnatManagement.Server.Models
 {
-    public class User
+    public class User :CreateUpdate
     {
         public int Id { get; set; }
         public string UserName { get; set; }
@@ -15,6 +15,6 @@ namespace OnlineResturnatManagement.Server.Models
         public string? PhoneNumber { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-       
+
     }
 }

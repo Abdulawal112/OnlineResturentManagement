@@ -28,7 +28,7 @@ namespace OnlineResturnatManagement.Client.Shared
         
         protected override async Task OnInitializedAsync()
         {
-            Interceptor.RegisterEvent();
+            //Interceptor.RegisterEvent();
 
             var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
             var user = authstate.User;

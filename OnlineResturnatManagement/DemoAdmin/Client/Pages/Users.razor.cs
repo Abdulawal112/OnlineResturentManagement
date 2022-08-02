@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using OnlineResturnatManagement.Client.HttpRepository;
 using OnlineResturnatManagement.Shared.DTO;
 using OnlineResturnatManagement.Client.Helper;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace OnlineResturnatManagement.Client.Pages
 {
@@ -19,6 +20,8 @@ namespace OnlineResturnatManagement.Client.Pages
         public HttpInterceptorService Interceptor { get; set; }
         [Inject]
         public IUserHttpService UserService { get; set; }
+        [Inject]
+        public AuthenticationStateProvider GetAuthenticationStateAsync { get; set; }
 
         public List<UserDto> UserDtos = new List<UserDto>();
         public List<RoleDto> RoleDtos = new List<RoleDto>();
@@ -59,6 +62,9 @@ namespace OnlineResturnatManagement.Client.Pages
         }
         async void UpdateUser()
         {
+           var cUserName = await GetCurrentUserNameAsync();
+            userDto.UpdateBy = cUserName;
+            userDto.UpdateDate = DateTime.Now;
             var response = await UserService.UpdateUserWithRole(userDto);
             statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
             if (statusResult.Message == "" && statusResult.StatusCode==200)
@@ -70,6 +76,16 @@ namespace OnlineResturnatManagement.Client.Pages
            
             StateHasChanged();
         }
+
+        private async Task<string> GetCurrentUserNameAsync()
+        {
+            var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+            var user = authstate.User;
+            var name = user.Identity.Name;
+            return name;
+        }
+
+      
        /* async void SearchUser(string search)
         {
             //var timer = new Timer(new TimerCallback(_ =>
