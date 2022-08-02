@@ -64,7 +64,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredToast();
 
 
-builder.Services.AddTransient(typeof(ICashHelper<>), typeof(CashHelper<>));
+//builder.Services.AddTransient(typeof(ICashHelper<>), typeof(CashHelper<>));//Reddis
+builder.Services.AddScoped<ICashHelper, CashHelper>();
 
 //custom Authorization
 builder.Services.AddAuthorization(config =>

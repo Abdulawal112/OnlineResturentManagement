@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using OnlineResturnatManagement.Server.Services.Service;
+using OnlineResturnatManagement.Shared.DTO;
 
 namespace OnlineResturnatManagement.Server.Controllers
 {
@@ -16,12 +18,13 @@ namespace OnlineResturnatManagement.Server.Controllers
     {
         private IEmployeeService _employeeService;
         private ILoggerManager _logger;
-        private ICashHelper<Employee> _cashHelper;
-        public EmployeesController(IEmployeeService employeeService, ILoggerManager logger, ICashHelper<Employee> cashHelper)
+        private readonly ICashHelper _cacheService;
+
+        public EmployeesController(IEmployeeService employeeService, ILoggerManager logger, ICashHelper cacheService)
         {
             _employeeService = employeeService;
             _logger = logger;
-            _cashHelper = cashHelper;   
+            _cacheService = cacheService;   
         }
         [Authorize(Roles = "Administrator")]
         [HttpGet]
@@ -29,20 +32,33 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-                var cacheKey = "customerList";
-                var employeeList = new List<Employee>();
-                //_cashHelper.RemoveDataAsync(cacheKey);
-               employeeList = _cashHelper.GetDataAsync(cacheKey).Result;
-                
-                if (employeeList.Count<=0)
-                {
-                    employeeList = (List<Employee>)await _employeeService.GetAllEmployeeAsync();
-                    
-                    _cashHelper.SetDataAsync(cacheKey,employeeList);
-                   
+                var cacheData = _cacheService.GetData<IEnumerable<Employee>>(CacheName.CacheEmployee);
+                if (cacheData != null)
+{
+                    return Ok(cacheData);
                 }
+
+                cacheData = await _employeeService.GetAllEmployeeAsync(); ;
+                _cacheService.SetData<IEnumerable<Employee>>(CacheName.CacheEmployee, cacheData);
+                if (cacheData != null)
+                {
+                    return Ok(cacheData);
+                }
+                return NoContent();
+               // var cacheKey = "customerList";
+               // var employeeList = new List<Employee>();
+               // //_cashHelper.RemoveDataAsync(cacheKey);
+               ////employeeList = _cashHelper.GetDataAsync(cacheKey).Result;
+                
+               // if (employeeList.Count<=0)
+               // {
+               //     employeeList = (List<Employee>)await _employeeService.GetAllEmployeeAsync();
+                    
+               //    // _cashHelper.SetDataAsync(cacheKey,employeeList);
+                   
+               // }
                
-                return Ok(employeeList);
+               // return Ok(employeeList);
             }
             catch (Exception ex)
             {
@@ -57,19 +73,11 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 
-                var empdata = _cashHelper.GetSingleDataAsync("empObj_" + id.ToString()).Result;
+                //var empdata = _cashHelper.GetSingleDataAsync("empObj_" + id.ToString()).Result;
 
                 Employee emp = new Employee();
-                if (empdata == null)
-                {
-                    emp = await _employeeService.GetEmployeeByIdAsync(id);
-                    _cashHelper.SetDataAsync("empObj_" + id.ToString(),emp);
-                }
-                else
-                {
-                    emp = empdata;  
-
-                }
+                emp = await _employeeService.GetEmployeeByIdAsync(id);
+                
                 if (emp == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");

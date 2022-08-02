@@ -6,67 +6,112 @@ using OnlineResturnatManagement.Shared.DTO;
 
 namespace OnlineResturnatManagement.Server.Helper
 {
-    public class CashHelper<T> : ICashHelper<T> where T : class
+    public class CashHelper : ICashHelper
     {
-        private IDistributedCache _distributedCache;
+        //private IDistributedCache _distributedCache; //For Reddis Cache
         private readonly IMemoryCache _memoryCache;
 
-        public CashHelper(IDistributedCache distributedCache, IMemoryCache memoryCache)
+        public CashHelper( IMemoryCache memoryCache) //IDistributedCache distributedCache,
         {
-            _distributedCache = distributedCache;
+            //_distributedCache = distributedCache;
             _memoryCache = memoryCache;
         }
-        public async Task<List<T>> GetDataAsync(string cacheKey)
+        //ObjectCache _memoryCache = MemoryCache.Default;
+        public T GetData<T>(string key)
         {
-            string dataList = await _distributedCache.GetStringAsync(cacheKey);
-
-            var resultList = new List<T>();
-            if (!string.IsNullOrEmpty(dataList))
+            try
             {
-                resultList = JsonConvert.DeserializeObject<List<T>>(dataList);
+                T item = (T)_memoryCache.Get(key);
+                return item;
             }
-            return resultList;
-        }
-
-        public async Task<T> GetSingleDataAsync(string cacheKey)
-        {
-            string dataList =await _distributedCache.GetStringAsync(cacheKey);
-
-            if (!string.IsNullOrEmpty(dataList))
+            catch (Exception e)
             {
-                return JsonConvert.DeserializeObject<T>(dataList);
-            }
-            return null;
-        }
-
-        public async void RemoveDataAsync(string cacheKey)
-        {
-            if (cacheKey != null)
-            {
-                await _distributedCache.RemoveAsync(cacheKey);
+                throw;
             }
         }
-        public async void SetDataAsync(string cacheKey, List<T> values)
+        public bool SetData<T>(string key, T value)
         {
-            if (values != null)
+            bool res = true;
+            var expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
+            try
             {
-                var options = new DistributedCacheEntryOptions()
-                            .SetAbsoluteExpiration(DateTime.Now.AddMinutes(1))
-                            .SetSlidingExpiration(TimeSpan.FromMinutes(1));
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(values), options);
+                if (!string.IsNullOrEmpty(key))
+                {
+                    _memoryCache.Set(key, value, expirationTime);
+                }
             }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return res;
         }
+        public void RemoveData(string key)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(key))
+                {
+                    _memoryCache.Remove(key);
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+           
+        }
+        //public async Task<List<T>> GetDataAsync(string cacheKey)
+        //{
+        //    string dataList = await _distributedCache.GetStringAsync(cacheKey);
 
-        public async void SetDataAsync(string cacheKey, T value)
-        {
-            if (value != null)
-            {
-                var options = new DistributedCacheEntryOptions()
-                            .SetAbsoluteExpiration(DateTime.Now.AddMinutes(1))
-                            .SetSlidingExpiration(TimeSpan.FromMinutes(1));
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(value), options);
-            }
-        }
+        //    var resultList = new List<T>();
+        //    if (!string.IsNullOrEmpty(dataList))
+        //    {
+        //        resultList = JsonConvert.DeserializeObject<List<T>>(dataList);
+        //    }
+        //    return resultList;
+        //}
+
+        //public async Task<T> GetSingleDataAsync(string cacheKey)
+        //{
+        //    string dataList =await _distributedCache.GetStringAsync(cacheKey);
+
+        //    if (!string.IsNullOrEmpty(dataList))
+        //    {
+        //        return JsonConvert.DeserializeObject<T>(dataList);
+        //    }
+        //    return null;
+        //}
+
+        //public async void RemoveDataAsync(string cacheKey)
+        //{
+        //    if (cacheKey != null)
+        //    {
+        //        await _distributedCache.RemoveAsync(cacheKey);
+        //    }
+        //}
+        //public async void SetDataAsync(string cacheKey, List<T> values)
+        //{
+        //    if (values != null)
+        //    {
+        //        var options = new DistributedCacheEntryOptions()
+        //                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(1))
+        //                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+        //        await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(values), options);
+        //    }
+        //}
+
+        //public async void SetDataAsync(string cacheKey, T value)
+        //{
+        //    if (value != null)
+        //    {
+        //        var options = new DistributedCacheEntryOptions()
+        //                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(1))
+        //                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+        //        await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(value), options);
+        //    }
+        //}
 
         /*public void SetInMemoryCache(string cacheKey, IEnumerable<T> values)
         {

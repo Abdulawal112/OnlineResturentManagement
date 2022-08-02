@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using MOnlineResturnatManagement.Server.Services.RoleService;
@@ -25,16 +26,16 @@ namespace OnlineResturnatManagement.Server.Controllers
         private IDataAccessService _dataAccessService;
         private IRoleService _roleService;
         private IMapper _mapper;
-        private IMemoryCache _memoryCache;
         //private ICashHelper<Employee> _cashHelper;
-        public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper,IMemoryCache memoryCache)
+        private readonly ICashHelper _cacheService;
+        public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper, ICashHelper cacheService)
         {
             _userService = userService;
             _logger = logger;
             _dataAccessService = dataAccessService;
             _roleService = roleService;
             _mapper = mapper;
-            _memoryCache = memoryCache;
+            _cacheService = cacheService;
             //_cashHelper = cashHelper;
         }
         [Authorize(Roles = "Administrator")]
@@ -43,20 +44,21 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-                bool isExist = _memoryCache.TryGetValue("users", out IEnumerable<UserDto> userDtos);
-                if (!isExist)
+                var cacheData = _cacheService.GetData<IEnumerable<UserDto>>(CacheName.CacheUsers);
+                if (cacheData != null)
                 {
-                    userDtos = await _userService.GetAllUserAsync("");
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                        .SetPriority(CacheItemPriority.Normal)
-                        .SetSize(1024);
-                    _memoryCache.Set("users", userDtos, cacheEntryOptions);
+                    return Ok(cacheData);
                 }
-
-                userDtos = (List<UserDto>)await _userService.GetAllUserAsync("");
-                return Ok(userDtos);
+                
+                cacheData = await _userService.GetAllUserAsync("");
+                _cacheService.SetData<IEnumerable<UserDto>>(CacheName.CacheUsers, cacheData);
+                if (cacheData != null)
+                {
+                    return Ok(cacheData);
+                }
+                return NoContent();
+                
+               
             }
             catch (Exception ex)
             {
@@ -89,24 +91,22 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-                bool isExist = _memoryCache.TryGetValue("roles", out var roles);
-                if (!isExist)
+                var cacheData = _cacheService.GetData<IEnumerable<Role>>(CacheName.CacheRoles);
+                if (cacheData != null)
                 {
-                    roles = await _roleService.GetRoles();
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                        .SetPriority(CacheItemPriority.Normal)
-                        .SetSize(1024);
-
-                    _memoryCache.Set("roles", roles, cacheEntryOptions);
+                    return Ok(cacheData);
                 }
-               /* var roles=await _roleService.GetRoles();*/
-                if(roles != null)
+
+                cacheData = await _roleService.GetRoles();
+                _cacheService.SetData<IEnumerable<Role>>(CacheName.CacheRoles, cacheData);
+                
+                if (cacheData != null)
                 {
-                    return Ok(roles);
+                    return Ok(cacheData);
                 }
                 return NoContent();
+                
+               
             }
             catch (Exception ex)
             {
@@ -125,8 +125,12 @@ namespace OnlineResturnatManagement.Server.Controllers
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
                 var newRole = await _roleService.UpdateRole(role);
-                if (newRole.Id !=0)
-                    return Created("created",_mapper.Map<RoleDto>(newRole));
+                if (newRole.Id != 0)
+                {
+                    _cacheService.RemoveData(CacheName.CacheRoles);
+                    return Created("created", _mapper.Map<RoleDto>(newRole));
+
+                }
                 else
                     return BadRequest();
 
@@ -151,7 +155,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 var updatedRole = await _roleService.UpdateRole(role);
                 if (updatedRole.Id != 0)
                 {
-                    _memoryCache.Remove("roles");
+                    _cacheService.RemoveData(CacheName.CacheRoles);
                     return Ok(_mapper.Map<RoleDto>(updatedRole));
                 }
                    
@@ -189,7 +193,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             var response = await _userService.UpdateUserWithRole(userDto);
             if(response != null)
             {
-                _memoryCache.Remove("users");
+                _cacheService.RemoveData(CacheName.CacheUsers);
                 return Ok(response);
             }
             return StatusCode(400);
