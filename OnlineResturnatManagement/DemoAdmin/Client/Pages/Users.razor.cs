@@ -20,7 +20,6 @@ namespace OnlineResturnatManagement.Client.Pages
         [Inject]
         public IUserHttpService UserService { get; set; }
 
-
         public List<UserDto> UserDtos = new List<UserDto>();
         public List<RoleDto> RoleDtos = new List<RoleDto>();
         public UserDto userDto = new UserDto();
@@ -30,7 +29,8 @@ namespace OnlineResturnatManagement.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Interceptor.RegisterEvent();
+             
+        Interceptor.RegisterEvent();
             await GetIntialData();
 
         }
@@ -67,12 +67,8 @@ namespace OnlineResturnatManagement.Client.Pages
                 await GetIntialData();
                 userDto = response.Data;
             }
-            
+           
             StateHasChanged();
-        }
-        public void closeModal()
-        {
-
         }
        /* async void SearchUser(string search)
         {

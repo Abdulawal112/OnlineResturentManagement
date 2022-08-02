@@ -120,80 +120,81 @@ else
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="closeModal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @if (string.IsNullOrEmpty(statusResult.Message))
-                {
-                    <div></div>
-                }
-                else
-                {
-                    if (statusResult.Message != "" && statusResult.StatusCode == 200)
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @if (string.IsNullOrEmpty(statusResult.Message))
                     {
-                        @*<div class="alert alert-success">@statusResult.Message</div>*@
-                        toastService.ShowSuccess(@statusResult.Message);
+                        <div></div>
                     }
                     else
                     {
-                        <div class="alert alert-danger">@statusResult.Message</div>
+                        if (statusResult.Message != "" && statusResult.StatusCode == 200)
+                        {   
+                            @*<div class="alert alert-success">@statusResult.Message</div>*@
+                            toastService.ShowSuccess(@statusResult.Message);
+                            
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">@statusResult.Message</div>
+                        }
+
                     }
 
-                }
+                    <EditForm Model="userDto" OnSubmit="UpdateUser">
+                        <div class="modal-body">
 
-                <EditForm Model="userDto" OnSubmit="UpdateUser">
-                    <div class="modal-body">
+                            <div class="row p-2">
+                                <div class="col-6">
+                                    <label>UserName</label>
+                                    <InputText @bind-Value="userDto.UserName" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Email</label>
+                                    <InputText @bind-Value="userDto.Email" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Phone Number</label>
+                                    <InputText @bind-Value="userDto.PhoneNumber" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Password</label>
+                                    <InputText @bind-Value="userDto.Password" type="password" id="password" class="form-control" placeholder="Password"></InputText>
+                                </div>
+                                <div class="col">
+                                    <label>Role</label>
+                                    <InputSelect @bind-Value="userDto.RoleId" class="form-control">
+                                        @foreach (var roleDto in RoleDtos)
+                                        {
+                                            <option value=@roleDto.Id>@roleDto.Name</option>
+                                        }
+                                        @if (RoleDtos == null || RoleDtos.Count == 0)
+                                        {
+                                            <option value="">none</option>
+                                        }
+                                    </InputSelect>
+                                </div>
 
-                        <div class="row p-2">
-                            <div class="col-6">
-                                <label>UserName</label>
-                                <InputText @bind-Value="userDto.UserName" class="form-control"></InputText>
-                            </div>
-                            <div class="col-6">
-                                <label>Email</label>
-                                <InputText @bind-Value="userDto.Email" class="form-control"></InputText>
-                            </div>
-                            <div class="col-6">
-                                <label>Phone Number</label>
-                                <InputText @bind-Value="userDto.PhoneNumber" class="form-control"></InputText>
-                            </div>
-                            <div class="col-6">
-                                <label>Password</label>
-                                <InputText @bind-Value="userDto.Password" type="password" id="password" class="form-control" placeholder="Password"></InputText>
-                            </div>
-                            <div class="col">
-                                <label>Role</label>
-                                <InputSelect @bind-Value="userDto.RoleId" class="form-control">
-                                    @foreach (var roleDto in RoleDtos)
-                                    {
-                                        <option value=@roleDto.Id>@roleDto.Name</option>
-                                    }
-                                    @if (RoleDtos == null || RoleDtos.Count == 0)
-                                    {
-                                        <option value="">none</option>
-                                    }
-                                </InputSelect>
                             </div>
 
                         </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">update</button>
-                    </div>
-                </EditForm>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >update</button>
+                        </div>
+                    </EditForm>
+                </div>
             </div>
         </div>
-    </div>
+    
 
 
 }
-
 
