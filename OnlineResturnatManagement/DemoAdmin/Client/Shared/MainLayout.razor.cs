@@ -13,6 +13,7 @@ namespace OnlineResturnatManagement.Client.Shared
     {
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
+
         [Inject]
         public AuthenticationStateProvider GetAuthenticationStateAsync { get; set; }
         [Inject]
@@ -30,7 +31,6 @@ namespace OnlineResturnatManagement.Client.Shared
            
            
             Interceptor.RegisterEvent();
-
 
             var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
             var user = authstate.User;

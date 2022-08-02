@@ -87,16 +87,24 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return data;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUserAsync()
+        public async Task<IEnumerable<UserDto>> GetAllUserAsync(string searchString)
         {
-            return await (from m in _context.Users
+            var users= (from u in _context.Users
+                          join rp in _context.UserRoles on u.Id equals rp.UserId
+                          join r in _context.Roles on rp.RoleId equals r.Id
                           select new UserDto()
                           {
-                              Id = m.Id,
-                              UserName = m.UserName,
-                              Email = m.Email
-                          })
-                               .ToListAsync();
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber,
+                              RoleName = r.Name
+                          });
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.UserName!.Contains(searchString) || s.PhoneNumber!.Contains(searchString) || s.RoleName!.Contains(searchString));
+            }
+            return await users.ToListAsync();
         }
 
         public async Task<List<Role>> GetRolesAsync(User user)
@@ -122,12 +130,17 @@ namespace OnlineResturnatManagement.Server.Services.Service
                                   Id = u.Id,
                                   UserName=u.UserName,
                                   Email=u.Email,
+                                  PhoneNumber =u.PhoneNumber,
                                   RoleId = (x == null ? 0 : x.RoleId)
                               })
                              .FirstOrDefaultAsync();
             return data;
         }
+        public async Task<User> GetUserByName(string name)
+        {
 
+            return await _context.Users.Where(x => x.UserName.ToLower() == name.ToLower()).FirstOrDefaultAsync();
+        }
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
             //return await (from uRoles in _context.UserRoles
@@ -175,20 +188,34 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
                 FindUser.UserName = user.UserName;
                 FindUser.Email = user.Email;
+                FindUser.PhoneNumber = user.PhoneNumber == "" ? FindUser.PhoneNumber : user.PhoneNumber;
+                if(user.Password != "")
+                {
+                    Guid guid = Guid.NewGuid();
+                    byte[] bytes = guid.ToByteArray();
+                    string encoded = Convert.ToBase64String(bytes);
+
+                    FindUser.HashKey = encoded;
+                    FindUser.PasswordHash = EncryptPassword.EncryptStringToBytes(user.Password, FindUser.HashKey);
+                }
                 _context.Users.Update(FindUser);
                 var result = await _context.SaveChangesAsync() > 0;
 
-                var commandText = "delete from UserRoles where UserId =" + user.Id + "";
-                //var name = new SqlParameter("@CategoryName", "Test");
-                _context.Database.ExecuteSqlRaw(commandText);
-                var result2 = await _context.SaveChangesAsync() > 0;
-                var userRole = new UserRole
+                if(result && (user.RoleId !=null || user.RoleId > 0))
                 {
-                    RoleId = (int)user.RoleId,
-                    UserId = user.Id,
-                };
-                await _context.UserRoles.AddAsync(userRole);
-                await _context.SaveChangesAsync();
+                    var commandText = "delete from UserRoles where UserId =" + user.Id + "";
+                    //var name = new SqlParameter("@CategoryName", "Test");
+                    _context.Database.ExecuteSqlRaw(commandText);
+                    var result2 = await _context.SaveChangesAsync() > 0;
+                    var userRole = new UserRole
+                    {
+                        RoleId = (int)user.RoleId,
+                        UserId = user.Id,
+                    };
+                    await _context.UserRoles.AddAsync(userRole);
+                    await _context.SaveChangesAsync();
+                }
+                
 
                 
 

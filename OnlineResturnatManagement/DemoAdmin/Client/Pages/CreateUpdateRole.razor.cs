@@ -83,6 +83,7 @@ namespace OnlineResturnatManagement.Client.Pages
             {
                 var response=await UserHttpService.UpdateRole(editingRole);
                 var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                message = result.Message;
                 if (result.Message == "" && result.StatusCode == 200)
                 {
                     await GetAllRole();

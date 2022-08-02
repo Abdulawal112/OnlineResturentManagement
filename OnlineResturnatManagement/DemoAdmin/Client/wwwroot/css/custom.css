@@ -7,9 +7,9 @@ hr:not([size]) {
     height: 0 !important;
 }
 
-.table > :not(caption) > * > * {
+/*.table > :not(caption) > * > * {
     padding: 0 !important;
 }
 .table td, .table th {
     padding: 0 !important;
-}
+}*/

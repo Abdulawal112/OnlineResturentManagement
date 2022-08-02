@@ -48,9 +48,10 @@ namespace OnlineResturnatManagement.Client.Pages
             var response2 = await UserService.GetAllMenu();
             NavigationMenuDtos = response2.Data;
             SelectedIds = new List<string>();
-            RoleName = RoleNavigationMenuDtos[0].RoleName;
+            
             if (RoleNavigationMenuDtos != null && RoleNavigationMenuDtos.Count > 0)
             {
+                RoleName = RoleNavigationMenuDtos[0].RoleName;
                 foreach (var item in RoleNavigationMenuDtos)
                 {
                     SelectedIds.Add(item.Id.ToString());
