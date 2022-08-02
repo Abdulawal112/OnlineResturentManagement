@@ -70,6 +70,10 @@ namespace OnlineResturnatManagement.Client.Pages
             
             StateHasChanged();
         }
+        public void closeModal()
+        {
+
+        }
        /* async void SearchUser(string search)
         {
             //var timer = new Timer(new TimerCallback(_ =>

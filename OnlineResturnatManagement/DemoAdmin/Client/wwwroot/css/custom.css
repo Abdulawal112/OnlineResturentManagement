@@ -18,3 +18,37 @@ hr:not([size]) {
     font-size:10px;
     /*padding:10px;*/
 }
+.blazored-toast {
+    padding:.25px !important;
+}
+.blazored-toast-body{
+    padding-left:8px !important;
+}
+.blazored-toast-body .blazored-toast-header h5{
+    line-height:25px !important;
+    font-size:1.15rem!important;
+    color:white !important;
+}
+.blazored-toast-body .blazored-toast-header .blazored-toast-close{
+    font-size:1rem !important;
+}
+
+.blazored-toast-container{
+    z-index:99999999 !important;
+}
+.blazored-toast-body .blazored-toast-header h5{
+    font-size:1.15rem !important;
+    color:white !important;
+}
+
+@media(min-width:575px) {
+        .blazored-toast {
+    width: 20em !important;
+    border-radius: 0.25rem !important;
+    }
+    .position-topright{
+        right:0 !important;
+    }
+
+
+}
