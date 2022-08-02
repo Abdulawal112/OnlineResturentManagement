@@ -26,7 +26,7 @@ hr:not([size]) {
 }
 .blazored-toast-body .blazored-toast-header h5{
     line-height:25px !important;
-    font-size:1.15rem!important;
+    font-size:14px !important;
     color:white !important;
 }
 .blazored-toast-body .blazored-toast-header .blazored-toast-close{
@@ -37,17 +37,42 @@ hr:not([size]) {
     z-index:99999999 !important;
 }
 .blazored-toast-body .blazored-toast-header h5{
-    font-size:1.15rem !important;
+    font-size:14px !important;
     color:white !important;
+    text-transform:capitalize !important ;
+}
+.blazored-toast-progressbar > span {
+    height: 4px !important;
+    transition: all .3s linear !important;
+    background: #ff6849 !important;
+}
+.blazored-toast-progressbar{
+    height:4px !important;
+}
+
+.blazored-toast-body {
+    line-height: 25px !important;
+}
+.blazored-toast-body p {
+    font-size:14px !important;
+}
+.blazored-toast-icon {
+    padding: .25rem !important;
+    font-size: 1.25rem !important;
+}
+.blazored-toast-success {
+    background-color: #55ce63 !important;
 }
 
 @media(min-width:575px) {
         .blazored-toast {
-    width: 20em !important;
+    width: 250px !important;
     border-radius: 0.25rem !important;
     }
+
     .position-topright{
-        right:0 !important;
+        right:40px !important;
+        top:20px;
     }
 
 

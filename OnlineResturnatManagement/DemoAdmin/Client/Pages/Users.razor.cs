@@ -23,7 +23,6 @@ namespace OnlineResturnatManagement.Client.Pages
         [Inject]
         public AuthenticationStateProvider GetAuthenticationStateAsync { get; set; }
 
-
         public List<UserDto> UserDtos = new List<UserDto>();
         public List<RoleDto> RoleDtos = new List<RoleDto>();
         public UserDto userDto = new UserDto();
@@ -33,7 +32,8 @@ namespace OnlineResturnatManagement.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Interceptor.RegisterEvent();
+             
+        Interceptor.RegisterEvent();
             await GetIntialData();
 
         }
@@ -73,7 +73,7 @@ namespace OnlineResturnatManagement.Client.Pages
                 await GetIntialData();
                 userDto = response.Data;
             }
-            
+           
             StateHasChanged();
         }
 
@@ -85,10 +85,7 @@ namespace OnlineResturnatManagement.Client.Pages
             return name;
         }
 
-        public void closeModal()
-        {
-
-        }
+      
        /* async void SearchUser(string search)
         {
             //var timer = new Timer(new TimerCallback(_ =>
