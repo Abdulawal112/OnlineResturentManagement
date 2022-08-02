@@ -70,7 +70,7 @@ namespace OnlineResturnatManagement.Client.Pages
             
             StateHasChanged();
         }
-        async void SearchUser(string search)
+       /* async void SearchUser(string search)
         {
             //var timer = new Timer(new TimerCallback(_ =>
             //{
@@ -79,7 +79,7 @@ namespace OnlineResturnatManagement.Client.Pages
             var result = await UserService.GetSearchUser(Search);
             UserDtos = result.Data;
 
-        }
+        }*/
         public void Dispose() => Interceptor.DisposeEvent();
     }
 }

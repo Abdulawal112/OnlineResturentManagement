@@ -9,7 +9,12 @@ hr:not([size]) {
 
 /*.table > :not(caption) > * > * {
     padding: 0 !important;
-}
-.table td, .table th {
-    padding: 0 !important;
 }*/
+.table td, .table th {
+    padding-top:5px  !important;
+    padding-bottom:5px  !important;
+}
+.table td button{
+    font-size:10px;
+    /*padding:10px;*/
+}

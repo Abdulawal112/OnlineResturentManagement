@@ -43,9 +43,17 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             try
             {
-
-                
-                var userDtos = new List<UserDto>();
+                bool isExist = _memoryCache.TryGetValue("users", out IEnumerable<UserDto> userDtos);
+                if (!isExist)
+                {
+                    userDtos = await _userService.GetAllUserAsync("");
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
+                        .SetPriority(CacheItemPriority.Normal)
+                        .SetSize(1024);
+                    _memoryCache.Set("users", userDtos, cacheEntryOptions);
+                }
 
                 userDtos = (List<UserDto>)await _userService.GetAllUserAsync("");
                 return Ok(userDtos);
@@ -65,17 +73,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 var userDtos = new List<UserDto>();
 
                 userDtos = (List<UserDto>)await _userService.GetAllUserAsync(search);
-                bool isExist = _memoryCache.TryGetValue("users", out IEnumerable<UserDto>userDtos);
-                if (!isExist)
-                {
-                    userDtos =await _userService.GetAllUserAsync();
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(100))
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                        .SetPriority(CacheItemPriority.Normal)
-                        .SetSize(1024);
-                    _memoryCache.Set("users", userDtos, cacheEntryOptions);
-                }
+                
                /* userDtos = (List<UserDto>)await _userService.GetAllUserAsync();*/
                 return Ok(userDtos);
             }
