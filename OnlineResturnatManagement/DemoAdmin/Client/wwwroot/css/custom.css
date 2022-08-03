@@ -64,6 +64,7 @@ hr:not([size]) {
     background-color: #55ce63 !important;
 }
 
+
 @media(min-width:575px) {
         .blazored-toast {
     width: 250px !important;
@@ -74,6 +75,4 @@ hr:not([size]) {
         right:40px !important;
         top:20px;
     }
-
-
 }
