@@ -81,7 +81,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 return false;
         }
 
-
         public async Task<User> FindByNameAsync(string userName)
         {
             var data = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
