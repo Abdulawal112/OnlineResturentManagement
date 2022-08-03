@@ -142,6 +142,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
             return await _context.Users.Where(x => x.UserName.ToLower() == name.ToLower()).FirstOrDefaultAsync();
         }
+
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
             

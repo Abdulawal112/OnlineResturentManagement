@@ -32,6 +32,7 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             //_userManager = userManager;
             _configuration = configuration;
+            //_jwtSettings = jwtSettings;
             _jwtSettings = _configuration.GetSection("JwtSettings");
             _tokenService = tokenService;
             _userService = userService;
