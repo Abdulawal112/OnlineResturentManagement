@@ -21,7 +21,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<bool> AddToRoleAsync(User user, string role)
         {
             var roleId = 0;
-            var result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
+            var result = new Role();
+            result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
             if (result == null)
             {
                 var roleData = new Role
@@ -71,21 +72,24 @@ namespace OnlineResturnatManagement.Server.Services.Service
             user.RefreshTokenExpiryTime = new DateTime();
             user.CreateBy = "";
             user.CreateDate = DateTime.Now;
-            var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
-            if (userData == null)
-            {
-                await _context.Users.AddAsync(user);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            else
-                return false;
+            await _context.Users.AddAsync(user);
+            return await _context.SaveChangesAsync() > 0;
+            //var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            //if (userData != null)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+
+            //}
+
         }
 
         public async Task<User> FindByNameAsync(string userName)
         {
-            var data = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
-
-            return data;
+            return await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+             
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUserAsync(string searchString)

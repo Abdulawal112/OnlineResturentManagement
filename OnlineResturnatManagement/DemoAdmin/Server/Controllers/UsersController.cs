@@ -93,7 +93,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 var cacheData = _cacheService.GetData<IEnumerable<Role>>(CacheName.CacheRoles);
-                if (cacheData != null)
+                if (cacheData != null && cacheData.Count()>0)
                 {
                     return Ok(cacheData);
                 }
@@ -121,19 +121,26 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 var role =_mapper.Map<Role>(roleDto);
-                if(role==null)
+                //var role = new Role()
+                //{
+                //    Id = roleDto.Id,
+                //    Name = roleDto.Name
+                //};
+                if (role==null)
                     return BadRequest();
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
                 var newRole = await _roleService.CreateRole(role);
-                if (newRole.Id != 0)
-                {
-                    _cacheService.RemoveData(CacheName.CacheRoles);
-                    return Created("created", _mapper.Map<RoleDto>(newRole));
+                _cacheService.RemoveData(CacheName.CacheRoles);
+                return Created("created", _mapper.Map<RoleDto>(newRole));
+                //if (newRole.Id != 0)
+                //{
+                //    _cacheService.RemoveData(CacheName.CacheRoles);
+                //    return Created("created", _mapper.Map<RoleDto>(newRole));
 
-                }
-                else
-                    return BadRequest();
+                //}
+                //else
+                //    return BadRequest();
 
 
             }
@@ -149,19 +156,23 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 var role = _mapper.Map<Role>(roleDto);
+                
                 if (role == null)
                     return BadRequest();
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
                 var updatedRole = await _roleService.UpdateRole(role);
-                if (updatedRole.Id != 0)
-                {
-                    _cacheService.RemoveData(CacheName.CacheRoles);
-                    return Ok(_mapper.Map<RoleDto>(updatedRole));
-                }
+                _cacheService.RemoveData(CacheName.CacheRoles);
+                return Ok(_mapper.Map<RoleDto>(updatedRole));
+
+                //if (updatedRole.Id != 0)
+                //{
+                //    _cacheService.RemoveData(CacheName.CacheRoles);
+                //    return Ok(_mapper.Map<RoleDto>(updatedRole));
+                //}
                    
-                else
-                    return BadRequest();
+                //else
+                //    return BadRequest();
             }
 
             catch (Exception ex)
