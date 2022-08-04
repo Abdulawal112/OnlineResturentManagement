@@ -30,23 +30,23 @@ namespace TestOnlineRMS.UserServiceUnitTest
             Assert.Equal("foysal", result.UserName);
         }
 
-        [Fact]
-        public async void GetRoleAsync_GetRolesByUSers_ReturnUSerRoles()
-        {
-            var userService = new Mock<IUserService>();
-            var response = userService.Setup(_ => _.GetRolesAsync(new User { Id = 1, UserName = "admin" })).ReturnsAsync(new List<Role>()
-            {
-            new Role() {Id =1 ,Name = "Employee", NormalizedName = "EMPLOYEE"},
-            new Role() { Id = 2 , Name = "User", NormalizedName = "USER" }
-            }) ;
-            var user = userService.Object;
-            List<Role>lists =await user.GetRolesAsync(new User()
-            {
-                Id = 1,
-                UserName = "admin"
-            });
-            Assert.NotNull(lists);
-            Assert.Equal(2, lists.Count());
-        }
+        //[Fact]
+        //public async void GetRoleAsync_GetRolesByUSers_ReturnUSerRoles()
+        //{
+        //    var userService = new Mock<IUserService>();
+        //    var response = userService.Setup(_ => _.GetRolesAsync(new User { Id = 1, UserName = "admin" })).ReturnsAsync(new List<Role>()
+        //    {
+        //    new Role() {Id =1 ,Name = "Employee", NormalizedName = "EMPLOYEE"},
+        //    new Role() { Id = 2 , Name = "User", NormalizedName = "USER" }
+        //    }) ;
+        //    var user = userService.Object;
+        //    List<Role>lists =await user.GetRolesAsync(new User()
+        //    {
+        //        Id = 1,
+        //        UserName = "admin"
+        //    });
+        //    Assert.NotNull(lists);
+        //    Assert.Equal(2, lists.Count());
+        //}
     }
 }
