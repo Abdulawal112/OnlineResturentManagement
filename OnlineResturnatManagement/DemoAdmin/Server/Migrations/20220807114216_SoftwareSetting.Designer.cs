@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineResturnatManagement.Server.Data;
 
@@ -11,9 +12,10 @@ using OnlineResturnatManagement.Server.Data;
 namespace OnlineResturnatManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220807114216_SoftwareSetting")]
+    partial class SoftwareSetting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,16 +163,18 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Default")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SoftwareSettingsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Printers");
+                    b.HasIndex("SoftwareSettingsId");
+
+                    b.ToTable("Printer");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Role", b =>
@@ -304,9 +308,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<bool>("PrintKotEnable")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PrinterId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("RawMaterialLevel")
                         .HasColumnType("int");
 
@@ -428,6 +429,13 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Printer", b =>
+                {
+                    b.HasOne("OnlineResturnatManagement.Server.Models.SoftwareSettings", null)
+                        .WithMany("PrinterList")
+                        .HasForeignKey("SoftwareSettingsId");
+                });
+
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.RoleMenuPermission", b =>
                 {
                     b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "NavigationMenu")
@@ -437,6 +445,11 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("NavigationMenu");
+                });
+
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.SoftwareSettings", b =>
+                {
+                    b.Navigation("PrinterList");
                 });
 #pragma warning restore 612, 618
         }
