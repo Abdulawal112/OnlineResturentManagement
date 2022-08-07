@@ -19,7 +19,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TestOnlineRMS.UserServiceUnitTest
 {
-    public class AutomapperSingleton
+    public class AutomapperSingletonNew
     {
         private static IMapper _mapper;
         public static IMapper Mapper
@@ -39,7 +39,8 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 return _mapper;
             }
         }
-        public class RoleControllerTest
+    }
+    public class RoleControllerTest
         {
             private ILoggerManager _logger;
             private IDataAccessService _dataAccessService;
@@ -105,7 +106,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 };
                 mockService.Setup(_ => _.CreateRole(role).Result).Returns(role);
 
-                var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, AutomapperSingleton.Mapper, mockService2.Object);
+                var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, AutomapperSingletonNew.Mapper, mockService2.Object);
                 var result = await controller.AddRole(roleDto);
 
                 var okObjectResult = Assert.IsType<CreatedResult>(result);
@@ -120,7 +121,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 var role = new Role { Id = 1, Name = "Viewer" };
                 mockService.Setup(_ => _.UpdateRole(role)).ReturnsAsync(new Role { Id = 1, Name = "Viewer" });
 
-                var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, AutomapperSingleton.Mapper, mockService2.Object);
+                var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, AutomapperSingletonNew.Mapper, mockService2.Object);
                 var result = await controller.EditRole(new RoleDto { Id = 1, Name = "Viewer" });
 
                 var okObjectResult = Assert.IsType<OkObjectResult>(result);
@@ -316,6 +317,6 @@ namespace TestOnlineRMS.UserServiceUnitTest
             //}
 
 
-        }
+       
     }
 }

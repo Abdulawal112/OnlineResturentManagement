@@ -146,6 +146,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
             return await _context.Users.Where(x => x.UserName.ToLower() == name.ToLower()).FirstOrDefaultAsync();
         }
+
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
             
@@ -160,7 +161,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<bool> UpdateAsync(User user)
         {
-            
             _context.Users.Update(user);
             return await _context.SaveChangesAsync() > 0;
         }
@@ -176,7 +176,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
                     transaction.Rollback();
                     return null;
                 }
-                   
 
                 FindUser.UserName = user.UserName;
                 FindUser.Email = user.Email;
@@ -209,17 +208,15 @@ namespace OnlineResturnatManagement.Server.Services.Service
                     await _context.UserRoles.AddAsync(userRole);
                     await _context.SaveChangesAsync();
                 }
-                
-
-                
 
                 transaction.Commit();
                 return user;
             }
             catch
             {
-                transaction.Rollback();
                 return null;
+                transaction.Rollback();
+               
             }
 
         }

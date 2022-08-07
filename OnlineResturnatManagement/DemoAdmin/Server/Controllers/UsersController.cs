@@ -181,7 +181,8 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        
+
+        //complete testing
         [HttpGet("user")]
         public async Task<ActionResult<UserDto>> GetUser(int userId)
         {
@@ -210,6 +211,9 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+        //complete test
+
         [HttpGet("GetAllMenu")]
         public async Task<ActionResult> GetAllMenu()
         {
@@ -220,6 +224,9 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+
+        //complete test
         [HttpGet("RoleWiseMenus")]
         public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetNavigationMenus(int roleId)
         {
@@ -233,6 +240,8 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
+        //complete testing
+
         [HttpPut("UpdateRoleMenu")]
         public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(int roleId,List<NavigationMenuDto>menus)
         {
@@ -245,6 +254,9 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+        //complete tesing
+
         [AllowAnonymous]
         [HttpGet("GetMenusByUser")]
         public async Task<ActionResult>GetMenusByUser(string name)
@@ -259,7 +271,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
-
+        //complete testing
         //For User Profile
         [HttpGet("UserByName")]
         public async Task<ActionResult<UserDto>> GetUserByName(string name)
