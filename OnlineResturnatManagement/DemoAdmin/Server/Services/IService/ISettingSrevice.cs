@@ -6,7 +6,7 @@ namespace OnlineResturnatManagement.Server.Services.IService
     public interface ISettingSrevice
     {
         public Task<List<ActiveModule>> GetActiveModules();
-        Task<CompanyProfileDto> SaveCompanyProfile(CompanyProfile companyInfo);
-        Task<CompanyProfileDto> GetCompanyProfile();
+        Task<CompanyProfile> SaveCompanyProfile(CompanyProfile companyInfo);
+        Task<CompanyProfile> GetCompanyProfile();
     }
 }

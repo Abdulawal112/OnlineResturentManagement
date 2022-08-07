@@ -33,9 +33,25 @@ namespace OnlineResturnatManagement.Client.Services.Service
             }
         }
 
-        public async Task<ServiceResponse<CompanyProfileDto>> UpdateProfile(MultipartFormDataContent contentData)
+        public async Task<ServiceResponse<CompanyProfileDto>> GetCompanyInfo()
         {
-            var response = await _http.PostAsJsonAsync("/api/settings/", contentData);
+            var response = await _http.GetAsync("/api/Settings/companyProfile");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<CompanyProfileDto> { Data = new CompanyProfileDto(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var activeModules = JsonSerializer.Deserialize<CompanyProfileDto>(content, _options);
+                return new ServiceResponse<CompanyProfileDto> { Data = activeModules, message = "success", statusCode = 200, status = true };
+            }
+        }
+
+        public async Task<ServiceResponse<CompanyProfileDto>> UpdateProfile(CompanyProfileDto companyProfile)
+        {
+            var response = await _http.PutAsJsonAsync("/api/settings/companyProfile", companyProfile);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

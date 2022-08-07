@@ -1,9 +1,11 @@
 ﻿using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using OnlineResturnatManagement.Client.Helper;
 using OnlineResturnatManagement.Client.HttpRepository;
 using OnlineResturnatManagement.Client.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
+using System;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using static System.Net.WebRequestMethods;
@@ -24,42 +26,55 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
         private string fileName;
         private string imgUrl;
         private string imageType;
+        StatusResult statusResult = new StatusResult();
+        string imageMessage = "";
 
         protected override async Task OnInitializedAsync()
         {
             companyProfile = new CompanyProfileDto();
-            //Interceptor.RegisterEvent();
+            //Interceptor.RegisterEvent();;
+           await GetCompanyProfile();
 
         }
+
+        private async Task GetCompanyProfile()
+        {
+            var response = await SettingsHttpService.GetCompanyInfo();
+            statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+            companyProfile = response.Data;
+            imgUrl = $"data:Image/jpeg;base64,{Convert.ToBase64String(companyProfile.File.Data)}";
+        }
+
         public async Task UpdateCompany() 
         {
-            // Provides a container for content encoded using multipart/form-data MIME type.
-            using var content = new MultipartFormDataContent();
-            content.Add
-            (content: fileContent, name: "\"file\"", fileName: fileName);
-
-            var response = await SettingsHttpService.UpdateProfile(content);
-
+            statusResult = new StatusResult();
+            var response = await SettingsHttpService.UpdateProfile(companyProfile);
+            statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+            statusResult.Message = "Save Successfully";
         }
        
         private async Task OnInputFileChange(InputFileChangeEventArgs e)
         {
-            // setting the max size for the file 
-            long maxFileSize = 1024 * 1024 * 10;
-            // Provide the HTTP Content based Stream
-            // and open the stream for reading the uploaded file
-            fileContent = new StreamContent(e.File.OpenReadStream(maxFileSize));
-            // read file name
-            fileName = e.File.Name;
-
-            var fileSize = new byte[e.File.Size];
-            // read the file bytes in sequence
-            await e.File.OpenReadStream().ReadAsync(fileSize);
-            // read file content type
-            imageType = e.File.ContentType;
-            // create URL
-            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(fileSize)}";
-            
+            imageMessage = "";
+             IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            await imgFile.OpenReadStream().ReadAsync(buffers);
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+            if(imgFile.Size / (1024 * 1024) < 5)
+            {
+                companyProfile.File = new FileData
+                {
+                    Data = buffers,
+                    FileType = imageType,
+                    Size = imgFile.Size,
+                };
+            }
+            else
+            {
+                imageMessage = "Size is too big.image size must be lest then 5mb.";
+            }
+           
             this.StateHasChanged();
         }
     }
