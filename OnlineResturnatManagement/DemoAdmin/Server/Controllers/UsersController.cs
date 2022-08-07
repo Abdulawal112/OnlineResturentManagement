@@ -29,6 +29,7 @@ namespace OnlineResturnatManagement.Server.Controllers
         private IMapper _mapper;
         //private ICashHelper<Employee> _cashHelper;
         private readonly ICashHelper _cacheService;
+
         public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper, ICashHelper cacheService)
         {
             _userService = userService;
@@ -40,6 +41,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             //_cashHelper = cashHelper;
         }
         [Authorize(Roles = "Administrator")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -58,8 +60,6 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return Ok(cacheData);
                 }
                 return NoContent();
-                
-               
             }
             catch (Exception ex)
             {
@@ -67,6 +67,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpGet("GetUsersBySearch")]
         public async Task<IActionResult> GetUsersBySearch(string search)
         {
@@ -106,8 +107,6 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return Ok(cacheData);
                 }
                 return NoContent();
-                
-               
             }
             catch (Exception ex)
             {
@@ -115,6 +114,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> AddRole([FromBody] RoleDto roleDto)
         {
@@ -196,6 +196,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return Ok(response);
         }
 
+        //complete testing
         [HttpPut("UpdateUser")]
         public async Task<ActionResult<UserDto>>UpdateUser(UserDto userDto)
         {

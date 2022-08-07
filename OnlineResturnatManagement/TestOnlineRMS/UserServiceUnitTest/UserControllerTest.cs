@@ -7,11 +7,6 @@ using OnlineResturnatManagement.Server.Helper;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestOnlineRMS.UserServiceUnitTest
 {
@@ -86,16 +81,16 @@ namespace TestOnlineRMS.UserServiceUnitTest
 
             /*  GetUserByName for profile information */
 
-             [Fact]
-             public async void GetUserByName_UserInfo_Return200()
-             {
-                 var mockService = new Mock<IUserService>();
-                 mockService.Setup(_ => _.GetUserByName("tutul")).ReturnsAsync(new User { Id = 1, UserName = "tutul"});
-                 var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
-                 var result = await controller.GetUserByName("tutul");
-                 var okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
-                 Assert.True(okObjectResult.StatusCode == 200);
-             }
+            [Fact]
+            public async void GetUserByName_UserInfo_Return200()
+            {
+                var mockService = new Mock<IUserService>();
+                mockService.Setup(_ => _.GetUserByName("tutul")).ReturnsAsync(new User { Id = 1, UserName = "tutul" });
+                var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
+                var result = await controller.GetUserByName("tutul");
+                var okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
+                Assert.True(okObjectResult.StatusCode == 200);
+            }
 
             [Fact]
             public async void GetUserByName_EmptyNameSend_ReturnBadRequest()
@@ -138,7 +133,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 var mockService = new Mock<IUserService>();
                 mockService.Setup(_ => _.GetUsersNavMenus("tutul")).ReturnsAsync(new List<NavigationMenu> { new NavigationMenu { Id = 1, Name = "Employee" }, new NavigationMenu { Id = 2, Name = "Users" } });
                 var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
-                var result =await controller.GetMenusByUser("tutul");
+                var result = await controller.GetMenusByUser("tutul");
                 var okObjectResult = Assert.IsType<OkObjectResult>(result);
                 Assert.NotNull(result);
                 Assert.True(okObjectResult.StatusCode == 200);
@@ -156,7 +151,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 { new NavigationMenuDto { Id = 1, Name = "Employee" },
                 new NavigationMenuDto { Id = 2, Name = "Users" } }, 1)).
                 ReturnsAsync(new List<NavigationMenuDto> {
-                new NavigationMenuDto { Id = 1, Name = "Employee" }, 
+                new NavigationMenuDto { Id = 1, Name = "Employee" },
                 new NavigationMenuDto { Id = 2, Name = "Users" } });
 
                 var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, _mapper, _cacheService);
@@ -173,7 +168,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
             public async void UpdateRoleMenu_EmptyRoleIdOrMenus_ReturnBadRequest()
             {
                 var mockService = new Mock<IRoleService>();
-                mockService.Setup(_ => _.UpdateNavigationMenu(new List<NavigationMenuDto>(),1)).Verifiable();
+                mockService.Setup(_ => _.UpdateNavigationMenu(new List<NavigationMenuDto>(), 1)).Verifiable();
                 var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, _mapper, _cacheService);
                 var result = await controller.UpdateRoleMenu(1, new List<NavigationMenuDto>());
                 /*mockService.Verify(m => m.UpdateNavigationMenu(It.IsAny<List<NavigationMenuDto>>(), It.IsAny<int>()),Times.Once);*/
@@ -189,7 +184,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
             {
                 var mockService = new Mock<IRoleService>();
                 var controller = new UsersController(_userService, _logger, _dataAccessService, mockService.Object, _mapper, _cacheService);
-                var result =await controller.GetAllMenu();
+                var result = await controller.GetAllMenu();
                 var okResult = Assert.IsType<StatusCodeResult>(result);
                 Assert.True(okResult.StatusCode == 400);
             }
@@ -225,7 +220,7 @@ namespace TestOnlineRMS.UserServiceUnitTest
             public async void UpdateUser_IfUserIdDidntFind_ReturnNull()
             {
                 var mockService = new Mock<IUserService>();
-                mockService.Setup(_=>_.UpdateAsync(new User {})).ReturnsAsync(null);
+                mockService.Setup(_ => _.UpdateAsync(new User { })).ReturnsAsync(null);
                 var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, _mapper, _cacheService);
                 var result = await controller.UpdateUser(new UserDto());
                 Assert.Null(result.Value);
@@ -242,10 +237,57 @@ namespace TestOnlineRMS.UserServiceUnitTest
                     UserName = "Tutul",
                     Email = "tutul@gmail.com"
                 })).ReturnsAsync(true);*/
-                mockService.Setup(_ => _.UpdateUserWithRole(new UserDto { Id = 1, UserName = "Tutul" })).ReturnsAsync(new UserDto { UserName= "Tutul" });
+                mockService.Setup(_ => _.UpdateUserWithRole(new UserDto { Id = 1, UserName = "Tutul" })).ReturnsAsync(new UserDto { UserName = "Tutul" });
                 var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
-                var result = await controller.UpdateUser(new UserDto { Id = 2, UserName = "admin",Password="123456",RoleId=1,Email="hello@gmail.com" });
+                var result = await controller.UpdateUser(new UserDto { Id = 2, UserName = "admin", Password = "123456", RoleId = 1, Email = "hello@gmail.com" });
                 var okResult = Assert.IsType<StatusCodeResult>(result.Result);
+                Assert.True(okResult.StatusCode == 200);
+            }
+
+            [Fact]
+            public async void GetAllUsers_IfCasheDataIsNull_Return200()
+            {
+                var mockService = new Mock<IUserService>();
+                var mockCashService = new Mock<ICashHelper>();
+                mockService.Setup(_ => _.GetAllUserAsync("")).ReturnsAsync(new List<UserDto> { new UserDto
+                {
+                    Id =1,
+                    UserName = "Tutul"
+                },
+                new UserDto
+                {
+                    Id=2,
+                    UserName = "Mehedi"
+                }
+                });
+
+                var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, mockCashService.Object);
+                var result = await controller.GetAllUsers();
+                var okResult = Assert.IsType<OkObjectResult>(result);
+                Assert.True(okResult.StatusCode == 200);
+
+            }
+
+            [Fact]
+            public async void GetAllUsers_IfCasheDataIsNotNull_Return200()
+            {
+                var mockService = new Mock<IUserService>();
+                var mockCasheService = new Mock<ICashHelper>();
+                mockService.Setup(_ => _.GetAllUserAsync("")).ReturnsAsync(new List<UserDto> { new UserDto
+                {
+                    Id =1,
+                    UserName = "Tutul"
+                },
+                new UserDto
+                {
+                    Id=2,
+                    UserName = "Mehedi"
+                }
+                });
+                mockCasheService.Setup(_ => _.SetData("users", new List<UserDto> { new UserDto { Id = 1, UserName = "Tutul" }, new UserDto { Id = 2, UserName = "Mehedi" } }));
+                var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, mockCasheService.Object);
+                var result = await controller.GetAllUsers();
+                var okResult = Assert.IsType<OkObjectResult>(result);
                 Assert.True(okResult.StatusCode == 200);
             }
 
