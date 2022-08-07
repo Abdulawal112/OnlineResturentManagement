@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Server.Services.Service;
+using OnlineResturnatManagement.Shared.DTO;
 
 namespace OnlineResturnatManagement.Server.Controllers
 {
@@ -25,5 +27,29 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+        [HttpPut("companyProfile")]
+        public async Task<ActionResult<CompanyProfileDto>>SaveCompanyProfile(CompanyProfile companyProfile)
+        {
+            var response = await _settingSrevice.SaveCompanyProfile(companyProfile);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("companyProfile")]
+        public async Task<ActionResult<CompanyProfileDto>>GetCompanyProfile()
+        {
+            var response = await _settingSrevice.GetCompanyProfile();
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+
+        }
+
     }
 }
