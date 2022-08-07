@@ -10,6 +10,7 @@ namespace OnlineResturnatManagement.Server.Helper
         {
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<CompanyProfile, CompanyProfileDto>().ReverseMap();
             CreateMap<NavigationMenu, NavigationMenuDto>().ReverseMap();
 
         }

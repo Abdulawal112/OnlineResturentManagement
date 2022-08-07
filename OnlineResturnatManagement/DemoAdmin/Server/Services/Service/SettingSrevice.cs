@@ -18,25 +18,17 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return await _context.ActiveModules.Where(x => x.Status == true).ToListAsync();
         }
 
-        public async Task<CompanyProfileDto> GetCompanyProfile()
+        public async Task<CompanyProfile> GetCompanyProfile()
         {
             var result = await _context.CompanyProfiles.FirstOrDefaultAsync();
             if (result == null)
             {
                 return null;
             }
-            return new CompanyProfileDto
-            {
-                Id = result.Id,
-                Name = result.Name,
-                Address = result.Address,
-                OwnerInfo = result.OwnerInfo,
-                LogoUrl = result.LogoUrl,
-                VatRegNo = result.VatRegNo,
-            };
+            return result;
         }
 
-        public async Task<CompanyProfileDto> SaveCompanyProfile(CompanyProfile companyInfo)
+        public async Task<CompanyProfile> SaveCompanyProfile(CompanyProfile companyInfo)
         {
             var findCompanyInfo = await _context.CompanyProfiles.FirstOrDefaultAsync();
             if(findCompanyInfo == null)
@@ -54,15 +46,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 _context.CompanyProfiles.Update(findCompanyInfo);
                 await _context.SaveChangesAsync();
             }
-            return new CompanyProfileDto
-            {
-                Id = companyInfo.Id,
-                Name = companyInfo.Name,
-                Address = companyInfo.Address,
-                OwnerInfo = companyInfo.OwnerInfo,
-                VatRegNo = companyInfo.VatRegNo,
-                LogoUrl = companyInfo.LogoUrl,
-            };
+            return companyInfo;
         }
     }
 }
