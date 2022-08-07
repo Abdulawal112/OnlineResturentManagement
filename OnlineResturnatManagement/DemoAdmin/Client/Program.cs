@@ -24,6 +24,8 @@ builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<HttpInterceptorService>();
 builder.Services.AddScoped<IEmployeeHttpService, EmployeeHttpService>();
 builder.Services.AddScoped<IUserHttpService, UserHttpService>();
+builder.Services.AddScoped<ISettingsHttpService, SettingsHttpService>();
+
 builder.Services.AddBlazoredToast();
 
 

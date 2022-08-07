@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineResturnatManagement.Server.Data;
 
@@ -11,9 +12,10 @@ using OnlineResturnatManagement.Server.Data;
 namespace OnlineResturnatManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220807043219_AddNavIconInNavMenu")]
+    partial class AddNavIconInNavMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,39 +52,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActiveModules");
-                });
-
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.CompanyProfile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Logo")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("LogoUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("OwnerInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VatRegNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CompanyProfiles");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Employee", b =>

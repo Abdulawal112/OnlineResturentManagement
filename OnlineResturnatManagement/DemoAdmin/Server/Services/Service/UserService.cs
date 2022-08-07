@@ -150,7 +150,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
             
-            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,nm.ModuleId
+            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,NavIcon,nm.ModuleId
                                                               FROM [DemoAdminDB].[dbo].[UserRoles] ur
                                                               inner join RoleMenuPermission rm on rm.RoleId = ur.RoleId
                                                               inner join NavigationMenu nm on nm.Id = rm.NavigationMenuId or (nm.ActionUrl is null)

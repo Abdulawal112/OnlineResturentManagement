@@ -55,10 +55,12 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddScoped< OnlineResturnatManagement.Server.Helper.ITokenService, TokenService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
-
 builder.Services.AddScoped<IDataAccessService, DataAccessService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ISettingSrevice, SettingSrevice>();
+
+
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredToast();

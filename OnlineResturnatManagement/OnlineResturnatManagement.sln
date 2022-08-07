@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineResturnatManagement.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormRDLCReport", "WinFormRDLCReport\WinFormRDLCReport.csproj", "{24687AEC-6179-4692-A7B2-6FAE2615896C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOnlineRMS", "TestOnlineRMS\TestOnlineRMS.csproj", "{B1CF8F34-9996-4DC2-BDF9-D97301E377E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestOnlineRMS", "TestOnlineRMS\TestOnlineRMS.csproj", "{B1CF8F34-9996-4DC2-BDF9-D97301E377E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
