@@ -17,7 +17,6 @@ namespace OnlineResturnatManagement.Shared.DTO
         public string? Address { get; set; }
         public string? VatRegNo { get; set; }
         public string? OwnerInfo { get; set; }
-        public byte[]? Logo { get; set; }
         public string? LogoUrl { get; set; }
     }
 }
