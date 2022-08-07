@@ -28,5 +28,7 @@ namespace OnlineResturnatManagement.Server.Data
         public DbSet<ActiveModule> ActiveModules { get; set; }
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
 
+        public DbSet<SoftwareSettings> SoftwareSettings{ get; set; }
+        public DbSet<Printer> Printers { get; set; }
     }
 }
