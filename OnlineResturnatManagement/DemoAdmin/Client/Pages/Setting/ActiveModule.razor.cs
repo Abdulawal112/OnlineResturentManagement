@@ -5,7 +5,7 @@ using OnlineResturnatManagement.Client.Services.Service;
 using OnlineResturnatManagement.Shared.DTO;
 using System.Data;
 
-namespace OnlineResturnatManagement.Client.Pages
+namespace OnlineResturnatManagement.Client.Pages.Setting
 {
     public partial class ActiveModule :IDisposable
     {
