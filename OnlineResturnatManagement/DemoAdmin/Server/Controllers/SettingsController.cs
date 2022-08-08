@@ -91,6 +91,23 @@ namespace OnlineResturnatManagement.Server.Controllers
             return BadRequest();
 
         }
+        [HttpGet("softwareSettings")]
+        public async Task<ActionResult>GetSoftwareSettingsConfig()
+        {
+            SoftwareSettings response = await _settingSrevice.GetSoftwareSettingsConfig();
+            var model = _mapper.Map<SoftwareSettingsDto>(response);
+            var printers = await _settingSrevice.GetPrinters();
+            model.PrinterDtos = _mapper.Map<List<PrinterDto>>(printers);
+            return Ok(model);
+        }
+
+        [HttpPut("softwareSettings")]
+        public async Task<ActionResult<SoftwareSettingsDto>>UpdateSoftSettingsConfig(SoftwareSettingsDto requestSettings)
+        {
+            var model = _mapper.Map<SoftwareSettings>(requestSettings);
+            var response = await _settingSrevice.UpdateSoftwareConfig(model);
+            return Ok(_mapper.Map<SoftwareSettingsDto>(response));
+        }
 
     }
 }

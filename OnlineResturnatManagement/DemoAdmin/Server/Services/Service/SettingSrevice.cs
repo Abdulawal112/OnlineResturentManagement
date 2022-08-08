@@ -1,17 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OnlineResturnatManagement.Server.Data;
+using OnlineResturnatManagement.Server.Migrations;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
+using System.Reflection;
 
 namespace OnlineResturnatManagement.Server.Services.Service
 {
     public class SettingSrevice : ISettingSrevice
     {
         public ApplicationDbContext _context;
-        public SettingSrevice(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public SettingSrevice(ApplicationDbContext context , IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<List<ActiveModule>> GetActiveModules()
         {
@@ -26,6 +32,13 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 return null;
             }
             return result;
+        }
+
+        public async Task<SoftwareSettings> GetSoftwareSettingsConfig()
+        {
+            var softwareSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
+                
+            return softwareSettings;
         }
 
         public async Task<CompanyProfile> SaveCompanyProfile(CompanyProfile companyInfo)
@@ -47,6 +60,33 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 await _context.SaveChangesAsync();
             }
             return companyInfo;
+        }
+
+        public async Task<SoftwareSettings> UpdateSoftwareConfig(SoftwareSettings requestsSettings)
+        {
+
+            var findExistSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
+            //var listOfPrinter = await _context.Printers.ToListAsync();
+            if(findExistSettings != null)
+            {
+                _context.SoftwareSettings.Update(requestsSettings);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.SoftwareSettings.AddAsync(requestsSettings);
+                await _context.SaveChangesAsync();
+
+            }
+            return requestsSettings; 
+            
+
+           
+        }
+
+        public async Task<IEnumerable<Printer>> GetPrinters()
+        {
+            return await _context.Printers.ToListAsync();
         }
     }
 }

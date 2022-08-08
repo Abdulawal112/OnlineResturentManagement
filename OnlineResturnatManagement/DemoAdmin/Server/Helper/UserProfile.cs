@@ -12,6 +12,8 @@ namespace OnlineResturnatManagement.Server.Helper
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<CompanyProfile, CompanyProfileDto>().ReverseMap();
             CreateMap<NavigationMenu, NavigationMenuDto>().ReverseMap();
+            CreateMap<SoftwareSettings, SoftwareSettingsDto>().ReverseMap();
+            CreateMap<Printer, PrinterDto>().ReverseMap();
 
         }
     }
