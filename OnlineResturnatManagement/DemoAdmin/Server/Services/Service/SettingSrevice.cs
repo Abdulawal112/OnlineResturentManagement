@@ -48,5 +48,40 @@ namespace OnlineResturnatManagement.Server.Services.Service
             }
             return companyInfo;
         }
+
+        public async Task<SoftwareSettings> UpdateSoftwareConfig(SoftwareSettings requestsSettings)
+        {
+
+            var findExistSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
+            //var listOfPrinter = await _context.Printers.ToListAsync();
+            if (findExistSettings != null)
+            {
+                _context.SoftwareSettings.Update(requestsSettings);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.SoftwareSettings.AddAsync(requestsSettings);
+                await _context.SaveChangesAsync();
+
+            }
+            return requestsSettings;
+
+
+
+        }
+
+        public async Task<IEnumerable<Printer>> GetPrinters()
+        {
+            return await _context.Printers.ToListAsync();
+        }
+
+        public async Task<SoftwareSettings> GetSoftwareSettingsConfig()
+        {
+            var softwareSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
+
+            return softwareSettings;
+        }
+
     }
 }

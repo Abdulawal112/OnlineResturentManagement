@@ -8,5 +8,8 @@ namespace OnlineResturnatManagement.Server.Services.IService
         public Task<List<ActiveModule>> GetActiveModules();
         Task<CompanyProfile> SaveCompanyProfile(CompanyProfile companyInfo);
         Task<CompanyProfile> GetCompanyProfile();
+        Task<SoftwareSettings> GetSoftwareSettingsConfig();
+        Task<SoftwareSettings> UpdateSoftwareConfig(SoftwareSettings requestsSettings);
+        Task<IEnumerable<Printer>> GetPrinters();
     }
 }

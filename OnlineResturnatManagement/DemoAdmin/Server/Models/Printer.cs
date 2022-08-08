@@ -1,9 +1,12 @@
-﻿namespace OnlineResturnatManagement.Server.Models
+﻿using System.ComponentModel;
+
+namespace OnlineResturnatManagement.Server.Models
 {
     public class Printer
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Default { get; set; } = false;
+        [DefaultValue(false)]
+        public bool Default { get; set; } 
     }
 }
