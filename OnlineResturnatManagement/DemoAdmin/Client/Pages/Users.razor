@@ -9,6 +9,78 @@
 }
 else
 {
+<<<<<<< HEAD
+    <table class="table">
+	<thead>
+		<tr>
+			<th>
+				UserName
+			</th>
+			<th>
+				Email
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in UserDtos)
+		{
+			<tr>
+				<td>
+					@item.UserName
+				</td>
+				<td>
+					@item.Email
+				</td>
+				<td>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
+							<i class=" oi oi-pencil"></i>
+						</button>
+					@*<button class="btn btn-primary" @onclick="(() => EditUser(item.Id))">
+						<i class="oi oi-pencil"></i>
+					</button>*@
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @if (statusResult.Message != null || statusResult.Message != "")
+                {
+                    if (statusResult.StatusCode == 200)
+                    {
+                        <div class="alert alert-success">@statusResult.Message</div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">@statusResult.Message</div>
+                    }
+                }
+                
+                <EditForm Model="userDto" OnSubmit="UpdateUser">
+                    <div class="modal-body">
+
+                        <div class="row p-2">
+                            <div class="col-6">
+                                <label>UserName</label>
+                                <InputText @bind-Value="userDto.UserName" class="form-control"></InputText>
+=======
     <div class="row" id="foot">
         <div class="col-12">
             <div class="card">
@@ -25,6 +97,7 @@ else
                                     <input type="text" name="@Search" value="@Search" id="demo-input-search2" placeholder="search contacts"
                                        class="form-control" @onchange="(() => SearchUser(Search))">
                                 </div>*@
+>>>>>>> fe23fd5a94234610929127f233a3bd297d0867af
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -194,6 +267,7 @@ else
             </div>
         </div>
     
+
 
 
 }
