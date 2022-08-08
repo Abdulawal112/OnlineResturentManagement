@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
+using OnlineResturnatManagement.Client.Helper;
 using OnlineResturnatManagement.Client.HttpRepository;
+using OnlineResturnatManagement.Client.Pages.Setting;
 using OnlineResturnatManagement.Client.Services.IService;
+using OnlineResturnatManagement.Client.Services.Service;
 using OnlineResturnatManagement.Shared.DTO;
 using System;
 using System.Net.NetworkInformation;
@@ -22,10 +25,14 @@ namespace OnlineResturnatManagement.Client.Shared
         public HttpInterceptorService Interceptor { get; set; }
         [Inject]
         public IUserHttpService UserService { get; set; }
+        [Inject]
+        public ISettingsHttpService SettingsHttpService { get; set; }
         public List<NavigationMenuDto> NavigationMenus { get; set; }
 
         StatusResult statusResult = new StatusResult();
-        
+        private string imgUrl;
+
+
         protected override async Task OnInitializedAsync()
         {
             //Interceptor.RegisterEvent();
@@ -35,6 +42,7 @@ namespace OnlineResturnatManagement.Client.Shared
             var name = user.Identity.Name;
 
             await GetNavigationMenu(name);
+            await GetCompanyProfile();
             await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/custom.js");
             await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/assets/plugins/styleswitcher/jQuery.style.switcher.js");
             StateHasChanged();
@@ -49,7 +57,12 @@ namespace OnlineResturnatManagement.Client.Shared
             NavigationMenus = response.Data;
             StateHasChanged();
         }
-
+        private async Task GetCompanyProfile()
+        {
+            var response = await SettingsHttpService.GetCompanyInfo();
+            statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+            imgUrl = $"data:Image/jpeg;base64,{Convert.ToBase64String(response.Data.File.Data)}";
+        }
         public void Dispose() => Interceptor.DisposeEvent();
     }
 }

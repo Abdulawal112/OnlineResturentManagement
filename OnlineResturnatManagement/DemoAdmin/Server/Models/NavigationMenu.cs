@@ -23,8 +23,9 @@ namespace OnlineResturnatManagement.Server.Models
 		public string? ActionUrl { get; set; }
 
 		public string Url { get; set; }
+        public string NavIcon { get; set; }
 
-		public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }
 
 		[NotMapped]
 		public bool Permitted { get; set; }

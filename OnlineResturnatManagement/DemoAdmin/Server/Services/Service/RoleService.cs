@@ -21,7 +21,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             await _context.Roles.AddAsync(role);
             var result =await _context.SaveChangesAsync()>0;
             if(result)
-                return role;
+                return new Role();
             else
                 return new Role();
             

@@ -29,6 +29,7 @@ namespace OnlineResturnatManagement.Server.Controllers
         private IMapper _mapper;
         //private ICashHelper<Employee> _cashHelper;
         private readonly ICashHelper _cacheService;
+
         public UsersController(IUserService userService, ILoggerManager logger,IDataAccessService dataAccessService, IRoleService roleService,IMapper mapper, ICashHelper cacheService)
         {
             _userService = userService;
@@ -40,6 +41,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             //_cashHelper = cashHelper;
         }
         [Authorize(Roles = "Administrator")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -58,8 +60,6 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return Ok(cacheData);
                 }
                 return NoContent();
-                
-               
             }
             catch (Exception ex)
             {
@@ -67,6 +67,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpGet("GetUsersBySearch")]
         public async Task<IActionResult> GetUsersBySearch(string search)
         {
@@ -93,7 +94,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 var cacheData = _cacheService.GetData<IEnumerable<Role>>(CacheName.CacheRoles);
-                if (cacheData != null)
+                if (cacheData != null && cacheData.Count()>0)
                 {
                     return Ok(cacheData);
                 }
@@ -106,8 +107,6 @@ namespace OnlineResturnatManagement.Server.Controllers
                     return Ok(cacheData);
                 }
                 return NoContent();
-                
-               
             }
             catch (Exception ex)
             {
@@ -115,25 +114,33 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> AddRole([FromBody] RoleDto roleDto)
         {
             try
             {
                 var role =_mapper.Map<Role>(roleDto);
-                if(role==null)
+                //var role = new Role()
+                //{
+                //    Id = roleDto.Id,
+                //    Name = roleDto.Name
+                //};
+                if (role==null)
                     return BadRequest();
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
                 var newRole = await _roleService.CreateRole(role);
-                if (newRole.Id != 0)
-                {
-                    _cacheService.RemoveData(CacheName.CacheRoles);
-                    return Created("created", _mapper.Map<RoleDto>(newRole));
+                _cacheService.RemoveData(CacheName.CacheRoles);
+                return Created("created", _mapper.Map<RoleDto>(newRole));
+                //if (newRole.Id != 0)
+                //{
+                //    _cacheService.RemoveData(CacheName.CacheRoles);
+                //    return Created("created", _mapper.Map<RoleDto>(newRole));
 
-                }
-                else
-                    return BadRequest();
+                //}
+                //else
+                //    return BadRequest();
 
 
             }
@@ -149,19 +156,23 @@ namespace OnlineResturnatManagement.Server.Controllers
             try
             {
                 var role = _mapper.Map<Role>(roleDto);
+                
                 if (role == null)
                     return BadRequest();
                 if (await _roleService.IsExistRole(role))
                     return Conflict();
                 var updatedRole = await _roleService.UpdateRole(role);
-                if (updatedRole.Id != 0)
-                {
-                    _cacheService.RemoveData(CacheName.CacheRoles);
-                    return Ok(_mapper.Map<RoleDto>(updatedRole));
-                }
+                _cacheService.RemoveData(CacheName.CacheRoles);
+                return Ok(_mapper.Map<RoleDto>(updatedRole));
+
+                //if (updatedRole.Id != 0)
+                //{
+                //    _cacheService.RemoveData(CacheName.CacheRoles);
+                //    return Ok(_mapper.Map<RoleDto>(updatedRole));
+                //}
                    
-                else
-                    return BadRequest();
+                //else
+                //    return BadRequest();
             }
 
             catch (Exception ex)
@@ -170,7 +181,8 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        
+
+        //complete testing
         [HttpGet("user")]
         public async Task<ActionResult<UserDto>> GetUser(int userId)
         {
@@ -184,6 +196,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 return Ok(response);
         }
 
+        //complete testing
         [HttpPut("UpdateUser")]
         public async Task<ActionResult<UserDto>>UpdateUser(UserDto userDto)
         {
@@ -195,10 +208,14 @@ namespace OnlineResturnatManagement.Server.Controllers
             if(response != null)
             {
                 _cacheService.RemoveData(CacheName.CacheUsers);
+               
                 return Ok(response);
             }
             return StatusCode(400);
         }
+
+        //complete test
+
         [HttpGet("GetAllMenu")]
         public async Task<ActionResult> GetAllMenu()
         {
@@ -209,6 +226,9 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+
+        //complete test
         [HttpGet("RoleWiseMenus")]
         public async Task<ActionResult<IEnumerable<NavigationMenuDto>>>GetNavigationMenus(int roleId)
         {
@@ -222,6 +242,8 @@ namespace OnlineResturnatManagement.Server.Controllers
             return StatusCode(400);
         }
 
+        //complete testing
+
         [HttpPut("UpdateRoleMenu")]
         public async Task<ActionResult<NavigationMenuDto>>UpdateRoleMenu(int roleId,List<NavigationMenuDto>menus)
         {
@@ -234,21 +256,31 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
+
+        //complete tesing
+
         [AllowAnonymous]
         [HttpGet("GetMenusByUser")]
         public async Task<ActionResult>GetMenusByUser(string name)
         {
             if (name == "")
                 return BadRequest();
+            //var resultUser = await _userService.GetUserByName(name);
+            //if(resultUser == null)
+            //{
+            //    return NoContent();
+            //}
+            
             var response = await _userService.GetUsersNavMenus(name);
             if(response != null)
             {
-                return Ok(_mapper.Map<List<NavigationMenuDto>>(response));
+                var navDto = _mapper.Map<List<NavigationMenuDto>>(response);
+                return Ok(navDto);
             }
             return StatusCode(400);
         }
 
-
+        //complete testing
         //For User Profile
         [HttpGet("UserByName")]
         public async Task<ActionResult<UserDto>> GetUserByName(string name)

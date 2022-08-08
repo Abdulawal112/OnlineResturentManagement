@@ -21,7 +21,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<bool> AddToRoleAsync(User user, string role)
         {
             var roleId = 0;
-            var result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
+            var result = new Role();
+            result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
             if (result == null)
             {
                 var roleData = new Role
@@ -71,21 +72,24 @@ namespace OnlineResturnatManagement.Server.Services.Service
             user.RefreshTokenExpiryTime = new DateTime();
             user.CreateBy = "";
             user.CreateDate = DateTime.Now;
-            var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
-            if (userData == null)
-            {
-                await _context.Users.AddAsync(user);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            else
-                return false;
+            await _context.Users.AddAsync(user);
+            return await _context.SaveChangesAsync() > 0;
+            //var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            //if (userData != null)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+
+            //}
+
         }
 
         public async Task<User> FindByNameAsync(string userName)
         {
-            var data = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
-
-            return data;
+            return await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+             
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUserAsync(string searchString)
@@ -142,10 +146,11 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
             return await _context.Users.Where(x => x.UserName.ToLower() == name.ToLower()).FirstOrDefaultAsync();
         }
+
         public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
         {
             
-            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,nm.ModuleId
+            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,NavIcon,nm.ModuleId
                                                               FROM [DemoAdminDB].[dbo].[UserRoles] ur
                                                               inner join RoleMenuPermission rm on rm.RoleId = ur.RoleId
                                                               inner join NavigationMenu nm on nm.Id = rm.NavigationMenuId or (nm.ActionUrl is null)
@@ -156,7 +161,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public async Task<bool> UpdateAsync(User user)
         {
-            
             _context.Users.Update(user);
             return await _context.SaveChangesAsync() > 0;
         }
@@ -172,7 +176,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
                     transaction.Rollback();
                     return null;
                 }
-                   
 
                 FindUser.UserName = user.UserName;
                 FindUser.Email = user.Email;
@@ -205,17 +208,15 @@ namespace OnlineResturnatManagement.Server.Services.Service
                     await _context.UserRoles.AddAsync(userRole);
                     await _context.SaveChangesAsync();
                 }
-                
-
-                
 
                 transaction.Commit();
                 return user;
             }
             catch
             {
-                transaction.Rollback();
                 return null;
+                transaction.Rollback();
+               
             }
 
         }

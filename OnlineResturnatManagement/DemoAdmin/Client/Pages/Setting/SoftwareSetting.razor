@@ -1,0 +1,422 @@
+﻿@page "/setting/software-setting"
+
+
+@*<div class="onoffswitch">
+    <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+    <label class="onoffswitch-label" for="myonoffswitch1">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>*@
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-outline-info">
+            <div class="card-header">
+                <h4 class="mb-0 text-white">Software Setting</h4>
+            </div>
+            <div class="card-body">
+                <EditForm Model="softwareSetting" OnValidSubmit="UpdateCompany">
+                    <DataAnnotationsValidator />
+                    <div class="form-body">
+                        @*<h3 class="box-title">Person Info</h3>*@
+                        <hr class="mt-0 mb-5">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Item Lavel</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.ItemLevel" class="form-control"></InputNumber>
+                                        <ValidationMessage For="() => softwareSetting.ItemLevel" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Default Vat (%)</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.DefaultVat" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">SDC Code</label>
+                                    <div class="col-sm-6">
+                                        <InputText @bind-Value="softwareSetting.SdCode" class="form-control"></InputText>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">VAT Code</label>
+                                    <div class="col-sm-6">
+                                        <InputText @bind-Value="softwareSetting.VatCode" class="form-control"></InputText>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Service Charge Vat</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.ServiceChargeVat" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Takeway VAT (%)</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.TakeWayVat" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Raw Material Lavel</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.RawMaterialLevel" class="form-control"></InputNumber>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Service Charge</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.ServiceCharge" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Number Of Table</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.NumberOfTable" class="form-control"></InputNumber>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Now Serving Display Interval (Sec)</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.ServingDisplayInterval" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Max Discounts</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.MaxDiscount" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Night Hour</label>
+                                    <div class="col-sm-6">
+                                        <InputNumber @bind-Value="softwareSetting.NightHour" class="form-control"></InputNumber>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <hr class="mt-0 mb-5">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Modifier Enable</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ModifierEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Price Include Vat</label>
+                                    <div class="onoffswitch">
+                                        @*<InputCheckbox type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>*@
+
+                                        <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+                                        <label class="onoffswitch-label" for="myonoffswitch1">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    @*<div class="col-sm-6 bt-switch">
+                                    <InputCheckbox type="checkbox" data-size="mini" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
+                                    <ValidationMessage For="() => softwareSetting.PriceIncldVatEnable" />
+                                    </div>*@
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Without Stock Sale</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.WithOutStockSaleEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Service Charge Applicable</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServiceChargeApplicableEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Item Recipe Enabled</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ItemRecipeEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Service Charge In Percent</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServiceChargeInPercantEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Item Preparation Module</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PreparationModuleEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Itemwise Modifier</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ModifierEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Print KOT</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PrintKotEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Kithcen Display Enabled</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.KitchenDisplayEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Manage Table</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ManageTableEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Now Serving Display Enabled</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServingDisplayEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is Android Enabled</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsAndriodEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">VAT After Discount</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.VatAfterDisscountEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is KOT Serial Enable</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsKotSerialEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is Last Discount Note</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.LastDiscountNoteEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is SD Charge Apply</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdChargeApplyEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Customer Display Enabled</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.CustomerDisplayEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">KOT(A4-Size) Print</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.KotA4PrintEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is Order Qty Change</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsOrderQtyChangeEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Is SDC Enable</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdcEnable"></InputCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 text-right col-form-label">Price Including SD</label>
+                                    <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PriceIncludingSdEnable"></InputCheckbox>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-offset-4 col-md-6">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="button" class="btn btn-inverse">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+

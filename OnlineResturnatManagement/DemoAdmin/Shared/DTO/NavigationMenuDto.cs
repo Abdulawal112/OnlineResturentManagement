@@ -17,6 +17,7 @@ namespace OnlineResturnatManagement.Shared.DTO
         public string RoleName { get; set; } = "";
         public int? ParentMenuId { get; set; }
         public string? ActionUrl { get; set; }
+        public string? NavIcon { get; set; }
 
     }
 }
