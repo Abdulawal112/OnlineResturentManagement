@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace OnlineResturnatManagement.Client.Pages
+namespace OnlineResturnatManagement.Client.Pages.Setting
 {
     public partial class ActiveModuleDetails
     {

@@ -3,6 +3,7 @@ using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineResturnatManagement.Server.Helper;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Server.Services.Service;
@@ -18,12 +19,14 @@ namespace OnlineResturnatManagement.Server.Controllers
         public ISettingSrevice _settingSrevice;
         private IMapper _mapper;
         private static IWebHostEnvironment _webHostEnvironment;
+        private readonly ICashHelper _cashHelper;
 
-        public SettingsController(ISettingSrevice settingSrevice,IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public SettingsController(ISettingSrevice settingSrevice,IMapper mapper, IWebHostEnvironment webHostEnvironment, ICashHelper cashHelper)
         {
             _settingSrevice = settingSrevice;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
+            _cashHelper = cashHelper;
         }
 
         [HttpGet("GetActiveModules")]
@@ -46,9 +49,10 @@ namespace OnlineResturnatManagement.Server.Controllers
             {
                
                await SaveImageAsync(model.Id, profileDto);
+                _cashHelper.RemoveData(CacheName.CacheCompanyInfo);
                 return Ok(response);
             }
-            return BadRequest(response);
+            return BadRequest();
         }
 
         private async Task SaveImageAsync(int id, CompanyProfileDto profileDto)
@@ -70,11 +74,16 @@ namespace OnlineResturnatManagement.Server.Controllers
         [HttpGet("companyProfile")]
         public async Task<ActionResult>GetCompanyProfile()
         {
+            var cacheData = _cashHelper.GetData<CompanyProfileDto>(CacheName.CacheCompanyInfo);
+            if (cacheData != null)
+            {
+                return Ok(cacheData);
+            }
             var response = await _settingSrevice.GetCompanyProfile();
-            
             if (response != null)
             {
                 var modelDto = _mapper.Map<CompanyProfileDto>(response);
+
                 modelDto.File = new FileData();
                 string fileName = "CompanyLogo" + response.Id + ".png";
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", fileName);
@@ -86,6 +95,7 @@ namespace OnlineResturnatManagement.Server.Controllers
                 {
                     modelDto.File.Data = null;
                 }
+                _cashHelper.SetData<CompanyProfileDto>(CacheName.CacheCompanyInfo, modelDto);
                 return Ok(modelDto);
             }
             return BadRequest();

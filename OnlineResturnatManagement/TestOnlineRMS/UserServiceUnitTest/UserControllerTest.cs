@@ -227,22 +227,22 @@ namespace TestOnlineRMS.UserServiceUnitTest
                 /*var okResult = Assert.IsType<BadRequestResult>(result.Result);  */
             }
 
-            [Fact]
-            public async void UpdateUser_IfUSerExists_Return200()
-            {
-                var mockService = new Mock<IUserService>();
-                /*mockService.Setup(_ => _.UpdateAsync(new User
-                {
-                    Id = 1,
-                    UserName = "Tutul",
-                    Email = "tutul@gmail.com"
-                })).ReturnsAsync(true);*/
-                mockService.Setup(_ => _.UpdateUserWithRole(new UserDto { Id = 1, UserName = "Tutul" })).ReturnsAsync(new UserDto { UserName = "Tutul" });
-                var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
-                var result = await controller.UpdateUser(new UserDto { Id = 2, UserName = "admin", Password = "123456", RoleId = 1, Email = "hello@gmail.com" });
-                var okResult = Assert.IsType<StatusCodeResult>(result.Result);
-                Assert.True(okResult.StatusCode == 200);
-            }
+            //[Fact]
+            //public async void UpdateUser_IfUSerExists_Return200()
+            //{
+            //    var mockService = new Mock<IUserService>();
+            //    /*mockService.Setup(_ => _.UpdateAsync(new User
+            //    {
+            //        Id = 1,
+            //        UserName = "Tutul",
+            //        Email = "tutul@gmail.com"
+            //    })).ReturnsAsync(true);*/
+            //    mockService.Setup(_ => _.UpdateUserWithRole(new UserDto { Id = 1, UserName = "Tutul" })).ReturnsAsync(new UserDto { UserName = "Tutul" });
+            //    var controller = new UsersController(mockService.Object, _logger, _dataAccessService, _roleService, AutomapperSingleton.Mapper, _cacheService);
+            //    var result = await controller.UpdateUser(new UserDto { Id = 2, UserName = "admin", Password = "123456", RoleId = 1, Email = "hello@gmail.com" });
+            //    var okResult = Assert.IsType<StatusCodeResult>(result.Result);
+            //    Assert.True(okResult.StatusCode == 200);
+            //}
 
             [Fact]
             public async void GetAllUsers_IfCasheDataIsNull_Return200()

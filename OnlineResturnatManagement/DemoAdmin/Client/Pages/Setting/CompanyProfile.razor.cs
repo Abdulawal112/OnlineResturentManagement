@@ -50,7 +50,11 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
             statusResult = new StatusResult();
             var response = await SettingsHttpService.UpdateProfile(companyProfile);
             statusResult = ResponseErrorMessage.GetErrorMessage(response.statusCode);
-            statusResult.Message = "Save Successfully";
+            if (statusResult.StatusCode == 200)
+            {
+                statusResult.Message = "Save Successfully";
+
+            }
         }
        
         private async Task OnInputFileChange(InputFileChangeEventArgs e)

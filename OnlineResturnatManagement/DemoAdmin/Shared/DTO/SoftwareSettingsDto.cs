@@ -53,7 +53,7 @@ namespace OnlineResturnatManagement.Shared.DTO
         public Decimal? MaxDiscount { get; set; }
         public bool IsOrderQtyChangeEnable { get; set; } = false;
         public string VatCode { get; set; } = String.Empty;
-        public bool PriceIncludingSdEnable { get; set; } = false;
+        public bool PriceIncludingSdEnable { get; set; } = true;
         public int PrinterId { get; set; }
         [NotMapped]
         public List<PrinterDto>? PrinterList { get; set; }

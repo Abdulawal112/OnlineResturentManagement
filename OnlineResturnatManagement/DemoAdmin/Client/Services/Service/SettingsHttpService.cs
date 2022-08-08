@@ -1,4 +1,5 @@
-﻿using OnlineResturnatManagement.Client.Services.IService;
+﻿using OnlineResturnatManagement.Client.Pages.Setting;
+using OnlineResturnatManagement.Client.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -49,6 +50,22 @@ namespace OnlineResturnatManagement.Client.Services.Service
             }
         }
 
+        public async Task<ServiceResponse<SoftwareSettingsDto>> GetSoftwareSettingData()
+        {
+            var response = await _http.GetAsync("/api/Settings/softwareSetting");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<SoftwareSettingsDto> { Data = new SoftwareSettingsDto(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var activeModules = JsonSerializer.Deserialize<SoftwareSettingsDto>(content, _options);
+                return new ServiceResponse<SoftwareSettingsDto> { Data = activeModules, message = "success", statusCode = 200, status = true };
+            }
+        }
+
         public async Task<ServiceResponse<CompanyProfileDto>> UpdateProfile(CompanyProfileDto companyProfile)
         {
             var response = await _http.PutAsJsonAsync("/api/settings/companyProfile", companyProfile);
@@ -62,6 +79,22 @@ namespace OnlineResturnatManagement.Client.Services.Service
             {
                 var roleDtos = JsonSerializer.Deserialize<CompanyProfileDto>(content, _options);
                 return new ServiceResponse<CompanyProfileDto> { Data = roleDtos, message = "success", statusCode = ((int)response.StatusCode), status = true };
+            }
+        }
+
+        public async Task<ServiceResponse<SoftwareSettingsDto>> UpdateSoftwareSetting(SoftwareSettingsDto softwareSettings)
+{
+            var response = await _http.PutAsJsonAsync("/api/settings/softwareSetting", softwareSettings);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<SoftwareSettingsDto> { Data = new SoftwareSettingsDto(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var roleDtos = JsonSerializer.Deserialize<SoftwareSettingsDto>(content, _options);
+                return new ServiceResponse<SoftwareSettingsDto> { Data = roleDtos, message = "success", statusCode = ((int)response.StatusCode), status = true };
             }
         }
     }

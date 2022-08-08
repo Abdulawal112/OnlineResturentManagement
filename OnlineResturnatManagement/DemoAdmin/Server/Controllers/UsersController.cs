@@ -208,6 +208,7 @@ namespace OnlineResturnatManagement.Server.Controllers
             if(response != null)
             {
                 _cacheService.RemoveData(CacheName.CacheUsers);
+               
                 return Ok(response);
             }
             return StatusCode(400);
@@ -264,10 +265,17 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             if (name == "")
                 return BadRequest();
+            //var resultUser = await _userService.GetUserByName(name);
+            //if(resultUser == null)
+            //{
+            //    return NoContent();
+            //}
+            
             var response = await _userService.GetUsersNavMenus(name);
             if(response != null)
             {
-                return Ok(_mapper.Map<List<NavigationMenuDto>>(response));
+                var navDto = _mapper.Map<List<NavigationMenuDto>>(response);
+                return Ok(navDto);
             }
             return StatusCode(400);
         }
