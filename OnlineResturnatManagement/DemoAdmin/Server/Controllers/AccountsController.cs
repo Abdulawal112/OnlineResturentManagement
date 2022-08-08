@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Server.Services.Service;
+using NLog.Targets;
 
 namespace OnlineResturnatManagement.Server.Controllers
 {
@@ -32,7 +33,7 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             //_userManager = userManager;
             _configuration = configuration;
-            _jwtSettings = _configuration.GetSection("JwtSettings");
+           // _jwtSettings = _configuration.GetSection("JwtSettings");
             _tokenService = tokenService;
             _userService = userService;
         }
@@ -42,16 +43,28 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
-            var user = new User { UserName = userForRegistration.UserName, Email = userForRegistration.UserName,RefreshToken="" };
-            await _userService.AddToRoleAsync(user, "Viewer");
+            if (userForRegistration.UserName == "" || userForRegistration.Password == "")
+                return BadRequest();
 
-            var result = await _userService.CreateAsync(user, userForRegistration.Password); 
-            if (!result) //if (!result.Succeeded) 
+            var user = new User { UserName = userForRegistration.UserName, Email = userForRegistration.UserName,RefreshToken="" };
+
+            await _userService.AddToRoleAsync(user, "Viewer");
+            User findUser = await _userService.FindByNameAsync(user.UserName);
+
+            if (findUser == null) 
             {
-                var errors ="Name Already Exist";//result.Errors.Select(e => e.Description);
-                return BadRequest(errors); //new RegistrationResponseDto { Errors = errors }
+                var result = await _userService.CreateAsync(user, userForRegistration.Password);
+                return StatusCode(201);
+                
             }
-            return StatusCode(201); 
+            else
+            {
+                var errors = "Name Already Exist";
+                return BadRequest(errors);
+            }
+           
+           
+           
         }
 
         [HttpPost("Login")]
@@ -78,7 +91,7 @@ namespace OnlineResturnatManagement.Server.Controllers
 
         private SigningCredentials GetSigningCredentials() 
         { 
-            var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value); 
+            var key = Encoding.UTF8.GetBytes(JwtSettingHelper.SecurityKey); 
             var secret = new SymmetricSecurityKey(key); 
             
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256); 
@@ -97,10 +110,10 @@ namespace OnlineResturnatManagement.Server.Controllers
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims) 
         { 
             var tokenOptions = new JwtSecurityToken(
-                issuer: _jwtSettings.GetSection("validIssuer").Value, 
-                audience: _jwtSettings.GetSection("validAudience").Value, 
+                issuer: JwtSettingHelper.ValidIssuer, 
+                audience: JwtSettingHelper.ValidAudience, 
                 claims: claims, 
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.GetSection("expiryInMinutes").Value)), 
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(JwtSettingHelper.EexpiryInMinutes)), 
                 signingCredentials: signingCredentials); 
             
             return tokenOptions; 

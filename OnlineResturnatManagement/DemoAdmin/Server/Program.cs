@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using MOnlineResturnatManagement.Server.Services.RoleService;
 using OnlineResturnatManagement.Server.Handlers;
+using Blazored.Toast;
 //using ITokenService = OnlineResturnatManagement.Server.Helper.ITokenService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,14 +55,19 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddScoped< OnlineResturnatManagement.Server.Helper.ITokenService, TokenService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
-
 builder.Services.AddScoped<IDataAccessService, DataAccessService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ISettingSrevice, SettingSrevice>();
+
+
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddMemoryCache();
+builder.Services.AddBlazoredToast();
 
 
-builder.Services.AddTransient(typeof(ICashHelper<>), typeof(CashHelper<>));
+//builder.Services.AddTransient(typeof(ICashHelper<>), typeof(CashHelper<>));//Reddis
+builder.Services.AddScoped<ICashHelper, CashHelper>();
 
 //custom Authorization
 builder.Services.AddAuthorization(config =>

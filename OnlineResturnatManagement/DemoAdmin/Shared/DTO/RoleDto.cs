@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace OnlineResturnatManagement.Shared.DTO
 {
-    public class RoleDto
+    public class RoleDto:CreateUpdateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string? NormalizedName { get; set; }
         [NotMapped]
         public bool Editing { get; set; } = false;
         [NotMapped]

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using OnlineResturnatManagement.Client.Services.Service;
+using Blazored.Toast;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -23,6 +24,9 @@ builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<HttpInterceptorService>();
 builder.Services.AddScoped<IEmployeeHttpService, EmployeeHttpService>();
 builder.Services.AddScoped<IUserHttpService, UserHttpService>();
+builder.Services.AddScoped<ISettingsHttpService, SettingsHttpService>();
+
+builder.Services.AddBlazoredToast();
 
 
 

@@ -13,6 +13,6 @@ namespace OnlineResturnatManagement.Server.Models
 		[ForeignKey("NavigationMenuId")]
 		public int NavigationMenuId { get; set; }
 
-		/*public NavigationMenu NavigationMenu { get; set; }*/
+		public NavigationMenu NavigationMenu { get; set; }
 	}
 }

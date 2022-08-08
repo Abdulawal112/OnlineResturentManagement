@@ -21,7 +21,8 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<bool> AddToRoleAsync(User user, string role)
         {
             var roleId = 0;
-            var result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
+            var result = new Role();
+            result = await _context.Roles.Where(x => x.Name == role).FirstOrDefaultAsync();
             if (result == null)
             {
                 var roleData = new Role
@@ -69,34 +70,46 @@ namespace OnlineResturnatManagement.Server.Services.Service
             user.PasswordHash = EncryptPassword.EncryptStringToBytes(password, user.HashKey);
             user.EmailConfirmed = false;
             user.RefreshTokenExpiryTime = new DateTime();
-            var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
-            if (userData == null)
-            {
-                await _context.Users.AddAsync(user);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            else
-                return false;
-        }
+            user.CreateBy = "";
+            user.CreateDate = DateTime.Now;
+            await _context.Users.AddAsync(user);
+            return await _context.SaveChangesAsync() > 0;
+            //var userData = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            //if (userData != null)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
 
+            //}
+
+        }
 
         public async Task<User> FindByNameAsync(string userName)
         {
-            var data = await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
-
-            return data;
+            return await _context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+             
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUserAsync()
+        public async Task<IEnumerable<UserDto>> GetAllUserAsync(string searchString)
         {
-            return await (from m in _context.Users
+            var users= (from u in _context.Users
+                          join rp in _context.UserRoles on u.Id equals rp.UserId
+                          join r in _context.Roles on rp.RoleId equals r.Id
                           select new UserDto()
                           {
-                              Id = m.Id,
-                              UserName = m.UserName,
-                              Email = m.Email
-                          })
-                               .ToListAsync();
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber,
+                              RoleName = r.Name
+                          });
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.UserName!.Contains(searchString) || s.PhoneNumber!.Contains(searchString) || s.RoleName!.Contains(searchString));
+            }
+            return await users.ToListAsync();
         }
 
         public async Task<List<Role>> GetRolesAsync(User user)
@@ -113,35 +126,37 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<UserDto> GetUser(int userId)
         {
             var data = await (from u in _context.Users
-                              join rp in _context.UserRoles on u.Id equals rp.UserId
-                              //join r in _context.Roles on rp.RoleId equals r.Id
+                              join rp in _context.UserRoles on u.Id equals rp.UserId into gj
+                              from x in gj.DefaultIfEmpty()
+                                  //join r in _context.Roles on rp.RoleId equals r.Id
                               where u.Id == userId
                               select new UserDto
                               {
                                   Id = u.Id,
                                   UserName=u.UserName,
                                   Email=u.Email,
-                                  RoleId = rp.RoleId
+                                  PhoneNumber =u.PhoneNumber,
+                                  RoleId = (x == null ? 0 : x.RoleId)
                               })
                              .FirstOrDefaultAsync();
             return data;
         }
-
-        public async Task<IEnumerable<NavigationMenuDto>> GetUsersNavMenus(string userName)
+        public async Task<User> GetUserByName(string name)
         {
-            return await (from uRoles in _context.UserRoles
-                          join rm in _context.RoleMenuPermission on uRoles.RoleId equals rm.RoleId
-                          join menu in _context.NavigationMenu on rm.NavigationMenuId equals menu.Id
-                          join user in _context.Users on uRoles.UserId equals user.Id
-                          where user.UserName.ToLower() == userName.ToLower()
-                          select new NavigationMenuDto
-                          {
-                              Name = menu.Name,
-                              DisplayOrder = menu.DisplayOrder,
-                              Permitted = menu.Permitted,
-                              Visited = menu.Visible,
-                              ParentMenuId = menu.Id,
-                          }).ToListAsync();
+
+            return await _context.Users.Where(x => x.UserName.ToLower() == name.ToLower()).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<NavigationMenu>> GetUsersNavMenus(string userName)
+        {
+            
+            var result = await _context.NavigationMenu.FromSqlRaw(@"SELECT distinct nm.Name,nm.Id,nm.ControllerName,DisplayOrder,Url,Visible,ParentMenuId,ActionUrl,NavIcon,nm.ModuleId
+                                                              FROM [DemoAdminDB].[dbo].[UserRoles] ur
+                                                              inner join RoleMenuPermission rm on rm.RoleId = ur.RoleId
+                                                              inner join NavigationMenu nm on nm.Id = rm.NavigationMenuId or (nm.ActionUrl is null)
+                                                              inner join Users u on u.Id = ur.UserId
+                                                              where LOWER(u.UserName) = '" + userName.ToLower()+"'").ToListAsync();
+            return result;
         }
 
         public async Task<bool> UpdateAsync(User user)
@@ -161,34 +176,47 @@ namespace OnlineResturnatManagement.Server.Services.Service
                     transaction.Rollback();
                     return null;
                 }
-                   
 
                 FindUser.UserName = user.UserName;
                 FindUser.Email = user.Email;
+                FindUser.PhoneNumber = user.PhoneNumber == "" ? FindUser.PhoneNumber : user.PhoneNumber;
+                FindUser.UpdateBy = user.UpdateBy;
+                FindUser.UpdateDate = user.UpdateDate;
+                if(user.Password != "")
+                {
+                    Guid guid = Guid.NewGuid();
+                    byte[] bytes = guid.ToByteArray();
+                    string encoded = Convert.ToBase64String(bytes);
+
+                    FindUser.HashKey = encoded;
+                    FindUser.PasswordHash = EncryptPassword.EncryptStringToBytes(user.Password, FindUser.HashKey);
+                }
                 _context.Users.Update(FindUser);
                 var result = await _context.SaveChangesAsync() > 0;
 
-                var commandText = "delete from UserRoles where UserId =" + user.Id + "";
-                //var name = new SqlParameter("@CategoryName", "Test");
-                _context.Database.ExecuteSqlRaw(commandText);
-                var result2 = await _context.SaveChangesAsync() > 0;
-                var userRole = new UserRole
+                if(result && (user.RoleId !=null || user.RoleId > 0))
                 {
-                    RoleId = (int)user.RoleId,
-                    UserId = user.Id,
-                };
-                await _context.UserRoles.AddAsync(userRole);
-                await _context.SaveChangesAsync();
-
-                
+                    var commandText = "delete from UserRoles where UserId =" + user.Id + "";
+                    //var name = new SqlParameter("@CategoryName", "Test");
+                    _context.Database.ExecuteSqlRaw(commandText);
+                    var result2 = await _context.SaveChangesAsync() > 0;
+                    var userRole = new UserRole
+                    {
+                        RoleId = (int)user.RoleId,
+                        UserId = user.Id,
+                    };
+                    await _context.UserRoles.AddAsync(userRole);
+                    await _context.SaveChangesAsync();
+                }
 
                 transaction.Commit();
                 return user;
             }
             catch
             {
-                transaction.Rollback();
                 return null;
+                transaction.Rollback();
+               
             }
 
         }

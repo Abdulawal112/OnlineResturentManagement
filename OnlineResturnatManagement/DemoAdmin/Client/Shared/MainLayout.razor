@@ -10,7 +10,7 @@
 
 <div class="fix-header fix-sidebar card-no-border">
     <div id="main-wrapper">
-     <header class="topbar">
+        <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
@@ -101,7 +101,7 @@
                         <!-- End Comment -->
                         <!-- ============================================================== -->
                         <!-- ============================================================== -->
-                    <!-- Messages -->
+                        <!-- Messages -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -266,16 +266,16 @@
                                 <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a>
                             </form>
                         </li>
-                        
+
                         <AuthorizeView>
                             <Authorized>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/monster-admin/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/monster-admin/assets/images/users/images.png" alt="user" class="profile-pic" /></a>
                                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                         <ul class="dropdown-user">
                                             <li>
                                                 <div class="dw-user-box">
-                                                    <div class="u-img"><img src="/monster-admin/assets/images/users/1.jpg" alt="user"></div>
+                                                    <div class="u-img"><img src="/monster-admin/assets/images/users/images.png" alt="user"></div>
                                                     <div class="u-text">
 
                                                         <h4>@context.User.Identity.Name</h4>
@@ -284,7 +284,7 @@
                                                 </div>
                                             </li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                                            <li><a href="user/profile"><i class="ti-user"></i> My Profile</a></li>
                                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                                             <li role="separator" class="divider"></li>
@@ -294,42 +294,42 @@
                                         </ul>
                                     </div>
                                 </li>
-                               @* Hello, @context.User.Identity.Name!
+                                @* Hello, @context.User.Identity.Name!
                                 <a href="Logout">Log out</a>*@
                             </Authorized>
                             <NotAuthorized>
                                 <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="Registration">Register</a>
-                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="Login">Log in</a>
+                                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="Registration">Register</a>
+                                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="Login">Log in</a>
                                 </li>
                                 @*<a href="Registration">Register</a>
                                 <a href="Login">Log in</a>*@
                             </NotAuthorized>
                         </AuthorizeView>
                         @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/monster-admin/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
-                            <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                <ul class="dropdown-user">
-                                    <li>
-                                        <div class="dw-user-box">
-                                            <div class="u-img"><img src="/monster-admin/assets/images/users/1.jpg" alt="user"></div>
-                                            <div class="u-text">
+                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/monster-admin/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                        <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                        <ul class="dropdown-user">
+                        <li>
+                        <div class="dw-user-box">
+                        <div class="u-img"><img src="/monster-admin/assets/images/users/1.jpg" alt="user"></div>
+                        <div class="u-text">
 
-                                                <h4>Steave Jobs</h4>
-                                                <p class="text-muted">varun@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
-                                </ul>
-                            </div>
+                        <h4>Steave Jobs</h4>
+                        <p class="text-muted">varun@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                        </div>
+                        </div>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                        </ul>
+                        </div>
                         </li>*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="flag-icon flag-icon-us"></i></a>
@@ -341,148 +341,151 @@
         </header>
 
 
-    <aside class="left-sidebar">
+        <aside class="left-sidebar">
 
-        <div class="scroll-sidebar">
+            <div class="scroll-sidebar">
+                <AuthorizeView>
+                            <Authorized>
+                <div class="user-profile">
 
-            <div class="user-profile">
+                    <div class="profile-img"> <img src="/monster-admin/assets/images/users/images.png" alt="user" /> </div>
 
-                <div class="profile-img"> <img src="/monster-admin/assets/images/users/1.jpg" alt="user" /> </div>
-
-                <div class="profile-text">
-                    <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
-                    <div class="dropdown-menu animated flipInY">
-                        <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                        <a href="#" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
-                        <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-                        <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
-                        <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-                    <li class="nav-small-cap">PERSONAL</li>
-                    <li>
-                        <a class="has-arrow" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard <span class="label label-rounded label-success">5</span></span></a>
-                        <ul aria-expanded="false" class="collapse">
-                            <li><a href="">Home</a></li>
-                            <li><a href="index2.html">Awesome Dashboard</a></li>
-                            <li><a href="counter">Counter</a></li>
-                            <li><a href="fetchdata">Fetch data</a></li>
-                            <li><a href="employees">Employees</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-
-        </div>
-
-        <div class="sidebar-footer">
-
-            <a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
-
-            <a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
-
-            <a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
-        </div>
-
-    </aside>
-
-
-
-
-    <div class="page-wrapper">
-
-        <div class="container-fluid">
-
-            <div class="row page-titles">
-                <div class="col-md-6 col-8 align-self-center">
-                    <h3 class="text-themecolor mb-0 mt-0">Dashboard</h3>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-                <div class="col-md-6 col-4 align-self-center">
-                    <button class="right-side-toggle waves-effect waves-light btn-info btn-circle btn-sm float-right ml-2" data-toggle="collapse" data-target="#settingTheme" aria-expanded="false" aria-controls="settingTheme"><i class="ti-settings text-white"></i></button>
-                    <button class="btn float-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Create</button>
-                    <div class="dropdown float-right mr-2 hidden-sm-down">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> January 2019 </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> <a class="dropdown-item" href="#">February 2019</a> <a class="dropdown-item" href="#">March 2019</a> <a class="dropdown-item" href="#">April 2019</a> </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-12">
-                    @Body
-                </div>
-            </div>
-            <RightSidebar></RightSidebar>
-            @*<div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul id="themecolors" class="mt-3">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
-                                <li class="d-block mt-4"><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
-                            </ul>
-                            <ul class="mt-3 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
+                    <div class="profile-text">
+                        <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">@context.User.Identity.Name <span class="caret"></span></a>
+                        <div class="dropdown-menu animated flipInY">
+                            <a href="user/profile" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                            <a href="#" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
+                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+                                    <div class="dropdown-divider"></div> <a href="Logout" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
-                </div>*@
-        </div>
+                </div>
+                </Authorized>
+                </AuthorizeView>
+
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+
+
+                        @if (NavigationMenus != null && NavigationMenus.Count > 0)
+                        {
+                            <li class="nav-small-cap">PERSONAL</li>
+                            <li>
+                                <a class="has-arrow" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard <span class="label label-rounded label-success">5</span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="">Home</a></li>
+                                    <li><a href="counter">Counter</a></li>
+                                    <li><a href="fetchdata">Fetch data</a></li>
+                                    <li><a href="employees">Employees</a></li>
+                                </ul>
+                            </li>
+
+                            @foreach (var item in NavigationMenus)
+                            {
+                                <li>
+                                    @if (item.ParentMenuId == null) //Level one items will have null parent id
+                                    {
+                                        
+
+                                        var children = NavigationMenus.Where(x => x.ParentMenuId == item.Id && x.Visible).OrderBy(x => x.DisplayOrder).ToList();
+                                        @if (children.Count>0 && !string.IsNullOrWhiteSpace(item.Name))
+                                        {
+                                            <a class="has-arrow" href="#" aria-expanded="false">@((MarkupString)item.NavIcon)<span class="hide-menu">@item.Name </span></a>
+                                            //<i class="mdi mdi-gauge"></i>
+
+                                        }
+                                        @if (children != null)
+                                        {
+                                            <ul aria-expanded="false" class="collapse">
+                                                @*<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Name</a>*@
+
+                                                @foreach (var itm in children)
+                                                {
+
+                                                    <li>
+                                                        <a href="@itm.ActionUrl">@((MarkupString)itm.NavIcon)<span class="">@itm.Name</span></a>
+                                                    </li>
+
+                                                }
+
+                                            </ul>
+                                        }
+                                    }
+                                </li>
+                            }
+
+                        }
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-footer">
+
+                <a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
+
+                <a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
+
+                <a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
+            </div>
+
+        </aside>
+
+
+
+
+        <div class="page-wrapper">
+
+            <div class="container-fluid">
+
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor mb-0 mt-0">Dashboard</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6 col-4 align-self-center">
+                        <button class="right-side-toggle waves-effect waves-light btn-info btn-circle btn-sm float-right ml-2" data-toggle="collapse" data-target="#settingTheme" aria-expanded="false" aria-controls="settingTheme"><i class="ti-settings text-white"></i></button>
+                        
+                        <div class="dropdown float-right mr-2 hidden-sm-down">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> January 2019 </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> <a class="dropdown-item" href="#">February 2019</a> <a class="dropdown-item" href="#">March 2019</a> <a class="dropdown-item" href="#">April 2019</a> </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12">
+                        @Body
+                    </div>
+                </div>
+                <RightSidebar></RightSidebar>
+                
+            </div>
+
 
         
-    
 
-        <footer class="footer">
-            © 2019 Monster Admin by wrappixel.com
-        </footer>
-    </div>
+            <footer class="footer">
+                © 2019 Monster Admin by wrappixel.com
+            </footer>
+        </div>
     </div>
 </div>
+<BlazoredToasts 
+                Timeout="4"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fa fa-check"
+                ErrorIcon="fa fa-exclamation-triangle"
+                ShowProgressBar="true" />
+
 @*<div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -498,14 +501,3 @@
         </article>
     </main>
 </div>*@
-
-@code{
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/custom.js");
-        await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/assets/plugins/styleswitcher/jQuery.style.switcher.js");
-    }
-
-}

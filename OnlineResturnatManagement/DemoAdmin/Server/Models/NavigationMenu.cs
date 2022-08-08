@@ -16,20 +16,23 @@ namespace OnlineResturnatManagement.Server.Models
 		[ForeignKey("ParentNavigationMenu")]
 		public int? ParentMenuId { get; set; }
 
-		public virtual NavigationMenu ParentNavigationMenu { get; set; }
+		//public virtual NavigationMenu ParentNavigationMenu { get; set; }
 
 		public string? ControllerName { get; set; }
 
-		public string? ActionName { get; set; }
+		public string? ActionUrl { get; set; }
 
 		public string Url { get; set; }
+        public string NavIcon { get; set; }
 
-		public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }
 
 		[NotMapped]
 		public bool Permitted { get; set; }
 
 		public bool Visible { get; set; }
+        public int? ModuleId { get; set; }
 
-	}
+
+    }
 }

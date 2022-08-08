@@ -1,14 +1,15 @@
 ﻿@page "/users"
+@inject IToastService toastService
 
 @attribute [Authorize]
 
-<h3>SetData</h3>
 @if (UserDtos == null || UserDtos.Count == 0)
 {
     <span>Loading Users...</span>
 }
 else
 {
+<<<<<<< HEAD
     <table class="table">
 	<thead>
 		<tr>
@@ -79,39 +80,195 @@ else
                             <div class="col-6">
                                 <label>UserName</label>
                                 <InputText @bind-Value="userDto.UserName" class="form-control"></InputText>
+=======
+    <div class="row" id="foot">
+        <div class="col-12">
+            <div class="card">
+                <!-- .left-right-aside-column-->
+                <div class="contact-page-aside p-3">
+                    <div class="">
+                        <div class="page-header">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <h4 class="card-title m-t-10">User List </h4>
+                                </div>
+                               @* <div class="ml-auto">
+                                   
+                                    <input type="text" name="@Search" value="@Search" id="demo-input-search2" placeholder="search contacts"
+                                       class="form-control" @onchange="(() => SearchUser(Search))">
+                                </div>*@
+>>>>>>> fe23fd5a94234610929127f233a3bd297d0867af
                             </div>
-                            <div class="col-6">
-                                <label>Email</label>
-                                <InputText @bind-Value="userDto.Email" class="form-control"></InputText>
-                            </div>
-                            <div class="col">
-                                <label>Email</label>
-                                <InputSelect @bind-Value="userDto.RoleId" class="form-control">
-                                    @foreach (var roleDto in RoleDtos)
-                                    {
-                                        <option value=@roleDto.Id>@roleDto.Name</option>
-                                    }
-                                    @if (RoleDtos == null || RoleDtos.Count == 0)
-                                    {
-                                        <option value="">none</option>
-                                    }
-                                </InputSelect>
-                            </div>
-                            
                         </div>
+                        <div class="table-responsive">
+                            <table id="demo-foo-addrow"
+                               class="table table-bordered m-t-30 no-wrap table-hover contact-list"
+                               data-paging="true" data-paging-size="7">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var i=1;
+                                    }
+                                    @foreach (var item in UserDtos)
+                                    {
+                                        <tr>
 
+                                            <td>@i</td>
+                                            <td>@item.UserName</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.PhoneNumber</td>
+                                            <td><span class="label label-success">@item.RoleName</span> </td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
+                                                    <i class=" oi oi-pencil"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        i++;
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- .left-aside-column-->
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">update</button>
-                    </div>
-                </EditForm>
+                    <!-- /.left-right-aside-column-->
+                </div>
             </div>
         </div>
     </div>
+    @*<div class="card">
+        <div class="card-body">
+            <h4 class="card-title">User List</h4>
+            <h6 class="card-subtitle"></h6>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            UserName
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in UserDtos)
+                    {
+                        <tr>
+                            <td>
+                                @item.UserName
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(() => EditUser(item.Id))">
+                                    <i class=" oi oi-pencil"></i>
+                                </button>
+                               
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>*@
+
+    
+
+
+    <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @if (string.IsNullOrEmpty(statusResult.Message))
+                    {
+                        <div></div>
+                    }
+                    else
+                    {
+                        if (statusResult.Message != "" && statusResult.StatusCode == 200)
+                        {   
+                            @*<div class="alert alert-success">@statusResult.Message</div>*@
+                            toastService.ShowSuccess(@statusResult.Message);
+                            
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">@statusResult.Message</div>
+                        }
+
+                    }
+
+                    <EditForm Model="userDto" OnSubmit="UpdateUser">
+                        <div class="modal-body">
+
+                            <div class="row p-2">
+                                <div class="col-6">
+                                    <label>UserName</label>
+                                    <InputText @bind-Value="userDto.UserName" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Email</label>
+                                    <InputText @bind-Value="userDto.Email" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Phone Number</label>
+                                    <InputText @bind-Value="userDto.PhoneNumber" class="form-control"></InputText>
+                                </div>
+                                <div class="col-6">
+                                    <label>Password</label>
+                                    <InputText @bind-Value="userDto.Password" type="password" id="password" class="form-control" placeholder="Password"></InputText>
+                                </div>
+                                <div class="col">
+                                    <label>Role</label>
+                                    <InputSelect @bind-Value="userDto.RoleId" class="form-control">
+                                        @foreach (var roleDto in RoleDtos)
+                                        {
+                                            <option value=@roleDto.Id>@roleDto.Name</option>
+                                        }
+                                        @if (RoleDtos == null || RoleDtos.Count == 0)
+                                        {
+                                            <option value="">none</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >update</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    
 
 
 
 }
-
 

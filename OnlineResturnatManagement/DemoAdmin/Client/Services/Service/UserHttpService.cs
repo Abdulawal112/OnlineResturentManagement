@@ -33,6 +33,21 @@ namespace OnlineResturnatManagement.Client.Services.Service
                 return new ServiceResponse<List<UserDto>> { Data = users, message = "success", statusCode = 200, status = true };
             }
         }
+        public async Task<ServiceResponse<List<UserDto>>> GetSearchUser(string searchString)
+        {
+            var response = await _http.GetAsync("/api/GetUsersBySearch?search=" + searchString);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<List<UserDto>> { Data = new List<UserDto>(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var users = JsonSerializer.Deserialize<List<UserDto>>(content, _options);
+                return new ServiceResponse<List<UserDto>> { Data = users, message = "success", statusCode = 200, status = true };
+            }
+        }
         public async Task<ServiceResponse<List<RoleDto>>> GetRoles()
         {
             var response = await _http.GetAsync("/api/users/GetRoles");
@@ -96,6 +111,21 @@ namespace OnlineResturnatManagement.Client.Services.Service
                 return new ServiceResponse<UserDto>{ Data = users, message = "success", statusCode = 200, status = true };
             }
         }
+        public async Task<ServiceResponse<UserDto>> GetUserByName(string name)
+        {
+            var response = await _http.GetAsync("/api/Users/UserByName?name=" + name);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<UserDto> { Data = new UserDto(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var users = JsonSerializer.Deserialize<UserDto>(content, _options);
+                return new ServiceResponse<UserDto> { Data = users, message = "success", statusCode = 200, status = true };
+            }
+        }
         public async Task<ServiceResponse<UserDto>> UpdateUserWithRole(UserDto userDto)
         {
             var response = await _http.PutAsJsonAsync("/api/users/UpdateUser", userDto);
@@ -109,6 +139,68 @@ namespace OnlineResturnatManagement.Client.Services.Service
             {
                 var result = JsonSerializer.Deserialize<UserDto>(content, _options);
                 return new ServiceResponse<UserDto> { Data = result, message = "success", statusCode = ((int)response.StatusCode), status = true };
+            }
+        }
+
+        public async Task<ServiceResponse<List<NavigationMenuDto>>> GetMenuByRoleId(int id)
+        {
+            var response = await _http.GetAsync("/api/Users/RoleWiseMenus?roleId=" + id);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = new List<NavigationMenuDto>(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var menuDtos = JsonSerializer.Deserialize<List<NavigationMenuDto>>(content, _options);
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = menuDtos, message = "success", statusCode = 200, status = true };
+            }
+        }
+
+        public async Task<ServiceResponse<List<NavigationMenuDto>>> UpdateRoleMenus(int id,List<NavigationMenuDto> navigationMenus)
+        {
+            var response = await _http.PutAsJsonAsync("/api/users/UpdateRoleMenu?roleId=" + id, navigationMenus);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = new List<NavigationMenuDto>(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var result = JsonSerializer.Deserialize<List<NavigationMenuDto>>(content, _options);
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = result, message = "success", statusCode = ((int)response.StatusCode), status = true };
+            }
+        }
+        public async Task<ServiceResponse<List<NavigationMenuDto>>> GetAllMenu()
+        {
+            var response = await _http.GetAsync("/api/Users/GetAllMenu");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = new List<NavigationMenuDto>(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var menuDtos = JsonSerializer.Deserialize<List<NavigationMenuDto>>(content, _options);
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = menuDtos, message = "success", statusCode = 200, status = true };
+            }
+        }
+        public async Task<ServiceResponse<List<NavigationMenuDto>>> GetUserMenu(string name)
+        {
+            var response = await _http.GetAsync("/api/Users/GetMenusByUser?name=" + name);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = new List<NavigationMenuDto>(), statusCode = ((int)response.StatusCode), status = false };
+
+            }
+            else
+            {
+                var menuDtos = JsonSerializer.Deserialize<List<NavigationMenuDto>>(content, _options);
+                return new ServiceResponse<List<NavigationMenuDto>> { Data = menuDtos, message = "success", statusCode = 200, status = true };
             }
         }
     }

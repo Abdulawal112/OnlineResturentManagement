@@ -12,8 +12,8 @@ using OnlineResturnatManagement.Server.Data;
 namespace OnlineResturnatManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220731051824_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20220802082210_AddCreateByAndTimeInUser")]
+    partial class AddCreateByAndTimeInUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,36 @@ namespace OnlineResturnatManagement.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.ActiveModule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Payment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActiveModules");
+                });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Employee", b =>
                 {
@@ -60,7 +90,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ActionName")
+                    b.Property<string>("ActionUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ControllerName")
@@ -69,14 +99,14 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ModuleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ParentMenuId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -87,10 +117,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentMenuId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("NavigationMenu");
                 });
@@ -148,6 +174,13 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -172,19 +205,21 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<DateTime>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -208,19 +243,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.NavigationMenu", b =>
-                {
-                    b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "ParentNavigationMenu")
-                        .WithMany()
-                        .HasForeignKey("ParentMenuId");
-
-                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", null)
-                        .WithMany("NavMenus")
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("ParentNavigationMenu");
-                });
-
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.RoleMenuPermission", b =>
                 {
                     b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "NavigationMenu")
@@ -230,20 +252,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("NavigationMenu");
-                });
-
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.User", b =>
-                {
-                    b.HasOne("OnlineResturnatManagement.Server.Models.Role", null)
-                        .WithMany("User")
-                        .HasForeignKey("RoleId");
-                });
-
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Role", b =>
-                {
-                    b.Navigation("NavMenus");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

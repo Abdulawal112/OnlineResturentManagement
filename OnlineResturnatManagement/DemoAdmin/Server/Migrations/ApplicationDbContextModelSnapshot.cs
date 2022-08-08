@@ -22,6 +22,66 @@ namespace OnlineResturnatManagement.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.ActiveModule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Payment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActiveModules");
+                });
+
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.CompanyProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("OwnerInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VatRegNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyProfiles");
+                });
+
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -58,7 +118,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ActionName")
+                    b.Property<string>("ActionUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ControllerName")
@@ -67,7 +127,14 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ModuleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NavIcon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -83,9 +150,27 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentMenuId");
-
                     b.ToTable("NavigationMenu");
+                });
+
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Printer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Default")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Printers");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.Role", b =>
@@ -96,6 +181,12 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +194,12 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -125,7 +222,132 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NavigationMenuId");
+
                     b.ToTable("RoleMenuPermission");
+                });
+
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.SoftwareSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("CustomerDisplayEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("DefaultVat")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<bool>("IsAndriodEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsKotSerialEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOrderQtyChangeEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSdChargeApplyEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSdcEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ItemLevel")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ItemRecipeEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ItemWiseModifierEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("KitchenDisplayEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("KotA4PrintEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LastDiscountNoteEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ManageTableEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MangeWaiterEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("MaxDiscount")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<bool>("ModifierEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("NightHour")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<int?>("NumberOfTable")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("PreparationModuleEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PriceIncldVatEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PriceIncludingSdEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PrintKotEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PrinterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RawMaterialLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SdCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("ServiceCharge")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<bool>("ServiceChargeApplicableEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ServiceChargeInPercantEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("ServiceChargeVat")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<bool>("ServingDisplayEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ServingDisplayInterval")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TakeWayVat")
+                        .HasColumnType("decimal(18,5)");
+
+                    b.Property<bool>("VatAfterDisscountEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("VatCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("WithOutStockSaleEnable")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SoftwareSettings");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.User", b =>
@@ -138,6 +360,12 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -166,6 +394,12 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UpdateBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -173,25 +407,6 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.UserMenuPermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserMenuPermissions");
                 });
 
             modelBuilder.Entity("OnlineResturnatManagement.Server.Models.UserRole", b =>
@@ -213,13 +428,15 @@ namespace OnlineResturnatManagement.Server.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.NavigationMenu", b =>
+            modelBuilder.Entity("OnlineResturnatManagement.Server.Models.RoleMenuPermission", b =>
                 {
-                    b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "ParentNavigationMenu")
+                    b.HasOne("OnlineResturnatManagement.Server.Models.NavigationMenu", "NavigationMenu")
                         .WithMany()
-                        .HasForeignKey("ParentMenuId");
+                        .HasForeignKey("NavigationMenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ParentNavigationMenu");
+                    b.Navigation("NavigationMenu");
                 });
 #pragma warning restore 612, 618
         }

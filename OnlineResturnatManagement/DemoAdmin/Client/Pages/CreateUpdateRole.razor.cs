@@ -9,6 +9,7 @@ using OnlineResturnatManagement.Client.HttpRepository;
 using OnlineResturnatManagement.Shared.DTO;
 using System.Data;
 using OnlineResturnatManagement.Client.Helper;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace OnlineResturnatManagement.Client.Pages
 {
@@ -20,6 +21,8 @@ namespace OnlineResturnatManagement.Client.Pages
         public HttpInterceptorService Interceptor { get; set; }
         [Inject]
         public IUserHttpService UserHttpService { get; set; }
+        [Inject]
+        public AuthenticationStateProvider GetAuthenticationStateAsync { get; set; }
 
         public List<RoleDto> Roles = new List<RoleDto>();
         public List<RoleDto> MainRoles = new List<RoleDto>();
@@ -69,6 +72,9 @@ namespace OnlineResturnatManagement.Client.Pages
 
             if (editingRole.IsNew)
             {
+                editingRole.CreateDate = DateTime.Now;
+                editingRole.CreateBy = await GetCurrentUserNameAsync();
+                editingRole.CreateBy = await GetCurrentUserNameAsync();
                 var response = await UserHttpService.CreateRole(editingRole);
                 var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
                 message = result.Message;
@@ -81,8 +87,11 @@ namespace OnlineResturnatManagement.Client.Pages
             }
             else
             {
+                editingRole.UpdateDate = DateTime.Now;
+                editingRole.UpdateBy = await GetCurrentUserNameAsync();
                 var response=await UserHttpService.UpdateRole(editingRole);
                 var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
+                message = result.Message;
                 if (result.Message == "" && result.StatusCode == 200)
                 {
                     await GetAllRole();
@@ -91,11 +100,14 @@ namespace OnlineResturnatManagement.Client.Pages
                     
             }
             
-            
-           
-            
         }
-
+        private async Task<string> GetCurrentUserNameAsync()
+        {
+            var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+            var user = authstate.User;
+            var name = user.Identity.Name;
+            return name;
+        }
         private async Task CancelEditing()
         {
             editingRole = new RoleDto();
