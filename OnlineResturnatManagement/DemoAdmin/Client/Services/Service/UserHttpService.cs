@@ -26,7 +26,6 @@ namespace OnlineResturnatManagement.Client.Services.Service
             if (!response.IsSuccessStatusCode)
             {
                 return new ServiceResponse<List<UserDto>> { Data = new List<UserDto>(), statusCode = ((int)response.StatusCode), status = false };
-
             }
             else
             {
@@ -105,12 +104,11 @@ namespace OnlineResturnatManagement.Client.Services.Service
             if (!response.IsSuccessStatusCode)
             {
                 return new ServiceResponse<UserDto> { Data = new UserDto(), statusCode = ((int)response.StatusCode), status = false };
-
             }
             else
             {
                 var users = JsonSerializer.Deserialize<UserDto>(content, _options);
-                return new ServiceResponse<UserDto> { Data = users, message = "success", statusCode = 200, status = true };
+                return new ServiceResponse<UserDto>{ Data = users, message = "success", statusCode = 200, status = true };
             }
         }
         public async Task<ServiceResponse<UserDto>> GetUserByName(string name)
