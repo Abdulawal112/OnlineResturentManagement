@@ -26,7 +26,7 @@ else
 
 }
 
-<div class="row">
+<div class="row software-settings">
     <div class="col-lg-12">
         <div class="card card-outline-info">
             <div class="card-header">
@@ -115,6 +115,7 @@ else
                                     </div>
                                 </div>
                             </div>
+
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
@@ -186,14 +187,15 @@ else
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Price Include Vat</label>
                                     <div class="onoffswitch">
-                                        @*<InputCheckbox type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>*@
+                                        <InputCheckbox type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
 
-                                        <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+                                       @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
                                         <label class="onoffswitch-label" for="myonoffswitch1">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
                                     </div>
+
                                     
                                     @*<div class="col-sm-6 bt-switch">
                                     <InputCheckbox type="checkbox" data-size="mini" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
@@ -207,19 +209,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Without Stock Sale</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.WithOutStockSaleEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox" id="myonoffswitch2" @bind-Value="softwareSetting.WithOutStockSaleEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch2">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.WithOutStockSaleEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Service Charge Applicable</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch3" class="onoffswitch-checkbox" id="myonoffswitch3" @bind-Value="softwareSetting.ServiceChargeApplicableEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch3">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                   @* <div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServiceChargeApplicableEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -228,19 +248,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Item Recipe Enabled</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ItemRecipeEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch4" class="onoffswitch-checkbox" id="myonoffswitch4" @bind-Value="softwareSetting.ItemRecipeEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch4">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ItemRecipeEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Service Charge In Percent</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch5" class="onoffswitch-checkbox" id="myonoffswitch5" @bind-Value="softwareSetting.ServiceChargeInPercantEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch5">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                   @* <div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServiceChargeInPercantEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -249,18 +287,36 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Item Preparation Module</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PreparationModuleEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch6" class="onoffswitch-checkbox" id="myonoffswitch6" @bind-Value="softwareSetting.ItemRecipeEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch6">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PreparationModuleEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Itemwise Modifier</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ModifierEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch7" class="onoffswitch-checkbox" id="myonoffswitch7" @bind-Value="softwareSetting.ItemWiseModifierEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch7">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ItemWiseModifierEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
 
@@ -270,19 +326,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Print KOT</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PrintKotEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch8" class="onoffswitch-checkbox" id="myonoffswitch8" @bind-Value="softwareSetting.PrintKotEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch8">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PrintKotEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Kithcen Display Enabled</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch9" class="onoffswitch-checkbox" id="myonoffswitch9" @bind-Value="softwareSetting.KitchenDisplayEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch9">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                   @* <div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.KitchenDisplayEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -291,19 +365,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Manage Table</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ManageTableEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch10" class="onoffswitch-checkbox" id="myonoffswitch10" @bind-Value="softwareSetting.ManageTableEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch10">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ManageTableEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Now Serving Display Enabled</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch11" class="onoffswitch-checkbox" id="myonoffswitch11" @bind-Value="softwareSetting.ServingDisplayEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch11">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ServingDisplayEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -313,19 +405,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is Android Enabled</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsAndriodEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch12" class="onoffswitch-checkbox" id="myonoffswitch12" @bind-Value="softwareSetting.IsAndriodEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch12">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsAndriodEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">VAT After Discount</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch13" class="onoffswitch-checkbox" id="myonoffswitch13" @bind-Value="softwareSetting.VatAfterDisscountEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch13">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                   @* <div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.VatAfterDisscountEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -334,19 +444,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is KOT Serial Enable</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsKotSerialEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch14" class="onoffswitch-checkbox" id="myonoffswitch14" @bind-Value="softwareSetting.IsKotSerialEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch14">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsKotSerialEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is Last Discount Note</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch15" class="onoffswitch-checkbox" id="myonoffswitch15" @bind-Value="softwareSetting.LastDiscountNoteEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch15">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.LastDiscountNoteEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -355,18 +483,36 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is SD Charge Apply</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdChargeApplyEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch16" class="onoffswitch-checkbox" id="myonoffswitch16" @bind-Value="softwareSetting.IsSdChargeApplyEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch16">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdChargeApplyEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Customer Display Enabled</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.CustomerDisplayEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch17" class="onoffswitch-checkbox" id="myonoffswitch17" @bind-Value="softwareSetting.CustomerDisplayEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch17">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.CustomerDisplayEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -375,19 +521,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">KOT(A4-Size) Print</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.KotA4PrintEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch18" class="onoffswitch-checkbox" id="myonoffswitch18" @bind-Value="softwareSetting.KotA4PrintEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch18">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.KotA4PrintEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is Order Qty Change</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch19" class="onoffswitch-checkbox" id="myonoffswitch19" @bind-Value="softwareSetting.IsOrderQtyChangeEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch19">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsOrderQtyChangeEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -396,19 +560,37 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Is SDC Enable</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdcEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch20" class="onoffswitch-checkbox" id="myonoffswitch20" @bind-Value="softwareSetting.IsSdcEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch20">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                    @*<div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.IsSdcEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Price Including SD</label>
-                                    <div class="col-sm-6">
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch21" class="onoffswitch-checkbox" id="myonoffswitch21" @bind-Value="softwareSetting.PriceIncludingSdEnable"></InputCheckbox>
+
+                                        @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                        <label class="onoffswitch-label" for="myonoffswitch21">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<div class="col-sm-6">
                                         <InputCheckbox type="checkbox" @bind-Value="softwareSetting.PriceIncludingSdEnable"></InputCheckbox>
 
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->

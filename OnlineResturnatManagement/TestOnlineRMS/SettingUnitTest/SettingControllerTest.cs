@@ -102,5 +102,64 @@ namespace TestOnlineRMS.SettingUnitTest
         //    Assert.True(okObjectResult.StatusCode == 200);
         //}
 
+        [Fact]
+        public async void GetSoftwareSettingsConfig_SoftwareDefaultSettings_Return200()
+        {
+            var mockService = new Mock<ISettingSrevice>();
+            mockService.Setup(_ => _.GetSoftwareSettingsConfig()).ReturnsAsync(new SoftwareSettings
+            {
+                Id = 0,
+                ItemLevel = 0,
+                ModifierEnable = false,
+                ItemWiseModifierEnable = false,
+                WithOutStockSaleEnable = false,
+                ItemRecipeEnable = false,
+                RawMaterialLevel = 0,
+            });
+            var controller = new SettingsController(mockService.Object, AutomapperSingletonNew.Mapper, _webHostEnvironment, _cacheService);
+            var result = await controller.GetSoftwareSettingsConfig();
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.True(okResult.StatusCode == 200);
+        }
+
+        [Fact]
+        public async void GetSoftwareSettingsConfig_SoftwareDefaultSettingsNull_Return200()
+        {
+            var mockService = new Mock<ISettingSrevice>();
+            mockService.Setup(_ => _.GetSoftwareSettingsConfig());
+            var controller = new SettingsController(mockService.Object, AutomapperSingletonNew.Mapper, _webHostEnvironment, _cacheService);
+            var result = await controller.GetSoftwareSettingsConfig();
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.True(okResult.StatusCode == 200);
+        }
+
+        [Fact]
+        public async void UpdateSoftwareConfig_IFFindingIdIsEqualNull_Return400()
+        {
+            var mockService = new Mock<ISettingSrevice>();
+            mockService.Setup(_ => _.UpdateSoftwareConfig(new SoftwareSettings
+            {   Id = 1,
+                DefaultVat = 5.20m,
+                VatAfterDisscountEnable = true,
+                SdCode = "200abc"
+            })).ReturnsAsync(new SoftwareSettings
+            {
+                Id=1,
+                DefaultVat = 5.20m,
+                VatAfterDisscountEnable = true,
+                SdCode = "200abc"
+            });
+
+            var controller = new SettingsController(mockService.Object, AutomapperSingletonNew.Mapper, _webHostEnvironment, _cacheService);
+            var result = await controller.UpdateSoftSettingsConfig(new SoftwareSettingsDto
+            {
+                Id=5,
+                DefaultVat = 5.20m,
+                VatAfterDisscountEnable = true,
+                SdCode = "200abc"
+            });
+            var okResult = Assert.IsType<BadRequestResult>(result.Result);
+            Assert.True(okResult.StatusCode == 400);
+        }
     }
 }

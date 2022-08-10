@@ -82,7 +82,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<SoftwareSettings> GetSoftwareSettingsConfig()
         {
             var softwareSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
-
             return softwareSettings;
         }
 
