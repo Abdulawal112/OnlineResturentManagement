@@ -31,7 +31,7 @@ namespace OnlineResturnatManagement.Server.Controllers
 
         [HttpGet("GetActiveModules")]
         public async Task<ActionResult> GetAllActiveModule()
-{
+        {
             var response = await _settingSrevice.GetActiveModules();
             if (response != null)
             {
