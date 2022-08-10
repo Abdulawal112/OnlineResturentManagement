@@ -1,0 +1,78 @@
+﻿
+/*Developer Custom Css
+
+*/
+
+hr:not([size]) {
+    height: 0 !important;
+}
+
+/*.table > :not(caption) > * > * {
+    padding: 0 !important;
+}*/
+.table td, .table th {
+    padding-top:5px  !important;
+    padding-bottom:5px  !important;
+}
+.table td button{
+    font-size:10px;
+    /*padding:10px;*/
+}
+.blazored-toast {
+    padding:.25px !important;
+}
+.blazored-toast-body{
+    padding-left:8px !important;
+}
+.blazored-toast-body .blazored-toast-header h5{
+    line-height:25px !important;
+    font-size:14px !important;
+    color:white !important;
+}
+.blazored-toast-body .blazored-toast-header .blazored-toast-close{
+    font-size:1rem !important;
+}
+
+.blazored-toast-container{
+    z-index:99999999 !important;
+}
+.blazored-toast-body .blazored-toast-header h5{
+    font-size:14px !important;
+    color:white !important;
+    text-transform:capitalize !important ;
+}
+.blazored-toast-progressbar > span {
+    height: 4px !important;
+    transition: all .3s linear !important;
+    background: #ff6849 !important;
+}
+.blazored-toast-progressbar{
+    height:4px !important;
+}
+
+.blazored-toast-body {
+    line-height: 25px !important;
+}
+.blazored-toast-body p {
+    font-size:14px !important;
+}
+.blazored-toast-icon {
+    padding: .25rem !important;
+    font-size: 1.25rem !important;
+}
+.blazored-toast-success {
+    background-color: #55ce63 !important;
+}
+
+
+@media(min-width:575px) {
+        .blazored-toast {
+    width: 250px !important;
+    border-radius: 0.25rem !important;
+    }
+
+    .position-topright{
+        right:40px !important;
+        top:20px;
+    }
+}
