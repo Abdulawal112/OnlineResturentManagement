@@ -177,9 +177,18 @@ else
                             <div class="col-6">
                                 <div class="form-group row">
                                     <label class="col-sm-6 text-right col-form-label">Modifier Enable</label>
-                                    <div class="col-sm-6">
-                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ModifierEnable"></InputCheckbox>
+                                    <div class="onoffswitch">
+                                        <InputCheckbox type="checkbox" name="onoffswitch0" class="onoffswitch-checkbox" id="myonoffswitch0" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
+
+                                        
+                                        <label class="onoffswitch-label" for="myonoffswitch0">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
                                     </div>
+                                   @* <div class="col-sm-6">
+                                        <InputCheckbox type="checkbox" @bind-Value="softwareSetting.ModifierEnable"></InputCheckbox>
+                                    </div>*@
                                 </div>
                             </div>
                             <!--/span-->
@@ -189,7 +198,7 @@ else
                                     <div class="onoffswitch">
                                         <InputCheckbox type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
 
-                                       @* <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1" checked>*@
+                                      
                                         <label class="onoffswitch-label" for="myonoffswitch1">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
@@ -197,10 +206,7 @@ else
                                     </div>
 
                                     
-                                    @*<div class="col-sm-6 bt-switch">
-                                    <InputCheckbox type="checkbox" data-size="mini" @bind-Value="softwareSetting.PriceIncldVatEnable"></InputCheckbox>
-                                    <ValidationMessage For="() => softwareSetting.PriceIncldVatEnable" />
-                                    </div>*@
+                                   
                                 </div>
                             </div>
                             <!--/span-->
