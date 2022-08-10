@@ -38,7 +38,6 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
             if(statusResult.StatusCode == 200)
             {
                 statusResult.Message = "Save Successfully";
-
             }
         }
     }
