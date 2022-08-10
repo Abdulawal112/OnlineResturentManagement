@@ -52,7 +52,7 @@ namespace OnlineResturnatManagement.Client.Services.Service
 
         public async Task<ServiceResponse<SoftwareSettingsDto>> GetSoftwareSettingData()
         {
-            var response = await _http.GetAsync("/api/Settings/softwareSetting");
+            var response = await _http.GetAsync("/api/Settings/softwareSettings");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -84,7 +84,7 @@ namespace OnlineResturnatManagement.Client.Services.Service
 
         public async Task<ServiceResponse<SoftwareSettingsDto>> UpdateSoftwareSetting(SoftwareSettingsDto softwareSettings)
 {
-            var response = await _http.PutAsJsonAsync("/api/settings/softwareSetting", softwareSettings);
+            var response = await _http.PutAsJsonAsync("/api/settings/softwareSettings", softwareSettings);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
