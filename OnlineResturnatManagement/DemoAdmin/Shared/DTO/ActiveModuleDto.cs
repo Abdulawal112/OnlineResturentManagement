@@ -13,7 +13,7 @@ namespace OnlineResturnatManagement.Shared.DTO
         public string Name { get; set; }
         public bool Status { get; set; }
         public DateTime Date { get; set; }
-        public string Payment { get; set; }
+        public decimal Payment { get; set; }
         public decimal Price { get; set; }
     }
 }

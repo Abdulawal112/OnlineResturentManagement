@@ -84,6 +84,7 @@ namespace OnlineResturnatManagement.Client.Services.Service
 
         public async Task<ServiceResponse<SoftwareSettingsDto>> UpdateSoftwareSetting(SoftwareSettingsDto softwareSettings)
 {
+
             var response = await _http.PutAsJsonAsync("/api/Settings/softwareSettings", softwareSettings);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)

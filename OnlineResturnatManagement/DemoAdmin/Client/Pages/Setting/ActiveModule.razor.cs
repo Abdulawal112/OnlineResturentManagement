@@ -27,7 +27,7 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
         }
 
         private async Task GetActiveModule()
-{
+        {
             var result = await SettingsHttpService.GetAllActiveModule();
             ActiveModules = result.Data;
 
