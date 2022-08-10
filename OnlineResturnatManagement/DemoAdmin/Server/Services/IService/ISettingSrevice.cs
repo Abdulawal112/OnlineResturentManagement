@@ -10,6 +10,5 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<CompanyProfile> GetCompanyProfile();
         Task<SoftwareSettings> GetSoftwareSettingsConfig();
         Task<SoftwareSettings> UpdateSoftwareConfig(SoftwareSettings requestsSettings);
-        Task<IEnumerable<Printer>> GetPrinters();
     }
 }

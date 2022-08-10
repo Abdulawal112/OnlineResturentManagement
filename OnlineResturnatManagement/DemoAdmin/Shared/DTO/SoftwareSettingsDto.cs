@@ -77,9 +77,8 @@ namespace OnlineResturnatManagement.Shared.DTO
         public string VatCode { get; set; } = String.Empty;
         [DefaultValue(false)]
         public bool PriceIncludingSdEnable { get; set; }
-        public int? PrinterId { get; set; }
-        [NotMapped]
-        public List<PrinterDto>? PrinterDtos { get; set; }
+        public string? DefaultPrinter { get; set; }
+
 
     }
 }

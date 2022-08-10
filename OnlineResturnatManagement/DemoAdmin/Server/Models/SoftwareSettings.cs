@@ -72,7 +72,7 @@ namespace OnlineResturnatManagement.Server.Models
         public string VatCode { get; set; } = String.Empty;
         [DefaultValue(false)]
         public bool PriceIncludingSdEnable { get; set; }
-        public int? PrinterId { get; set; }
+        public string? DefaultPrinter { get; set; }
         //[NotMapped]
         //public List<Printer>? Printers { get; set; }
 

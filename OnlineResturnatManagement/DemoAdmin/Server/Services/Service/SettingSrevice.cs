@@ -52,29 +52,32 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public async Task<SoftwareSettings> UpdateSoftwareConfig(SoftwareSettings requestsSettings)
         {
 
-            var findExistSettings = await _context.SoftwareSettings.FirstOrDefaultAsync();
+            
             //var listOfPrinter = await _context.Printers.ToListAsync();
-            if (findExistSettings != null)
+            if (requestsSettings.Id !=0)
             {
-                _context.SoftwareSettings.Update(requestsSettings);
-                await _context.SaveChangesAsync();
+                if(await _context.SoftwareSettings.AnyAsync(x=>x.Id == requestsSettings.Id))
+                {
+                    _context.SoftwareSettings.Update(requestsSettings);
+                    await _context.SaveChangesAsync();
+                    return requestsSettings;
+                }
+                return null;
             }
             else
             {
                 await _context.SoftwareSettings.AddAsync(requestsSettings);
                 await _context.SaveChangesAsync();
+                return requestsSettings;
 
             }
-            return requestsSettings;
+            
 
 
 
         }
 
-        public async Task<IEnumerable<Printer>> GetPrinters()
-        {
-            return await _context.Printers.ToListAsync();
-        }
+       
 
         public async Task<SoftwareSettings> GetSoftwareSettingsConfig()
         {
