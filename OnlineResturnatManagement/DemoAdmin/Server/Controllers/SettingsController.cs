@@ -107,8 +107,6 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             SoftwareSettings response = await _settingSrevice.GetSoftwareSettingsConfig();
             var model = _mapper.Map<SoftwareSettingsDto>(response);
-            var printers = await _settingSrevice.GetPrinters();
-            model.PrinterDtos = _mapper.Map<List<PrinterDto>>(printers);
             return Ok(model);
         }
 
@@ -117,6 +115,10 @@ namespace OnlineResturnatManagement.Server.Controllers
         {
             var model = _mapper.Map<SoftwareSettings>(requestSettings);
             var response = await _settingSrevice.UpdateSoftwareConfig(model);
+            if(response == null)
+            {
+                return BadRequest();
+            }
             return Ok(_mapper.Map<SoftwareSettingsDto>(response));
         }
 
