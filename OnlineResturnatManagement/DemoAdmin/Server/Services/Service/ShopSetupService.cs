@@ -1,6 +1,11 @@
-﻿using OnlineResturnatManagement.Server.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineResturnatManagement.Server.Data;
+using OnlineResturnatManagement.Server.Migrations;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
+using OnlineResturnatManagement.Shared.DTO;
+using CreditCard = OnlineResturnatManagement.Server.Models.CreditCard;
+using CustomerSetup = OnlineResturnatManagement.Server.Models.CustomerSetup;
 
 namespace OnlineResturnatManagement.Server.Services.Service
 {
@@ -38,6 +43,16 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public Task<List<CounterInfo>> GetCounters()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<CreditCard>> GetCreditCards()
+        {
+            return await _context.CreditCards.ToListAsync();    
+        }
+
+        public async Task<List<CustomerSetup>> GetCustomersInfo()
+        {
+            return await _context.CustomerSetups.ToListAsync();
         }
 
         public Task<Kitchen> GetKitchenById(int id)
@@ -78,6 +93,46 @@ namespace OnlineResturnatManagement.Server.Services.Service
         public Task<CounterInfo> UpdateCounter(CounterInfo counter)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<CreditCard> UpdateCreditInfo(CreditCard creditCard)
+        {
+            if(creditCard.Id != 0)
+            {
+                if (await _context.CreditCards.AnyAsync(_ => _.Id == creditCard.Id))
+                {
+                    _context.CreditCards.Update(creditCard);
+                    await _context.SaveChangesAsync();
+                    return creditCard;
+                }
+                return null;
+            }
+            else
+            {
+                await _context.CreditCards.AddAsync(creditCard);
+                await _context.SaveChangesAsync();
+                return creditCard;
+            }
+        }
+
+        public async Task<CustomerSetup> UpdateCustomerInfo(CustomerSetup requestData)
+        {
+            if (requestData.Id != 0)
+            {
+                if (await _context.CustomerSetups.AnyAsync(_ => _.Id == requestData.Id))
+                {
+                    _context.CustomerSetups.Update(requestData);
+                    await _context.SaveChangesAsync();
+                    return requestData;
+                }
+                return null;
+            }
+            else
+            {
+                await _context.CustomerSetups.AddAsync(requestData);
+                await _context.SaveChangesAsync();
+                return requestData;
+            }
         }
 
         public Task<Kitchen> UpdateKitchen(Kitchen kitchen)

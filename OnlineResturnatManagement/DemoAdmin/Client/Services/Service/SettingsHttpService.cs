@@ -90,7 +90,6 @@ namespace OnlineResturnatManagement.Client.Services.Service
             if (!response.IsSuccessStatusCode)
             {
                 return new ServiceResponse<SoftwareSettingsDto> { Data = new SoftwareSettingsDto(), statusCode = ((int)response.StatusCode), status = false };
-
             }
             else
             {
