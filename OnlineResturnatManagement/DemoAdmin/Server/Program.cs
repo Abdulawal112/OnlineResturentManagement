@@ -58,6 +58,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDataAccessService, DataAccessService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ISettingSrevice, SettingSrevice>();
+builder.Services.AddScoped<IShopSetupService, ShopSetupService>();
 
 
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
