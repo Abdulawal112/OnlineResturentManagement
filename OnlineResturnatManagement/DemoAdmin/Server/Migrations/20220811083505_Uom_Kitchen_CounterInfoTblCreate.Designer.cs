@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineResturnatManagement.Server.Data;
 
@@ -11,9 +12,10 @@ using OnlineResturnatManagement.Server.Data;
 namespace OnlineResturnatManagement.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220811083505_Uom_Kitchen_CounterInfoTblCreate")]
+    partial class Uom_Kitchen_CounterInfoTblCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,8 +103,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdateBy")
                         .HasColumnType("nvarchar(max)");
@@ -163,8 +164,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Printer")
                         .HasColumnType("nvarchar(max)");
@@ -242,8 +242,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
@@ -424,8 +423,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("UOM")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdateBy")
                         .HasColumnType("nvarchar(max)");
@@ -490,8 +488,7 @@ namespace OnlineResturnatManagement.Server.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
