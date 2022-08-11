@@ -29,5 +29,8 @@ namespace OnlineResturnatManagement.Server.Data
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
 
         public DbSet<SoftwareSettings> SoftwareSettings{ get; set; }
+        public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
+        public DbSet<Kitchen> Kitchens { get; set; }
+        public DbSet<CounterInfo> Counters { get; set; }
     }
 }

@@ -2,15 +2,14 @@
 
 namespace OnlineResturnatManagement.Server.Models
 {
-    public class Role:CreateUpdate
+    public class UnitOfMeasure : CreateUpdate
     {
         [Key]
         public int Id { get; set; }
+        public string Code { get; set; }
         [Required]
-        [StringLength(200, MinimumLength = 2,
+        [StringLength(100, MinimumLength = 2,
        ErrorMessage = "*Name must be MinimumLength 2 or More.")]
-        public string Name { get; set; }
-        public string NormalizedName { get; set; }
-
+        public string UOM { get; set; }
     }
 }
