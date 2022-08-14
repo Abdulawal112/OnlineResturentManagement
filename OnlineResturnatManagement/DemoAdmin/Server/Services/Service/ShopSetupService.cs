@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Migrations;
+
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
@@ -19,32 +21,48 @@ namespace OnlineResturnatManagement.Server.Services.Service
         }
         public async Task<CounterInfo> CreateCounter(CounterInfo counter)
         {
+            
             await _context.Counters.AddAsync(counter);
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            counter.Code = counter.Id.ToString("D4");
+            _context.Counters.Attach(counter).Property(x => x.Code).IsModified = true;
+            await _context.SaveChangesAsync();
             return counter;
 
         }
 
-        public Task<Kitchen> CreateKitchen(Kitchen kitchen)
+        public async Task<Kitchen> CreateKitchen(Kitchen kitchen)
         {
-            throw new NotImplementedException();
+            await _context.Kitchens.AddAsync(kitchen);
+            await _context.SaveChangesAsync();
+            kitchen.Code = kitchen.Id.ToString("D4");
+            _context.Kitchens.Attach(kitchen).Property(x => x.Code).IsModified = true;
+            await _context.SaveChangesAsync();
+            return kitchen;
         }
 
-        public Task<UnitOfMeasure> CreateUnit(UnitOfMeasure uom)
+        public async Task<UnitOfMeasure> CreateUnit(UnitOfMeasure uom)
         {
-            throw new NotImplementedException();
+            await _context.UnitOfMeasures.AddAsync(uom);
+            await _context.SaveChangesAsync();
+
+            uom.Code = uom.Id.ToString("D4");
+            _context.UnitOfMeasures.Attach(uom).Property(x => x.Code).IsModified = true;
+            await _context.SaveChangesAsync();
+
+            return uom;
         }
 
-        public Task<CounterInfo> GetCounterById(int id)
+        public async Task<CounterInfo> GetCounterById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Counters.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<CounterInfo>> GetCounters()
+        public async Task<List<CounterInfo>> GetCounters()
         {
-            throw new NotImplementedException();
+            return await _context.Counters.ToListAsync();
         }
-
+        
         public async Task<CreditCard> GetCreditCardInfoById(int creditCardId)
         {
             return await _context.CreditCards.FindAsync(creditCardId);
@@ -67,42 +85,71 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public Task<Kitchen> GetKitchenById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Kitchens.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<Kitchen>> GetKitchens()
+        public async Task<List<Kitchen>> GetKitchens()
         {
-            throw new NotImplementedException();
+            return await _context.Kitchens.ToListAsync();
         }
 
-        public Task<UnitOfMeasure> GetUnitById(int id)
+        public async Task<UnitOfMeasure> GetUnitById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.UnitOfMeasures.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<UnitOfMeasure>> GetUnits()
+        public async Task<List<UnitOfMeasure>> GetUnits()
         {
-            throw new NotImplementedException();
+            return await _context.UnitOfMeasures.ToListAsync();
         }
 
-        public Task<bool> IsExistCounter(CounterInfo counter)
+        public async Task<bool> IsExistCounter(CounterInfo counter)
         {
-            throw new NotImplementedException();
+            bool isExist = false;
+            if (counter.Id == 0)
+            {
+                isExist = await _context.Counters.FirstOrDefaultAsync(x => x.Name == counter.Name) != null ? true : false;
+            }
+            else
+            {
+                isExist = await _context.Counters.FirstOrDefaultAsync(x => x.Name == counter.Name && x.Id != counter.Id) != null ? true : false;
+            }
+            return isExist;
         }
 
-        public Task<bool> IsExistKitchen(Kitchen kitchen)
+        public async Task<bool> IsExistKitchen(Kitchen kitchen)
         {
-            throw new NotImplementedException();
+            bool isExist = false;
+            if (kitchen.Id == 0)
+            {
+                isExist = await _context.Kitchens.FirstOrDefaultAsync(x => x.Name == kitchen.Name) != null ? true : false;
+            }
+            else
+            {
+                isExist = await _context.Counters.FirstOrDefaultAsync(x => x.Name == kitchen.Name && x.Id != kitchen.Id) != null ? true : false;
+            }
+            return isExist;
         }
 
-        public Task<bool> IsExistUnit(UnitOfMeasure uom)
+        public async Task<bool> IsExistUnit(UnitOfMeasure uom)
         {
-            throw new NotImplementedException();
+            bool isExist = false;
+            if (uom.Id == 0)
+            {
+                isExist = await _context.UnitOfMeasures.FirstOrDefaultAsync(x => x.UOM == uom.UOM) != null ? true : false;
+            }
+            else
+            {
+                isExist = await _context.UnitOfMeasures.FirstOrDefaultAsync(x => x.UOM == uom.UOM && x.Id != uom.Id) != null ? true : false;
+            }
+            return isExist;
         }
 
-        public Task<CounterInfo> UpdateCounter(CounterInfo counter)
+        public async Task<CounterInfo> UpdateCounter(CounterInfo counter)
         {
-            throw new NotImplementedException();
+            _context.Counters.Update(counter);
+            await _context.SaveChangesAsync();
+            return counter;
         }
 
         public async Task<CreditCard> UpdateCreditInfo(CreditCard creditCard)
@@ -147,12 +194,16 @@ namespace OnlineResturnatManagement.Server.Services.Service
 
         public Task<Kitchen> UpdateKitchen(Kitchen kitchen)
         {
-            throw new NotImplementedException();
+            _context.Kitchens.Update(kitchen);
+            await _context.SaveChangesAsync();
+            return kitchen;
         }
 
-        public Task<UnitOfMeasure> UpdateUnit(UnitOfMeasure uom)
+        public async Task<UnitOfMeasure> UpdateUnit(UnitOfMeasure uom)
         {
-            throw new NotImplementedException();
+            _context.UnitOfMeasures.Update(uom);
+            await _context.SaveChangesAsync();
+            return uom;
         }
     }
 }
