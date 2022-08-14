@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Migrations;
+using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
 using OnlineResturnatManagement.Shared.DTO;
@@ -80,6 +81,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
         {
             return await _context.CustomerSetups.ToListAsync();
         }
+
 
         public async Task<Kitchen> GetKitchenById(int id)
         {
@@ -189,7 +191,6 @@ namespace OnlineResturnatManagement.Server.Services.Service
                 return requestData;
             }
         }
-
         public async Task<Kitchen> UpdateKitchen(Kitchen kitchen)
         {
             _context.Kitchens.Update(kitchen);

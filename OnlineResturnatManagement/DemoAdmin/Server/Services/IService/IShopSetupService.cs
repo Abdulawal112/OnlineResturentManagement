@@ -26,7 +26,6 @@ namespace OnlineResturnatManagement.Server.Services.IService
         public Task<List<CounterInfo>> GetCounters();
         public Task<CounterInfo> GetCounterById(int id);
 
-
         //CustomerSetup
         Task<List<CustomerSetup>>GetCustomersInfo();
         Task<CustomerSetup> UpdateCustomerInfo(CustomerSetup requestData);
