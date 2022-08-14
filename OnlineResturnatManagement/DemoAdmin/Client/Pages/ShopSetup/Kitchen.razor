@@ -1,0 +1,96 @@
+﻿@page "/settings/shop-setup/kitchen"
+@inject IToastService toastService
+@attribute [Authorize]
+
+
+
+@if (statusResult.Message != "" && statusResult.StatusCode == 201)
+{
+    toastService.ShowSuccess(@statusResult.Message);
+}
+@if (statusResult.Message != "" && statusResult.StatusCode == 200)
+{
+
+    toastService.ShowInfo(@statusResult.Message);
+}
+
+@if (kitchens == null)
+{
+    <span>Loading Kitchens...</span>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Kitchens</h4>
+            <h6 class="card-subtitle"></h6>
+            <div class="header m-2">
+                <div class="row font-weight-bold">
+                    <div class="col">Name</div>
+                    <div class="col">Responsible</div>
+                    <div class="col">Code</div>
+                    <div class="col">Action</div>
+                </div>
+
+            </div>
+            <hr class="m-0 p-0" />
+            @foreach (var item in kitchens)
+            {
+                @if (item.Editing)
+                {
+                    <EditForm Model="editingKitchen" OnSubmit="UpdateKitchen">
+                        <div class="row p-2">
+                            <div class="col">
+                                <InputText @bind-Value="item.Name" class="form-control"></InputText>
+                                @if (!String.IsNullOrEmpty(message))
+                                {
+                                    <span class="text-danger">@message</span>
+                                }
+                            </div>
+                            <div class="col">
+                                <InputText @bind-Value="item.ResponsiblePerson" class="form-control"></InputText>
+                            </div>
+                            <div class="col">
+                                <InputText readonly @bind-Value="item.Code" class="form-control"></InputText>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="oi oi-cloud-upload"></i>
+                                </button>
+                                <button class="btn btn-primary" @onclick="CancelEditing">
+                                    <i class="oi oi-circle-x"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    <div class="row p-2">
+                        <div class="col pl-2">
+                            @item.Name
+                        </div>
+                        <div class="col pl-2">
+                            @item.ResponsiblePerson
+                        </div>
+                        <div class="col pl-2">
+                            @item.Code
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-primary" @onclick="(() => EditKitchen(item))">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+                <hr class="m-0 p-0" />
+            }
+        </div>
+    </div>
+
+    <button class="btn btn-primary" @onclick="CreateNewKitchen">
+        <i class="oi oi-plus"></i> Add new Kitchen
+    </button>
+}

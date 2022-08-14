@@ -13,6 +13,9 @@ namespace OnlineResturnatManagement.Server.Helper
             CreateMap<CompanyProfile, CompanyProfileDto>().ReverseMap();
             CreateMap<NavigationMenu, NavigationMenuDto>().ReverseMap();
             CreateMap<SoftwareSettings, SoftwareSettingsDto>().ReverseMap();
+            CreateMap<UnitOfMeasure, UnitOfMeasureDto>().ReverseMap();
+            CreateMap<Kitchen, KitchenDto>().ReverseMap();
+            CreateMap<CounterInfo, CounterInfoDto>().ReverseMap();
 
         }
     }

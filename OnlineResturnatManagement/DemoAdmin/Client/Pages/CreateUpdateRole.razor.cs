@@ -74,7 +74,6 @@ namespace OnlineResturnatManagement.Client.Pages
             {
                 editingRole.CreateDate = DateTime.Now;
                 editingRole.CreateBy = await GetCurrentUserNameAsync();
-                editingRole.CreateBy = await GetCurrentUserNameAsync();
                 var response = await UserHttpService.CreateRole(editingRole);
                 var result = ResponseErrorMessage.GetErrorMessage(response.statusCode);
                 message = result.Message;

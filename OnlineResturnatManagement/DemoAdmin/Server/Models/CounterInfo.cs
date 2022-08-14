@@ -7,7 +7,7 @@ namespace OnlineResturnatManagement.Server.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2,
        ErrorMessage = "*Name must be MinimumLength 2 or More.")]
