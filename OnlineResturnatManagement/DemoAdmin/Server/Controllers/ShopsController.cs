@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Helper;
 using OnlineResturnatManagement.Server.Models;
@@ -144,18 +143,16 @@ namespace OnlineResturnatManagement.Server.Controllers
             }
             return StatusCode(400);
         }
-
         [HttpGet("customersInfo")]
-        public async Task<ActionResult<List<CustomerSetup>>>GetCustomersInfo()
+        public async Task<ActionResult<List<CustomerSetup>>> GetCustomersInfo()
         {
-            var response =await _shopsService.GetCustomersInfo();
+            var response = await _shopsService.GetCustomersInfo();
             if (response == null || response.Count == 0)
             {
                 return NotFound();
             }
             return Ok(response);
         }
-
         [HttpGet("customerInfo")]
         public async Task<ActionResult<CustomerSetup>> GetCUstomerById(int customerId)
         {

@@ -25,10 +25,6 @@ namespace OnlineResturnatManagement.Server.Services.IService
         //CounterInfo
         public Task<List<CounterInfo>> GetCounters();
         public Task<CounterInfo> GetCounterById(int id);
-        public Task<CounterInfo> CreateCounter(CounterInfo counter);
-        public Task<CounterInfo> UpdateCounter(CounterInfo counter);
-        public Task<bool> IsExistCounter(CounterInfo counter);
-  
 
         //CustomerSetup
         Task<List<CustomerSetup>>GetCustomersInfo();
@@ -39,5 +35,8 @@ namespace OnlineResturnatManagement.Server.Services.IService
         Task<List<CreditCard>> GetCreditCards();
         Task<CreditCard> UpdateCreditInfo(CreditCard creditCard);
         Task<CreditCard> GetCreditCardInfoById(int creditCardId);
+        public Task<CounterInfo> CreateCounter(CounterInfo counter);
+        public Task<CounterInfo> UpdateCounter(CounterInfo counter);
+        public Task<bool> IsExistCounter(CounterInfo counter);
     }
 }
