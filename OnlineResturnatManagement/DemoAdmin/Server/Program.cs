@@ -86,7 +86,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "ExamSystemAppApi",
+        Title = "OnlineResturantManagement",
         Version = "v1"
     });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
