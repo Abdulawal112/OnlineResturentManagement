@@ -1,4 +1,5 @@
-﻿using OnlineResturnatManagement.Server.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineResturnatManagement.Server.Data;
 using OnlineResturnatManagement.Server.Migrations;
 using OnlineResturnatManagement.Server.Models;
 using OnlineResturnatManagement.Server.Services.IService;
@@ -80,7 +81,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             return await _context.CustomerSetups.ToListAsync();
         }
 
-        public Task<Kitchen> GetKitchenById(int id)
+        public async Task<Kitchen> GetKitchenById(int id)
         {
             return await _context.Kitchens.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -189,7 +190,7 @@ namespace OnlineResturnatManagement.Server.Services.Service
             }
         }
 
-        public Task<Kitchen> UpdateKitchen(Kitchen kitchen)
+        public async Task<Kitchen> UpdateKitchen(Kitchen kitchen)
         {
             _context.Kitchens.Update(kitchen);
             await _context.SaveChangesAsync();
