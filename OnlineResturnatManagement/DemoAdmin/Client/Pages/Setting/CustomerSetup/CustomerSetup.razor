@@ -1,0 +1,136 @@
+﻿@page "/customerSetup"
+@inject IToastService toastService
+@attribute [Authorize]
+@if (StatusResult.Message != "" && StatusResult.StatusCode == 201)
+{
+    @*<div class="alert alert-success">@statusResult.Message</div>*@
+    toastService.ShowSuccess(@StatusResult.Message);
+
+}
+@if (StatusResult.Message != "" && StatusResult.StatusCode == 200)
+{
+    @*<div class="alert alert-success">@statusResult.Message</div>*@
+    toastService.ShowInfo(@StatusResult.Message);
+
+}
+
+@if(Customers.Count==0 || Customers == null){
+    <span>Loading Customers...</span>
+}
+else
+{
+    <div class="row" id="foot">
+        <div class="col-12">
+            <div class="card">
+                <!-- .left-right-aside-column-->
+                <div class="contact-page-aside p-3">
+                    <div class="">
+                        <div class="page-header">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <h4 class="card-title m-t-10">Customer List </h4>
+                                </div>
+                                @* <div class="ml-auto">
+
+                            <input type="text" name="@Search" value="@Search" id="demo-input-search2" placeholder="search contacts"
+                            class="form-control" @onchange="(() => SearchUser(Search))">
+                            </div>*@
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="demo-foo-addrow"
+                               class="table table-bordered m-t-30 no-wrap table-hover contact-list"
+                               data-paging="true" data-paging-size="7">
+                                <thead>
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Disscount Percent</th>
+                                        <th>Phone No</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var i = 1;
+                                    }
+                                    @foreach (var customer in Customers)
+                                    {
+                                        <tr>
+
+                                            <td>@i</td>
+                                            <td>@customer.CardNo</td>
+                                            <td>@customer.Name</td>
+                                            <td>@customer.DiscountPercent</td>
+                                            <td><span class="label label-success">@customer.PhoneNo</span> </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(()=>EditCustomer(customer.Id))">
+                                                    <i class=" oi oi-pencil"></i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @onclick="(()=>EditCustomer(0))">
+                                <i class="oi oi-plus"></i> Add Customer
+                            </button>
+                        </div>
+                        <!-- .left-aside-column-->
+                    </div>
+                    <!-- /.left-right-aside-column-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+
+            <EditForm Model="CustomerSetupDtos" OnSubmit="UpdateCustomer">
+                <div class="modal-body">
+                    <div class="row p-2">
+
+                        <div class="col-6">
+                            <label>Card No</label>
+                            <InputText @bind-Value="CustomerSetupDtos.CardNo" class="form-control"></InputText>
+                        </div>
+
+                        <div class="col-6">
+                            <label>Name</label>
+                            <InputText @bind-Value="CustomerSetupDtos.Name" class="form-control"></InputText>
+                        </div>
+                        <div class="col-6">
+                            <label>Phone Number</label>
+                            <InputText @bind-Value="CustomerSetupDtos.PhoneNo" class="form-control"></InputText>
+                        </div>
+                        <div class="col-6">
+                            <label>Discount Percent</label>
+                            <InputNumber @bind-Value="CustomerSetupDtos.DiscountPercent" class="form-control"></InputNumber>
+                        </div>
+                        
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
