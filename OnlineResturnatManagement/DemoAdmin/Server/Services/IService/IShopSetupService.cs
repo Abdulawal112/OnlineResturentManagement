@@ -1,4 +1,8 @@
-﻿using OnlineResturnatManagement.Server.Models;
+﻿using OnlineResturnatManagement.Server.Migrations;
+using OnlineResturnatManagement.Server.Models;
+using OnlineResturnatManagement.Shared.DTO;
+using CreditCard = OnlineResturnatManagement.Server.Models.CreditCard;
+using CustomerSetup = OnlineResturnatManagement.Server.Models.CustomerSetup;
 
 namespace OnlineResturnatManagement.Server.Services.IService
 {
@@ -21,6 +25,17 @@ namespace OnlineResturnatManagement.Server.Services.IService
         //CounterInfo
         public Task<List<CounterInfo>> GetCounters();
         public Task<CounterInfo> GetCounterById(int id);
+
+
+        //CustomerSetup
+        Task<List<CustomerSetup>>GetCustomersInfo();
+        Task<CustomerSetup> UpdateCustomerInfo(CustomerSetup requestData);
+        Task<CustomerSetup> GetCUstomerById(int customerId);
+
+        //CreditCardsInfo
+        Task<List<CreditCard>> GetCreditCards();
+        Task<CreditCard> UpdateCreditInfo(CreditCard creditCard);
+        Task<CreditCard> GetCreditCardInfoById(int creditCardId);
         public Task<CounterInfo> CreateCounter(CounterInfo counter);
         public Task<CounterInfo> UpdateCounter(CounterInfo counter);
         public Task<bool> IsExistCounter(CounterInfo counter);

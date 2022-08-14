@@ -32,5 +32,7 @@ namespace OnlineResturnatManagement.Server.Data
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<Kitchen> Kitchens { get; set; }
         public DbSet<CounterInfo> Counters { get; set; }
+        public DbSet<CustomerSetup> CustomerSetups  { get; set; }
+        public DbSet<CreditCard>CreditCards { get; set; }
     }
 }

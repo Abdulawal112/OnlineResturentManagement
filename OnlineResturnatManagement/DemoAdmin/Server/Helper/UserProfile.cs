@@ -16,6 +16,8 @@ namespace OnlineResturnatManagement.Server.Helper
             CreateMap<UnitOfMeasure, UnitOfMeasureDto>().ReverseMap();
             CreateMap<Kitchen, KitchenDto>().ReverseMap();
             CreateMap<CounterInfo, CounterInfoDto>().ReverseMap();
+            CreateMap<CreditCard,CreditCardDtos>().ReverseMap();
+            CreateMap<CustomerSetup, CustomerSetupDtos>().ReverseMap(); 
 
         }
     }
