@@ -35,6 +35,17 @@ namespace OnlineResturnatManagement.Server.Controllers
             return Ok(response);
         }
 
+        [HttpGet("customerInfo")]
+        public async Task<ActionResult<CustomerSetup>> GetCUstomerById(int customerId)
+        {
+            var response = await _shopsService.GetCUstomerById(customerId);
+            if(response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
         [HttpPut("customersInfo")]
         public async Task<ActionResult<CustomerSetupDtos>>UpdateCustomerInfo(CustomerSetupDtos customerSetupDtos)
         {
@@ -51,6 +62,13 @@ namespace OnlineResturnatManagement.Server.Controllers
             {
                 return NotFound();
             }
+            return Ok(response);
+        }
+        [HttpGet("creditCard")]
+        public async Task<ActionResult<CreditCard>>GetCreditCardInfo(int creditCardId)
+        {
+            var response = await _shopsService.GetCreditCardInfoById(creditCardId);
+            if (response == null) return NotFound();
             return Ok(response);
         }
 

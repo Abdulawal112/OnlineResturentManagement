@@ -45,9 +45,19 @@ namespace OnlineResturnatManagement.Server.Services.Service
             throw new NotImplementedException();
         }
 
+        public async Task<CreditCard> GetCreditCardInfoById(int creditCardId)
+        {
+            return await _context.CreditCards.FindAsync(creditCardId);
+        }
+
         public async Task<List<CreditCard>> GetCreditCards()
         {
             return await _context.CreditCards.ToListAsync();    
+        }
+
+        public async Task<CustomerSetup> GetCUstomerById(int customerId)
+        {
+            return await _context.CustomerSetups.FindAsync(customerId); 
         }
 
         public async Task<List<CustomerSetup>> GetCustomersInfo()

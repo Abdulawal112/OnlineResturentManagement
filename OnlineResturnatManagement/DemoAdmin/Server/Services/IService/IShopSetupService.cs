@@ -32,9 +32,11 @@ namespace OnlineResturnatManagement.Server.Services.IService
         //CustomerSetup
         Task<List<CustomerSetup>>GetCustomersInfo();
         Task<CustomerSetup> UpdateCustomerInfo(CustomerSetup requestData);
+        Task<CustomerSetup> GetCUstomerById(int customerId);
 
         //CreditCardsInfo
         Task<List<CreditCard>> GetCreditCards();
         Task<CreditCard> UpdateCreditInfo(CreditCard creditCard);
+        Task<CreditCard> GetCreditCardInfoById(int creditCardId);
     }
 }
