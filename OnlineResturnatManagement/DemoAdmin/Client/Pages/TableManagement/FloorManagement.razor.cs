@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Reflection.Metadata;
 
@@ -18,9 +19,10 @@ namespace OnlineResturnatManagement.Client.Pages.TableManagement
 
 
         }
-        public async Task Call()
+        public async Task Call(string mydata)
         {
-            await JSRuntime.InvokeVoidAsync("callDragable", "data");
+            Console.WriteLine(mydata);
+            await JSRuntime.InvokeVoidAsync("dragElement", mydata);
         }
     }
 }
