@@ -1,10 +1,13 @@
-﻿var draggableElements = document.getElementsByClassName("draggable");
+﻿
 
-for (var i = 0; i < draggableElements.length; i++) {
+/*for (var i = 0; i < draggableElements.length; i++) {
     dragElement(draggableElements[i]);
-}
+}*/
 
 function dragElement(elmnt) {
+    var draggableElements = document.getElementById(elmnt);
+    elmnt = draggableElements;
+    console.log(elmnt);
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (document.getElementById(elmnt.id + "header")) {
         document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
