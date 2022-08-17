@@ -13,3 +13,28 @@
     background-color: #2196F3;
     color: #fff;
 }
+.draggable {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    text-align: center;
+    border: 1px solid #d3d3d3;
+    margin-right:100px;
+}
+#container {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#container {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+p {
+    margin: 4px;
+}
+
+#drag-items img {
+    height: 100px;
+}
