@@ -1,8 +1,7 @@
 ﻿@page "/employees"
-
 @attribute [Authorize]
 
-<h3>SetData</h3>
+
 @if (Employees == null || Employees.Count == 0)
 {
     <span>Loading Employees...</span>
