@@ -1,41 +1,48 @@
-﻿
+﻿var width = window.innerWidth;
+var height = window.innerHeight;
 
-/*for (var i = 0; i < draggableElements.length; i++) {
-    dragElement(draggableElements[i]);
-}*/
+var stage = new Konva.Stage({
+    container: 'container',
+    width: width,
+    height: height,
+});
+var layer = new Konva.Layer({
+    width: 150,
+    height: 90,
+    draggable: true,
+});
+stage.add(layer);
 
-function dragElement(elmnt) {
-    var draggableElements = document.getElementById(elmnt);
-    elmnt = draggableElements;
-    console.log(elmnt);
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "header")) {
-        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-    } else {
-        elmnt.onmousedown = dragMouseDown;
-    }
-    function dragMouseDown(e) {
-        e = e || window.event;
-        pos3 = parseInt(e.clientX);
-        pos4 = parseInt(e.clientY);
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-        return false;
-    }
+// what is url of dragging element?
+var itemURL = '';
+document
+    .getElementById('drag-items')
+    .addEventListener('dragstart', function (e) {
+        itemURL = e.target.src;
+    });
 
-    function elementDrag(e) {
-        e = e || window.event;
-        pos1 = pos3 - parseInt(e.clientX);
-        pos2 = pos4 - parseInt(e.clientY);
-        pos3 = parseInt(e.clientX);
-        pos4 = parseInt(e.clientY);
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        console.log(elmnt.offsetTop)
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
+var con = stage.container();
+con.addEventListener('dragover', function (e) {
+    e.preventDefault(); // !important
+});
 
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
+con.addEventListener('drop', function (e) {
+    e.preventDefault();
+    stage.setPointersPositions(e);
+    /*var tr1 = new Konva.Transformer({
+        nodes: [layer],
+        centeredScaling: true,
+        rotationSnaps: [0, 90, 180, 270],
+        resizeEnabled: false,
+    });*/
+   
+    Konva.Image.fromURL(itemURL, function (image) {
+        layer.add(image);
+       /* layer.add(tr1);*/
+        image.width(200);
+        image.height(200);
+        
+        image.position(stage.getPointerPosition());
+        image.draggable(true);
+    });
+});
