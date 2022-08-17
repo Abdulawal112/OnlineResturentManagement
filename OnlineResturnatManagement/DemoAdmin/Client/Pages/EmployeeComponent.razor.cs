@@ -7,6 +7,8 @@ using System.Net.NetworkInformation;
 
 using OnlineResturnatManagement.Client.HttpRepository;
 
+using System.Net.Http;
+
 namespace OnlineResturnatManagement.Client.Pages
 {
     public partial class EmployeeComponent : IDisposable
@@ -17,8 +19,10 @@ namespace OnlineResturnatManagement.Client.Pages
         public HttpInterceptorService Interceptor { get; set; }
         [Inject]
         public IEmployeeHttpService EmployeeService { get; set; }
+        
 
         public List<Employee> Employees = new List<Employee>();
+        
         protected override async Task OnInitializedAsync()
         {
             Interceptor.RegisterEvent();
@@ -29,6 +33,7 @@ namespace OnlineResturnatManagement.Client.Pages
             }
             Employees = result.Data;
         }
+       
         public void Dispose() => Interceptor.DisposeEvent();
     }
 }
