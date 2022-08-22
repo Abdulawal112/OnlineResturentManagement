@@ -11,6 +11,14 @@ var layer = new Konva.Layer({
     height: 90,
     draggable: true,
 });
+var text = new Konva.Text({
+    x: 10,
+    y: 15,
+    text: 'Simple Text',
+    fontSize: 30,
+    fontFamily: 'Calibri',
+    fill: 'green'
+});
 stage.add(layer);
 
 
