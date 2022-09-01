@@ -17,7 +17,6 @@ namespace OnlineResturnatManagement.Client.Pages.TableManagement
             StateHasChanged();
             //
 
-
         }
         public async Task Call(string mydata)
         {
