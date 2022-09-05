@@ -60,7 +60,7 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
         private async Task OnInputFileChange(InputFileChangeEventArgs e)
         {
             imageMessage = "";
-             IBrowserFile imgFile = e.File;
+            IBrowserFile imgFile = e.File;
             var buffers = new byte[imgFile.Size];
             await imgFile.OpenReadStream().ReadAsync(buffers);
             string imageType = imgFile.ContentType;
@@ -78,7 +78,7 @@ namespace OnlineResturnatManagement.Client.Pages.Setting
             {
                 imageMessage = "Size is too big.image size must be lest then 5mb.";
             }
-           
+
             this.StateHasChanged();
         }
     }

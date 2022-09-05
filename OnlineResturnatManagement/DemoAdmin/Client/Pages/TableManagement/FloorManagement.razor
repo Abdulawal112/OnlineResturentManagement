@@ -3,9 +3,15 @@
 
 <p>Tables</p>
 <button id="save">Save</button>
-<button id="delete-shape" >Delete From Canvas</button>
+<div class="col-12 form-group">
+    <label class="control-label">Select Canvas Background</label>
+    <div class="controls">
+        <InputFile OnChange="OnInputFileChange" id="bg_image" />
+    </div>
+    @*<img src="@imgUrl">*@
+</div>
 <div id="drag-items">
-    <img src="/monster-admin/assets/images/big/img1.jpg" draggable="true" />
+    <img src="/monster-admin/assets/images/big/restaurant.jpg" draggable="true" />
     <img src="/monster-admin/assets/images/big/img2.jpg" draggable="true" />
 </div>
 <div id="container"></div>
