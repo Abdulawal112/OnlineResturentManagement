@@ -8,36 +8,24 @@ var stage = new Konva.Stage({
 });
 
 var layer = new Konva.Layer({
-    width: 150,
-    height: 90,
     draggable: true,
 });
 
-var imageObj = new Image();
-imageObj.src = 'https://cdn3.vectorstock.com/i/1000x1000/12/57/a-simple-nature-scene-vector-23891257.jpg';
-
-imageObj.onload = function () {
-    var map = new Konva.Image({
-        x: 0,
-        y: 0,
-        image: imageObj,
-        width: width,
-        height: height
-    });
-    layer.add(map);
-}
 
 
+//var imageObj = new Image();
+//imageObj.src = 'https://cdn3.vectorstock.com/i/1000x1000/12/57/a-simple-nature-scene-vector-23891257.jpg';
 
-
-var text = new Konva.Text({
-    x: 10,
-    y: 15,
-    text: 'Simple Text',
-    fontSize: 30,
-    fontFamily: 'Calibri',
-    fill: 'green'
-});
+//imageObj.onload = function () {
+//    var map = new Konva.Image({
+//        x: 0,
+//        y: 0,
+//        image: imageObj,
+//        width: width,
+//        height: height,
+//    });
+//    layer.add(map);
+//}
 
 stage.add(layer);
 
@@ -115,23 +103,49 @@ function applyCrop(pos) {
     img.setAttrs(crop);
 }
 
-//For Text
-var textNode = new Konva.Text({
-    text: 'Some text here',
-    x: 50,
-    y: 50,
-    fontSize: 20,
-});
-/*const getKonvaCanvas = document.getElementsByClassName('konvajs-content');*/
-const getDeleteId = document.getElementById('delete-shape');
-getDeleteId.addEventListener('click', () => {
-
-})
+const getClassOfCanvas = document.getElementsByClassName('konvajs-content');
 
 //Image DragDrop
 con.addEventListener('drop', function (e) {
+    //var textNode = new Konva.Text({
+    //    text: 'Some text here',
+    //    x: 50,
+    //    y: 50,
+    //    fontSize: 12,
+    //    draggable: true
+    //});
     e.preventDefault();
     stage.setPointersPositions(e);
+    /*layer.add(textNode);*/
+
+    //var textNode = new Konva.Text({
+    //    text: 'Some text here',
+    //    x: 50,
+    //    y: 50,
+    //    fontSize: 20,
+    //});
+
+    //layer.add(textNode);
+    //var textPosition = textNode.getAbsolutePosition();
+
+    //// then lets find position of stage container on the page:
+    //var stageBox = stage.container().getBoundingClientRect();
+
+    //// so position of textarea will be the sum of positions above:
+    //var areaPosition = {
+    //    x: stageBox.left + textPosition.x,
+    //    y: stageBox.top + textPosition.y,
+    //};
+
+    //// create textarea and style it
+    //var textarea = document.createElement('textarea');
+    //document.body.appendChild(textarea);
+
+    //textarea.value = textNode.text();
+    //textarea.style.position = 'absolute';
+    //textarea.style.top = areaPosition.y + 'px';
+    //textarea.style.left = areaPosition.x + 'px';
+    //textarea.style.width = textNode.width();
 
     Konva.Image.fromURL(itemURL, function (image) {
 
@@ -143,8 +157,8 @@ con.addEventListener('drop', function (e) {
             fill: 'black',
             stroke: 'black',
             strokeWidth: 1,
+      
         });
-
         layer.add(image);
         image.position(stage.getPointerPosition());
 
@@ -158,6 +172,7 @@ con.addEventListener('drop', function (e) {
                 return newBox;
             },
         });
+
         layer.add(tr);
 
 
@@ -172,21 +187,43 @@ con.addEventListener('drop', function (e) {
             applyCrop(image.getAttr('lastCropUsed'));
         });
 
-        image.on('click', function (evt) {
-            tr.nodes([]);
-            var json = stage.toJSON();
-            console.log(json);
+        //image.on('mouseleave', function (evt) {
+        //    tr.nodes([]);
+           
+        //});
+
+        image.on('mouseenter', function (evt) {
+            tr.nodes([image]);
+            //image.setAttrs({
+            //    fill: 'blue',
+            //    stroke: 'blue',
+            //    strokeWidth: 3,
+            //});
+
+            //var json = stage.toJSON();
+            //console.log(json);
         });
 
         image.on('dblclick', function (evt) {
-            tr.nodes([image]);
+            evt.target.remove();
+            tr.nodes([]);
+            //image.setAttrs({
+            //    fill: 'black',
+            //    stroke: 'black',
+            //    strokeWidth: 1,
+            //});
         });
+
+        stage.addEventListener('click', () => {
+            tr.nodes([]);
+        })
 
         //getKonvaCanvas[0].addEventListener('click', () => {
         //    tr.nodes([]);
         //})
 
     });
+   
 
    
    /* document
@@ -202,23 +239,22 @@ con.addEventListener('drop', function (e) {
         
     });
 */
-
-    /* document
-        .getElementById('save')
-        .addEventListener('click', function (e) {
-            state.forEach((item, index) => {
-                console.log(item);
-                console.log("index",index);
-
-                *//*var node = new Konva.Image({
-                    draggable: true,
-                    name: 'item-' + index,
-                    // make it smaller
-                    scaleX: 0.5,
-                    scaleY: 0.5,
-                });*//*
-            });
-        });*/
    
 });
+
+const SelectedBg = document.getElementById('bg_image');
+const getCanvasContainer = document.getElementById('container');
+
+SelectedBg.addEventListener('change', ({ target }) => {
+    if (target.files[0]) {
+        const srcOfImage = URL.createObjectURL(target.files[0]);
+        getCanvasContainer.style.backgroundImage = `url(${srcOfImage})`;
+        getCanvasContainer.onload = function () {
+            URL.revokeObjectURL(getCanvasContainer.src) // free memory
+        }
+    };
+});
+
+/*stage.getContainer().style.backgroundImage = url('https://upload.wikimedia.org/wikipedia/commons/a/a8/TEIDE.JPG');*/
+/*document.body.style.background = "url(" + canvas.toDataURL() + ")";*/
 

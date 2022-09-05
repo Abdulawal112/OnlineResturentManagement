@@ -98,6 +98,10 @@ hr:not([size]) {
 .form-body.software-settings > .row {
     margin-bottom: -7px !important;
 }
+#container
+{
+    background-repeat:no-repeat;
+}
 
 @media(min-width:575px) {
         .blazored-toast {
