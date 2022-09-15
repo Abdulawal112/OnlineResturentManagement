@@ -1,17 +1,27 @@
 ﻿@page "/testingTableManagement"
 @inject IJSRuntime JS
 
-<p>Tables</p>
-<button id="save">Save</button>
+<div class="rulesof-tablemanagement">
+    <p style="font-weight:bold;font-size:1.25rem;color:red;border-bottom:1px solid black;display:inline">NB:</p>
+    <ul>
+        <li>For Decorate tables Drag and Drop Below Table Images.</li>
+        <li>For Edit a Table Name Click Double on the Top of Table.</li>
+        <li>For Rotate Resize Opreation Use Mouse.</li>
+        <li>For Unselect All the Table Click On The Empty Floor.</li>
+        <li>After Orderring Tables Click on the Save Button to save the layout.</li>
+    </ul>
+</div>
 <div class="col-12 form-group">
-    <label class="control-label">Select Canvas Background</label>
+    <label class="control-label">Select Floor Background</label>
     <div class="controls">
         <InputFile OnChange="OnInputFileChange" id="bg_image" />
     </div>
     @*<img src="@imgUrl">*@
 </div>
+
 <div id="drag-items">
     <img src="/monster-admin/assets/images/big/restaurant.jpg" draggable="true" />
     <img src="/monster-admin/assets/images/big/img2.jpg" draggable="true" />
 </div>
+
 <div id="container"></div>
