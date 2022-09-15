@@ -101,6 +101,15 @@ hr:not([size]) {
 #container
 {
     background-repeat:no-repeat;
+    background-size:contain;
+}
+
+.rulesof-tablemanagement {
+    font-size: 1.1rem;
+    font-weight: 400;
+    border-bottom: 1px dashed black;
+    padding: 5px;
+    margin-bottom: 15px;
 }
 
 @media(min-width:575px) {

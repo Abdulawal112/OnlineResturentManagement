@@ -1,84 +1,21 @@
 ﻿var width = window.innerWidth;
 var height = window.innerHeight;
 
+
 var stage = new Konva.Stage({
     container: 'container',
     width: width,
     height: height,
+    position:'relative'
 });
 
 var layer = new Konva.Layer({
     draggable: true,
 });
 
-
-
-//var imageObj = new Image();
-//imageObj.src = 'https://cdn3.vectorstock.com/i/1000x1000/12/57/a-simple-nature-scene-vector-23891257.jpg';
-
-//imageObj.onload = function () {
-//    var map = new Konva.Image({
-//        x: 0,
-//        y: 0,
-//        image: imageObj,
-//        width: width,
-//        height: height,
-//    });
-//    layer.add(map);
-//}
-
 stage.add(layer);
 
 
-function getCrop(image, size, clipPosition = 'center-middle') {
-    const width = size.width;
-    const height = size.height;
-    const aspectRatio = width / height;
-
-    let newWidth;
-    let newHeight;
-
-    const imageRatio = image.width / image.height;
-
-    if (aspectRatio >= imageRatio) {
-        newWidth = image.width;
-        newHeight = image.width / aspectRatio;
-    }
-    else
-    {
-        newWidth = image.height * aspectRatio;
-        newHeight = image.height;
-    }
-
-    let x = 0;
-    let y = 0;
-
-    if (clipPosition === 'center-middle') {
-        x = (image.width - newWidth) / 2;
-        y = (image.height - newHeight) / 2;
-    
-    } else if (clipPosition === 'scale') {
-        x = 0;
-        y = 0;
-        newWidth = width;
-        newHeight = height;
-    } else {
-        console.error(
-            new Error('Unknown clip position property - ' + clipPosition)
-        );
-    }
-
-    return {
-        cropX: x,
-        cropY: y,
-        cropWidth: newWidth,
-        cropHeight: newHeight,
-    };
-}
-
-
-
-// what is url of dragging element?
 var itemURL = '';
 document
     .getElementById('drag-items')
@@ -91,159 +28,205 @@ con.addEventListener('dragover', function (e) {
     e.preventDefault(); // !important
 });
 
-// function to apply crop
-function applyCrop(pos) {
-    const img = layer.findOne('.image');
-    img.setAttr('lastCropUsed', pos);
-    const crop = getCrop(
-        img.image(),
-        { width: img.width(), height: img.height() },
-        pos
-    );
-    img.setAttrs(crop);
-}
+//transform row
+var tr = new Konva.Transformer({
+    enabledAnchors: ['middle-left', 'middle-right', 'bottom-center', 'top-center'],
+});
+
+//selection rectangular
+var selectionRectangle = new Konva.Rect({
+    fill: 'rgba(0,0,255,0.5)',
+    visible: false,
+});
+
 
 const getClassOfCanvas = document.getElementsByClassName('konvajs-content');
+const getCanvasContainer = document.getElementById('container');
 
 //Image DragDrop
 con.addEventListener('drop', function (e) {
-    //var textNode = new Konva.Text({
-    //    text: 'Some text here',
-    //    x: 50,
-    //    y: 50,
-    //    fontSize: 12,
-    //    draggable: true
-    //});
-    e.preventDefault();
-    stage.setPointersPositions(e);
-    /*layer.add(textNode);*/
 
-    //var textNode = new Konva.Text({
-    //    text: 'Some text here',
-    //    x: 50,
-    //    y: 50,
-    //    fontSize: 20,
-    //});
-
-    //layer.add(textNode);
-    //var textPosition = textNode.getAbsolutePosition();
-
-    //// then lets find position of stage container on the page:
-    //var stageBox = stage.container().getBoundingClientRect();
-
-    //// so position of textarea will be the sum of positions above:
-    //var areaPosition = {
-    //    x: stageBox.left + textPosition.x,
-    //    y: stageBox.top + textPosition.y,
-    //};
-
-    //// create textarea and style it
-    //var textarea = document.createElement('textarea');
-    //document.body.appendChild(textarea);
-
-    //textarea.value = textNode.text();
-    //textarea.style.position = 'absolute';
-    //textarea.style.top = areaPosition.y + 'px';
-    //textarea.style.left = areaPosition.x + 'px';
-    //textarea.style.width = textNode.width();
-
-    Konva.Image.fromURL(itemURL, function (image) {
-
-        image.setAttrs({
-            width: 200,
-            height: 200,
-            name: 'image',
-            draggable: true,
-            fill: 'black',
-            stroke: 'black',
-            strokeWidth: 1,
-      
-        });
-        layer.add(image);
-        image.position(stage.getPointerPosition());
-
-        const tr = new Konva.Transformer({
-            nodes: [image],
-            keepRatio: true,
-            boundBoxFunc: (oldBox, newBox) => {
-                if (newBox.width < 10 || newBox.height < 10) {
-                    return oldBox;
-                }
-                return newBox;
-            },
-        });
-
-        layer.add(tr);
-
-
-        image.on('transform', () => {
-            // reset scale on transform
-            image.setAttrs({
-                scaleX: 1,
-                scaleY: 1,
-                width: image.width() * image.scaleX(),
-                height: image.height() * image.scaleY(),
-            });
-            applyCrop(image.getAttr('lastCropUsed'));
-        });
-
-        //image.on('mouseleave', function (evt) {
-        //    tr.nodes([]);
-           
-        //});
-
-        image.on('mouseenter', function (evt) {
-            tr.nodes([image]);
-            //image.setAttrs({
-            //    fill: 'blue',
-            //    stroke: 'blue',
-            //    strokeWidth: 3,
-            //});
-
-            //var json = stage.toJSON();
-            //console.log(json);
-        });
-
-        image.on('dblclick', function (evt) {
-            evt.target.remove();
-            tr.nodes([]);
-            //image.setAttrs({
-            //    fill: 'black',
-            //    stroke: 'black',
-            //    strokeWidth: 1,
-            //});
-        });
-
-        stage.addEventListener('click', () => {
-            tr.nodes([]);
-        })
-
-        //getKonvaCanvas[0].addEventListener('click', () => {
-        //    tr.nodes([]);
-        //})
-
+    var layerOfX = e.layerX;
+    var layerOfY = e.layerY;
+    //main Parent label
+    var table = new Konva.Label({
+        x: layerOfX,
+        y: layerOfY,
+        draggable: true,
+        width: 200,
+        height: 200,
+        stroke: 1,
+        strokeWidth:1,
     });
-   
 
-   
-   /* document
-        .getElementById('delete')
-        .addEventListener('click', function (e) {
-            layer.remove();
-        });*/
-   /* layer.on('dblclick', function (e) {
-        console.log(e);
-        const { target } = e;
-        target.remove();
-        target.Transformer.remove();
+     layerOfX =0;
+     layerOfY = 0;
+
+    //textNode
+    var textNode = new Konva.Text({
+        width: 200,
+        height: 200,
+        x: layerOfX,
+        y: layerOfY,
+        text: 'Table No : ',
+        verticalAlign: 'middle',
+        align: 'center',
+        fontSize: 20,
+        fontFamily: 'Calibri',
+        fill: 'black',
+        listening: false,
+        opacity: 1,
+        fontWeight: 'bolder',
+        position:'relative'
+    });
+
+    textNode.setZIndex(999);
+    table.add(textNode);
+    table.add(tr);
+    table.add(selectionRectangle);
+
+    var imageObj = new Image({ width: 200, height: 200 });
+
+    imageObj.src = itemURL;
+    e.preventDefault();
+    layer.add(table);
+
+    //selection remove stage
+    var x1, y1, x2, y2;
+    stage.on('mousedown touchstart', (e) => {
+        // do nothing if we mousedown on any shape
+        if (e.target !== stage) {
+            return;
+        }
+        e.evt.preventDefault();
+        x1 = stage.getPointerPosition().x;
+        y1 = stage.getPointerPosition().y;
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+
+        selectionRectangle.visible(true);
+        selectionRectangle.width(0);
+        selectionRectangle.height(0);
+    });
+
+    stage.on('mousemove touchmove', (e) => {
+        // do nothing if we didn't start selection
+        if (!selectionRectangle.visible()) {
+            return;
+        }
+        e.evt.preventDefault();
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+
+        selectionRectangle.setAttrs({
+            x: Math.min(x1, x2),
+            y: Math.min(y1, y2),
+            width: Math.abs(x2 - x1),
+            height: Math.abs(y2 - y1),
+        });
+    });
+
+    stage.on('mouseup touchend', (e) => {
+        if (!selectionRectangle.visible()) {
+            return;
+        }
+        e.evt.preventDefault();
+        setTimeout(() => {
+            selectionRectangle.visible(false);
+        });
+
+        var shapes = stage.find('.rect');
+        var box = selectionRectangle.getClientRect();
+        var selected = shapes.filter((shape) =>
+            Konva.Util.haveIntersection(box, shape.getClientRect())
+        );
+        tr.nodes(selected);
+    });
+
+    // clicks should select/deselect shapes
+    table.on('click tap', function (e) {
+        console.log('e');
+        if (selectionRectangle.visible()) {
+            return;
+        }
+        if (e.target === stage) {
+            tr.nodes([]);
+            return;
+        }
+       
+        const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+        const isSelected = tr.nodes().indexOf(e.target) >= 0;
+
+        if (!metaPressed && !isSelected) {
+            tr.nodes([e.target]);
+        } else if (metaPressed && isSelected) {
+
+            const nodes = tr.nodes().slice(); 
+            nodes.splice(nodes.indexOf(e.target), 1);
+            tr.nodes(nodes);
+        } else if (metaPressed && !isSelected) {
+            const nodes = tr.nodes().concat([e.target]);
+            tr.nodes(nodes);
+        }
+    });
+
+    //for editable text
+    table.on('dblclick dbltap', (evt) => {
+
+        var textPosition = table.absolutePosition();
+        var areaPosition = {
+            x: stage.container().offsetLeft + textPosition.x,
+            y: stage.container().offsetTop + textPosition.y,
+        };
+
+            var textarea = document.createElement('textarea');
+            document.body.appendChild(textarea);
+
+            textarea.value = textNode.text();
+            textarea.style.position = 'absolute';
+            textarea.style.top = (areaPosition.y+85) + 'px';
+            textarea.style.left = (areaPosition.x+70) + 'px';
+            textarea.style.width = textNode.width();
+
+
+            textarea.focus();
+
+            textarea.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    textNode.text(textarea.value);
+                    document.body.removeChild(textarea);
+                }
+            });
         
     });
-*/
-   
+
+   /* for draging image*/
+    Konva.Image.fromURL(itemURL, function (img) {
+
+        var rect = new Konva.Rect({
+            width: 200,
+            height: 200,
+            strokeWidth: 0.6,
+            fillPatternImage: imageObj,
+            fillPatternRepeat: 'no-repeat',
+            /*  fillPatternOffset: { x: 400, y: 20 },*/
+            /* fillPatternScaleX: 200,*/
+            //fillPatternScaleY: 50,
+            //fillPatternScaleX:100,
+            opacity: 0.6,
+            stroke: 'black',
+
+        });
+        rect.setZIndex(99);
+        table.add(rect);
+        tr.nodes([rect]);
+    });
+
 });
 
+
+//select background canvas
 const SelectedBg = document.getElementById('bg_image');
-const getCanvasContainer = document.getElementById('container');
 
 SelectedBg.addEventListener('change', ({ target }) => {
     if (target.files[0]) {
@@ -255,6 +238,7 @@ SelectedBg.addEventListener('change', ({ target }) => {
     };
 });
 
-/*stage.getContainer().style.backgroundImage = url('https://upload.wikimedia.org/wikipedia/commons/a/a8/TEIDE.JPG');*/
-/*document.body.style.background = "url(" + canvas.toDataURL() + ")";*/
-
+stage.addEventListener("click", () => {
+    var json = stage.toJSON();
+    console.log(json);
+});

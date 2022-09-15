@@ -2,7 +2,6 @@
 @inject IToastService toastService
 @attribute [Authorize]
 
-
 @if (StatusResult.Message != "" && StatusResult.StatusCode == 201)
 {
     @*<div class="alert alert-success">@statusResult.Message</div>*@
@@ -92,6 +91,7 @@ else
     </div>
 }
 
+<img src="~/monster-admin/assets/images/background/login-register.jpg" />
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
