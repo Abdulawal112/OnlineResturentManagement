@@ -1,4 +1,4 @@
-﻿@page "/testingTableManagement"
+﻿@page "/tableManagement"
 @inject IJSRuntime JS
 
 <div class="rulesof-tablemanagement">
@@ -6,10 +6,13 @@
     <ul>
         <li>For Decorate tables Drag and Drop Below Table Images.</li>
         <li>For Edit a Table Name Click Double on the Top of Table.</li>
+        <li>Press Enter To CLose Editable Window.</li>
+
         <li>For Rotate Resize Opreation Use Mouse.</li>
         <li>For Unselect All the Table Click On The Empty Floor.</li>
         <li>After Orderring Tables Click on the Save Button to save the layout.</li>
     </ul>
+    <button id="saveFloor">Save Floor Designed</button>
 </div>
 <div class="col-12 form-group">
     <label class="control-label">Select Floor Background</label>
@@ -20,8 +23,10 @@
 </div>
 
 <div id="drag-items">
-    <img src="/monster-admin/assets/images/big/restaurant.jpg" draggable="true" />
-    <img src="/monster-admin/assets/images/big/img2.jpg" draggable="true" />
+    <img src="/monster-admin/assets/images/big/table1.jpg" draggable="true" />
+    <img src="/monster-admin/assets/images/big/table2.jpg" draggable="true" />
 </div>
 
 <div id="container"></div>
+@*<img src="~/monster-admin/assets/images/big/table1.jpg" />
+<img src="~/monster-admin/assets/images/big/table2.jpg" />*@

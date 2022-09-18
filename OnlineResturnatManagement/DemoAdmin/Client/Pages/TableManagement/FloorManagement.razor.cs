@@ -16,8 +16,7 @@ namespace OnlineResturnatManagement.Client.Pages.TableManagement
         protected override async Task OnInitializedAsync()
         {
             //Interceptor.RegisterEvent();
-
-            await JSRuntime.InvokeAsync<IJSObjectReference>("import","/monster-admin/js/MyCustom.js");
+            await JSRuntime.InvokeAsync<IJSObjectReference>("import", "/monster-admin/js/TableManagement.js");
             StateHasChanged();
             //
 
