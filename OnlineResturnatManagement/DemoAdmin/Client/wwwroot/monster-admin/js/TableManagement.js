@@ -15,7 +15,6 @@ var layer = new Konva.Layer({
 
 stage.add(layer);
 
-
 var itemURL = '';
 document
     .getElementById('drag-items')
@@ -61,13 +60,16 @@ con.addEventListener('drop', function (e) {
     });
 
      layerOfX =0;
-     layerOfY = 0;
+    layerOfY = 0;
+
     var button = new Konva.Label({
         width: 20,
         height:20,
         x: layerOfX,
         y: layerOfY,
-        opacity: 0.75
+        opacity: 0.75,
+        rotateEnabled: false,
+        draggable: false
     });
 
     //layer.add(button);
@@ -78,7 +80,9 @@ con.addEventListener('drop', function (e) {
         shadowColor: 'black',
         shadowBlur: 10,
         shadowOffset: 10,
-        shadowOpacity: 0.5
+        shadowOpacity: 0.5,
+        rotateEnabled: false,
+        draggable: false
     }));
     var buttonTextNodeRemove = new Konva.Text({
         width: 60,
@@ -96,6 +100,9 @@ con.addEventListener('drop', function (e) {
         listening: true,
         fontWeight: '700',
         position: 'relative',
+        rotateEnabled: false,
+        draggable: false,
+        
     });
 
     var buttonTextNodeBookTable = new Konva.Text({
@@ -114,6 +121,7 @@ con.addEventListener('drop', function (e) {
         listening: false,
         fontWeight: '700',
         position: 'relative',
+        rotateEnabled: false
     });
     button.add(buttonTextNodeBookTable);
     button.add(buttonTextNodeRemove);
@@ -228,10 +236,20 @@ con.addEventListener('drop', function (e) {
         }
     });
 
-    buttonTextNodeRemove.addEventListener('click', (evt) => {
-        console.log(evt);
-        evt.target.remove();
+    //remove event
+    buttonTextNodeRemove.addEventListener('click', () => {
+        /*console.log(evt);*/
+      /*  e.target.remove();*/
+        table.remove();
+        table.nodes([]);
+        //var shapes = stage.find('.rect');
+        //var box = selectionRectangle.getClientRect();
+        //var selected = shapes.filter((shape) =>
+        //    Konva.Util.haveIntersection(box, shape.getClientRect())
+        //);
+        //tr.nodes(selected).remove();
     });
+
 
     //for editable text
     table.on('dblclick dbltap', (evt) => {
